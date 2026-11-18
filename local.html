@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Become a local — LoKo.i</title>
+<meta name="description" content="Live in Busan? Meet travelers who love what you love, practice languages and show off your city.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="LoKo.i home"><span class="brand-mark" aria-hidden="true">k</span>LoKo.i</a>
+    <div class="header-tools" style="margin-left:auto">
+      <label class="hp" for="lang">Language</label>
+      <select id="lang" class="lang-select" data-lang-select>
+        <option value="en">English</option>
+        <option value="zh">繁體中文</option>
+        <option value="ko">한국어</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap page-head">
+    <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="lc_kicker">For Busan locals</span>
+    <h1 data-i18n="lc_title">Become a LoKo.i local</h1>
+    <p data-i18n="lc_sub">Meet travelers who love what you love, practice languages and show off your city. You choose when and what. No pay, no pressure.</p>
+  </div>
+
+  <div class="wrap form-wrap">
+    <div class="form-msg warn" data-endpoint-warning hidden data-i18n="form_not_ready">The form is being set up. For now, please message us on Instagram @loko.i.kr.</div>
+
+    <form class="lk-form" data-lk-form="local" novalidate>
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+
+      <fieldset>
+        <legend data-i18n="lc_sec1">1. About you</legend>
+        <div class="row-2">
+          <div class="field"><label for="name"><span data-i18n="ap_name">Name</span><span class="req">*</span></label><input id="name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field">
+            <label for="age" data-i18n="ap_age">Age range</label>
+            <select id="age" name="age_range">
+              <option value="19-24">19–24</option><option value="25-34">25–34</option><option value="35-44">35–44</option><option value="45+">45+</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <span class="label" id="l-g" data-i18n="lc_gender">Gender</span>
+          <span class="hint" data-i18n="lc_gender_hint">Only used when a traveler asks for a same-gender buddy.</span>
+          <div class="choices" role="radiogroup" aria-labelledby="l-g">
+            <label class="chip"><input type="radio" name="gender" value="Woman"><span data-i18n="g_w">Woman</span></label>
+            <label class="chip"><input type="radio" name="gender" value="Man"><span data-i18n="g_m">Man</span></label>
+            <label class="chip"><input type="radio" name="gender" value="Prefer not to say" checked><span data-i18n="g_n">Prefer not to say</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <span class="label" id="l-area" data-i18n="lc_area">Areas you know well</span>
+          <div class="choices" role="group" aria-labelledby="l-area">
+            <label class="chip"><input type="checkbox" name="areas" value="Haeundae / Centum"><span data-i18n="ar1">Haeundae · Centum</span></label>
+            <label class="chip"><input type="checkbox" name="areas" value="Gwangalli / Suyeong"><span data-i18n="ar2">Gwangalli · Suyeong</span></label>
+            <label class="chip"><input type="checkbox" name="areas" value="Seomyeon / Jeonpo"><span data-i18n="ar3">Seomyeon · Jeonpo</span></label>
+            <label class="chip"><input type="checkbox" name="areas" value="Nampo / Jung-gu"><span data-i18n="ar4">Nampo · Jung-gu</span></label>
+            <label class="chip"><input type="checkbox" name="areas" value="Yeongdo"><span data-i18n="ar5">Yeongdo</span></label>
+            <label class="chip"><input type="checkbox" name="areas" value="Gijang / Songjeong"><span data-i18n="ar6">Gijang · Songjeong</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="lc_sec2">2. What you'd share</legend>
+        <div class="field" data-required-group="activities">
+          <span class="label" id="l-acts"><span data-i18n="lc_acts">Activities you'd enjoy with a traveler</span><span class="req">*</span></span>
+          <div class="choices" role="group" aria-labelledby="l-acts">
+            <label class="chip"><input type="checkbox" name="activities" value="Walks & nature"><span data-i18n="a1_t">Walks &amp; nature</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Sports"><span data-i18n="a2_t">Sports</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Games"><span data-i18n="ap_games">Watching a game</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Food & markets"><span data-i18n="a4_t">Food &amp; markets</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Culture & art"><span data-i18n="a5_t">Culture &amp; art</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="By the sea"><span data-i18n="a6_t">By the sea</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Learn & daily life"><span data-i18n="ap_learn">Learn Korean, cook, ride the subway</span></label>
+            <label class="chip"><input type="checkbox" name="activities" value="Views & old town"><span data-i18n="ap_views">Views &amp; old-town alleys</span></label>
+          </div>
+        </div>
+        <div class="field" data-required-group="languages">
+          <span class="label" id="l-lang"><span data-i18n="lc_lang">Languages you can chat in</span><span class="req">*</span></span>
+          <div class="choices" role="group" aria-labelledby="l-lang">
+            <label class="chip"><input type="checkbox" name="languages" value="English"><span>English</span></label>
+            <label class="chip"><input type="checkbox" name="languages" value="Chinese"><span>中文</span></label>
+            <label class="chip"><input type="checkbox" name="languages" value="Japanese"><span>日本語</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="level" data-i18n="lc_level">Your level in that language</label>
+          <select id="level" name="language_level">
+            <option value="Basic" data-i18n="lv1">Basic, with a translator app</option>
+            <option value="Conversational" data-i18n="lv2">Everyday conversation</option>
+            <option value="Fluent" data-i18n="lv3">Fluent</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="label" id="l-av" data-i18n="lc_avail">When you're usually free</span>
+          <div class="choices" role="group" aria-labelledby="l-av">
+            <label class="chip"><input type="checkbox" name="availability" value="Weekday daytime"><span data-i18n="av1">Weekday daytime</span></label>
+            <label class="chip"><input type="checkbox" name="availability" value="Weekday evening"><span data-i18n="av2">Weekday evening</span></label>
+            <label class="chip"><input type="checkbox" name="availability" value="Weekend"><span data-i18n="av3">Weekend</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="intro"><span data-i18n="lc_intro">Say hi in a few lines</span><span class="req">*</span></label>
+          <span class="hint" data-i18n="lc_intro_hint">What do you love about Busan, and why do you want to meet travelers?</span>
+          <textarea id="intro" name="intro" required></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="ap_sec3">3. How to reach you</legend>
+        <div class="row-2">
+          <div class="field"><label for="email"><span data-i18n="ap_email">Email</span><span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="kakao"><span data-i18n="lc_kakao">KakaoTalk ID or phone</span><span class="req">*</span></label><input id="kakao" name="contact_id" type="text" required></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label for="ig" data-i18n="lc_ig">Instagram (optional)</label><input id="ig" name="instagram" type="text" placeholder="@"></div>
+          <div class="field">
+            <label for="source" data-i18n="ap_source">How did you find us?</label>
+            <select id="source" name="source">
+              <option value="Instagram">Instagram</option><option value="Friend" data-i18n="src_friend">A friend</option><option value="Search" data-i18n="src_search">Search</option><option value="Other" data-i18n="src_other">Other</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="ap_sec4">4. Agreements</legend>
+        <div class="consent">
+          <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
+            <ul>
+              <li data-i18n="lc_priv1">We collect: name, age range, gender, areas, activities, languages, availability, introduction, email, KakaoTalk ID or phone, Instagram.</li>
+              <li data-i18n="lc_priv2">Why: to check identity, match you with travelers, contact you about meetups and keep everyone safe.</li>
+              <li data-i18n="c_priv3">How long: 1 year from submission, or deleted right away when you ask.</li>
+              <li data-i18n="c_priv4">Where: stored in Google Sheets (Google LLC, servers outside Korea).</li>
+            </ul>
+          </details>
+          <label class="check"><input type="checkbox" name="agree_privacy" value="Yes" required><span data-i18n="c_agree_priv">I agree to the collection and use of my personal information.</span></label>
+        </div>
+        <div class="consent">
+          <details><summary data-i18n="c_safe_t">Safety rules (required)</summary>
+            <ul>
+              <li data-i18n="r1">Meet only in public places, and wrap up by 10 pm.</li>
+              <li data-i18n="r2">No home or hotel visits, and no rides in private cars.</li>
+              <li data-i18n="r3">Not a dating app. Unwanted advances get you removed.</li>
+              <li data-i18n="r5">Everyone pays for their own food, tickets and transport.</li>
+              <li data-i18n="lc_safe5">Never ask travelers for money, and delete their details within 7 days after the meetup.</li>
+            </ul>
+          </details>
+          <label class="check"><input type="checkbox" name="agree_safety" value="Yes" required><span data-i18n="c_agree_safe">I will follow the safety rules.</span></label>
+        </div>
+        <label class="check"><input type="checkbox" name="agree_id" value="Yes" required><span data-i18n="lc_id">I agree to a short video call and an ID check before my first meetup.</span></label>
+        <label class="check"><input type="checkbox" name="agree_adult" value="Yes" required><span data-i18n="lc_adult">I am 19 or older and live in Busan.</span></label>
+      </fieldset>
+
+      <div class="form-msg err" data-form-error hidden></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" data-i18n="lc_submit">Join as a local</button>
+        <span class="hint" style="margin:0" data-i18n="lc_next">We'll contact you within a few days to set up a short video call.</span>
+      </div>
+    </form>
+
+    <div class="done" data-form-done hidden tabindex="-1">
+      <h2 data-i18n="lc_done_t">Welcome aboard!</h2>
+      <p data-i18n="lc_done_p">Thanks for joining. We'll message you within a few days to set up a short video call and ID check.</p>
+      <a class="btn btn-dark" href="https://www.instagram.com/loko.i.kr/" target="_blank" rel="noopener" data-i18n="tips_follow">Follow @loko.i.kr</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span data-i18n="f_rights">© 2026 LoKo.i · Busan, Korea</span>
+    <nav aria-label="Footer">
+      <a href="index.html" data-i18n="f_home">Home</a>
+      <a href="privacy.html" data-i18n="f_privacy">Privacy</a>
+      <a href="https://www.instagram.com/loko.i.kr/" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+</footer>
+<script src="assets/config.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/form.js"></script>
+</body>
+</html>

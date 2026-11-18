@@ -1,0 +1,281 @@
+// LoKo.i — language switcher (English is written in the HTML; zh = Traditional Chinese (Taiwan), ko = Korean)
+(function () {
+  var EXTRA_EN = {
+    err_required: "Please fill in the fields marked *.",
+    err_agree: "Please check the required agreements.",
+    err_email: "Please check your email address.",
+    err_group: "Please choose at least one option where marked *.",
+    err_dates: "Your leaving date should be after your arrival date.",
+    err_send: "Sorry, something went wrong. Please try again, or message us on Instagram @loko.i.kr.",
+    sending: "Sending…",
+    form_not_ready: "The form is being set up. For now, please message us on Instagram @loko.i.kr."
+  };
+
+  var DICT = {
+    zh: {
+      skip: "跳到內容",
+      nav_how: "使用方式", nav_acts: "活動", nav_safety: "安全", nav_local: "成為在地夥伴",
+      cta_meet: "認識在地人",
+      hero_eyebrow: "釜山 · 免費在地連結",
+      hero_title: "和在地人一起玩釜山。",
+      hero_sub: "不是旅行團，也不是交友軟體。讓釜山在地人和旅人一起做喜歡的事，完全免費。",
+      hero_cta1: "找在地夥伴", hero_cta2: "我住在釜山",
+      badge1: "永遠免費", badge2: "在地人皆經身分確認", badge3: "只在公開場所見面",
+      how_kicker: "使用方式", how_title: "三步驟，過一天在地生活",
+      how_sub: "告訴我們你想做什麼，我們幫你找到同樣喜歡它的釜山在地人。",
+      s1_t: "告訴我們你的計畫", s1_p: "花 3 分鐘填寫想做的活動、日期和語言。",
+      s2_t: "我們幫你連結", s2_p: "我們會配對一位經過身分確認的在地人並互相介紹，通常 1–2 天內回覆。",
+      s3_t: "見面、一起玩", s3_p: "在公開場所見面，一起進行活動。費用各自負擔。",
+      acts_kicker: "活動", acts_title: "可以一起做的事", acts_sub: "從海邊晨跑到棒球場加油，都可以。",
+      a1_t: "散步與自然", a1_p: "海岸步道、海灘、輕鬆健行",
+      a2_t: "運動", a2_p: "跑步、衝浪、五人制足球",
+      a3_t: "看比賽", a3_p: "到社稷棒球場替樂天巨人加油",
+      a4_t: "美食與市場", a4_p: "豬肉湯飯、小麥冷麵、市場小吃、咖啡廳",
+      a5_t: "文化與藝術", a5_p: "甘川洞、美術館、在地表演",
+      a6_t: "海邊活動", a6_p: "遊艇、纜車、海岸列車",
+      tips_kicker: "在地小撇步", tips_title: "在地人眼中的釜山", tips_sub: "真正在地人分享的旅遊小撇步，每週更新在 Instagram。",
+      tip1: "黃昏的燈塔", tip2: "從坡上看早晨的波光", tip3: "安靜的松林小路", tip4: "冬日陽光下的天空膠囊列車",
+      tips_follow: "追蹤 @loko.i.kr",
+      safety_kicker: "安全第一", safety_title: "簡單的規則，人人遵守",
+      r1: "只在公開場所見面，晚上 10 點前結束。",
+      r2: "不去住處或飯店，不搭私人車輛。",
+      r3: "這不是交友軟體。有不當接近行為者將被停權。",
+      r4: "每位在地人都會先通過身分確認和簡短視訊面談。",
+      r5: "餐費、門票、交通費各自負擔。",
+      note_t: "覺得哪裡不對勁？", note_p: "見面前或見面時，隨時用 Instagram 私訊我們。每一則回報我們都會立即處理。",
+      note_btn: "Instagram 私訊我們",
+      band_t: "住在釜山？成為 LoKo.i 在地夥伴。", band_p: "認識來自世界各地的旅人、練習外語、介紹你的城市，時間由你決定。",
+      band_btn: "加入在地夥伴",
+      faq_kicker: "常見問題", faq_title: "大家常問的問題",
+      q1: "真的免費嗎？", qa1: "是的。LoKo.i 對旅人和在地人都免費，我們不會為連結收取任何費用。",
+      q2: "這是導覽行程嗎？", qa2: "不是。在地人不是收費導遊，只是兩個喜歡同一件事的人一起去做。",
+      q3: "在地人是誰？", qa3: "住在釜山、想認識旅人的人。每位在第一次見面前都會通過身分確認和簡短視訊面談。",
+      q4: "可以用什麼語言？", qa4: "大多數在地人會說英文，部分會說中文或日文。請在表單中告訴我們你的語言，我們會幫你配對。",
+      q5: "多久會收到回覆？", qa5: "通常 1–2 天內。可以的話，請在想見面的日期至少 3 天前申請。",
+      f_rights: "© 2026 LoKo.i · 韓國釜山", f_privacy: "隱私權", f_home: "首頁",
+      ap_kicker: "免費 · 約 3 分鐘", ap_title: "找在地夥伴",
+      ap_sub: "告訴我們你想在釜山做什麼，我們會介紹一位經過身分確認、同樣喜歡它的在地人，通常 1–2 天內回覆。",
+      ap_sec1: "1. 你的旅程", ap_now: "你現在在釜山嗎？", ap_now1: "還沒到", ap_now2: "已經在釜山",
+      ap_arrive: "抵達釜山", ap_leave: "離開釜山",
+      ap_with: "同行對象", ap_with1: "一個人", ap_with2: "朋友", ap_with3: "伴侶", ap_with4: "家人（有小孩）", ap_with5: "家人（成人）", ap_with6: "團體（5 人以上）",
+      ap_size: "參加人數（含自己）", ap_kids: "小孩年齡（如有）", ap_kids_ph: "例：5 歲、9 歲",
+      ap_sec2: "2. 想做的事", ap_acts: "請選擇所有感興趣的活動",
+      ap_games: "看比賽", ap_learn: "學韓文、做菜、搭地鐵", ap_views: "景觀與老街巷弄", ap_family: "親子活動",
+      ap_details: "有特別想做的事嗎？", ap_details_ph: "例：想去在地人常去的豬肉湯飯店，或去棒球場加油。",
+      ap_area: "希望的區域", ar1: "海雲台 · Centum", ar2: "廣安里 · 水營", ar3: "西面 · 田浦", ar4: "南浦 · 中區", ar5: "影島", ar6: "機張 · 松亭", ar7: "都可以",
+      ap_date: "希望日期", ap_time: "時段", t1: "上午", t2: "下午", t3: "晚上（至 10 點）",
+      ap_lang: "你會說的語言", ap_gender: "在地夥伴偏好", ap_g1: "沒有偏好", ap_g2: "與我同性別",
+      ap_sec3: "3. 聯絡方式", ap_name: "姓名", ap_country: "國家", ap_age: "年齡層", ap_email: "電子郵件",
+      ap_method: "方便的聯絡方式", ap_handle: "該聯絡方式的 ID 或號碼", ap_source: "你是怎麼知道我們的？",
+      src_friend: "朋友介紹", src_stay: "住宿處介紹", src_search: "搜尋", src_other: "其他",
+      ap_sec4: "4. 同意事項",
+      c_priv_t: "個人資料（必填）",
+      c_priv1: "收集項目：姓名、國家、年齡層、電子郵件、聯絡 ID、旅行日期、同行資訊（含小孩年齡）、活動、區域、時段、語言與夥伴偏好。",
+      c_priv2: "用途：為你連結在地人、聯絡見面事宜、維護安全，以及改善服務（統計資料不會識別個人）。",
+      c_priv3: "保存期間：自提交起 1 年，或在你要求時立即刪除。",
+      c_priv4: "保存位置：Google 試算表（Google LLC，韓國境外伺服器）。",
+      c_agree_priv: "我同意收集與使用我的個人資料。",
+      c_third_t: "提供給配對的在地人（必填）",
+      c_third1: "提供對象：與你配對、已通過身分確認的 LoKo.i 在地人。",
+      c_third2: "提供項目：姓名、聯絡 ID、人數、活動、日期、時段、區域與語言。",
+      c_third3: "用途：安排並在當天見面。我們會要求在地人在見面後 7 天內刪除。",
+      c_agree_third: "我同意將上述資料提供給配對的在地人。",
+      c_safe_t: "安全規則（必填）",
+      c_safe5: "在地人不是收費導遊。LoKo.i 協助連結，不是活動的當事人，但每則回報我們都會立即處理。",
+      c_agree_safe: "我會遵守安全規則。",
+      c_adult: "我已年滿 18 歲。（未滿 18 歲請由家長申請並同行）",
+      c_photo: "LoKo.i Instagram 拍照（選填）", c_photo1: "可以露臉", c_photo2: "只拍不露臉的照片", c_photo3: "不要拍照",
+      ap_submit: "送出申請", ap_free: "永遠免費，1–2 天內回覆。",
+      done_t: "收到了，謝謝你！", done_p: "我們會尋找和你有相同興趣的在地人，1–2 天內回覆你。在那之前，歡迎到 Instagram 看看我們的釜山小撇步。",
+      lc_kicker: "給釜山在地人", lc_title: "成為 LoKo.i 在地夥伴",
+      lc_sub: "認識和你喜好相同的旅人、練習外語、介紹你的城市。時間和活動由你決定，沒有報酬也沒有壓力。",
+      lc_sec1: "1. 關於你", lc_gender: "性別", lc_gender_hint: "只在旅人希望同性別夥伴時使用。",
+      g_w: "女性", g_m: "男性", g_n: "不透露",
+      lc_area: "你熟悉的區域", lc_sec2: "2. 你想分享的", lc_acts: "想和旅人一起做的活動",
+      lc_lang: "可以聊天的語言", lc_level: "該語言程度",
+      lv1: "基礎，搭配翻譯 App", lv2: "日常對話", lv3: "流利",
+      lc_avail: "通常有空的時間", av1: "平日白天", av2: "平日晚上", av3: "週末",
+      lc_intro: "簡單打個招呼", lc_intro_hint: "你喜歡釜山的哪裡？為什麼想認識旅人？",
+      lc_kakao: "KakaoTalk ID 或電話", lc_ig: "Instagram（選填）",
+      lc_priv1: "收集項目：姓名、年齡層、性別、區域、活動、語言、可用時間、自我介紹、電子郵件、KakaoTalk ID 或電話、Instagram。",
+      lc_priv2: "用途：確認身分、與旅人配對、聯絡見面事宜並維護安全。",
+      lc_safe5: "絕不向旅人索取金錢，並在見面後 7 天內刪除旅人資料。",
+      lc_id: "我同意在第一次見面前進行簡短視訊面談和身分確認。",
+      lc_adult: "我已年滿 19 歲並住在釜山。",
+      lc_submit: "加入在地夥伴", lc_next: "我們會在幾天內聯絡你，安排簡短的視訊面談。",
+      lc_done_t: "歡迎加入！", lc_done_p: "謝謝你的加入。我們會在幾天內聯絡你，安排簡短視訊面談和身分確認。",
+      pv_title: "隱私權", pv_sub: "LoKo.i 如何處理你提供的資料。",
+      pv_h1: "我們收集什麼", pv_p1: "只有你在表單中填寫的內容：姓名、聯絡方式、旅行或可用時間、興趣與語言。我們不使用追蹤 Cookie 或廣告。",
+      pv_h2: "使用目的", pv_p2: "連結旅人與在地人、聯絡見面事宜、維護安全，並以匿名統計改善 LoKo.i。",
+      pv_h3: "誰會看到", pv_p3: "LoKo.i 團隊，以及與你配對的在地人或旅人（只會看到見面所需的資訊）。我們絕不販售你的資料。",
+      pv_h4: "保存位置與期間", pv_p4: "保存在 Google 試算表（Google LLC，韓國境外伺服器），自提交起 1 年後刪除。",
+      pv_h5: "你的權利", pv_p5: "你可以隨時要求查看、更正或刪除你的資料。聯絡方式：",
+      pv_h6: "負責人", pv_p6: "LoKo.i，韓國釜山。個人資料負責人：創辦人 金珉宇。",
+      pv_date: "最後更新：2026 年 11 月",
+      err_required: "請填寫標有 * 的欄位。", err_agree: "請勾選必填的同意事項。", err_email: "請確認電子郵件地址。",
+      err_group: "標有 * 的項目請至少選擇一個。", err_dates: "離開日期需晚於抵達日期。",
+      err_send: "抱歉，發生錯誤。請再試一次，或用 Instagram @loko.i.kr 私訊我們。", sending: "傳送中…",
+      form_not_ready: "表單正在準備中。目前請用 Instagram @loko.i.kr 私訊我們。"
+    },
+    ko: {
+      skip: "본문으로 건너뛰기",
+      nav_how: "이용 방법", nav_acts: "활동", nav_safety: "안전", nav_local: "현지인 참여",
+      cta_meet: "현지인 만나기",
+      hero_eyebrow: "부산 · 무료 현지인 연결",
+      hero_title: "부산, 현지인과 함께.",
+      hero_sub: "투어도, 데이팅 앱도 아니에요. 부산 현지인과 여행자가 같은 활동을 함께 즐기도록 무료로 연결합니다.",
+      hero_cta1: "현지인 친구 찾기", hero_cta2: "부산에 살아요",
+      badge1: "항상 무료", badge2: "신원 확인된 현지인", badge3: "공개 장소에서만",
+      how_kicker: "이용 방법", how_title: "세 단계로 즐기는 로컬의 하루",
+      how_sub: "하고 싶은 걸 알려 주세요. 같은 걸 좋아하는 부산 현지인을 찾아 드려요.",
+      s1_t: "계획 알려 주기", s1_p: "3분이면 활동, 날짜, 언어를 고를 수 있어요.",
+      s2_t: "연결해 드려요", s2_p: "신원 확인을 마친 현지인과 서로 소개해 드려요. 보통 1~2일 안에 연락드려요.",
+      s3_t: "만나서 즐기기", s3_p: "공개된 장소에서 만나 함께 활동해요. 비용은 각자 부담이에요.",
+      acts_kicker: "활동", acts_title: "함께할 수 있는 것들", acts_sub: "해변 아침 러닝부터 야구장 응원까지.",
+      a1_t: "산책·자연", a1_p: "해안 산책로, 해변, 가벼운 등산",
+      a2_t: "운동", a2_p: "러닝, 서핑, 풋살",
+      a3_t: "경기 관람", a3_p: "사직구장에서 롯데 자이언츠 응원",
+      a4_t: "음식·시장", a4_p: "돼지국밥, 밀면, 시장 먹거리, 카페",
+      a5_t: "문화·예술", a5_p: "감천문화마을, 미술관, 공연",
+      a6_t: "바다", a6_p: "요트, 케이블카, 해변열차",
+      tips_kicker: "로컬 팁", tips_title: "현지인이 보는 부산", tips_sub: "진짜 현지인이 알려 주는 팁을 매주 인스타그램에 올려요.",
+      tip1: "해 질 녘 등대", tip2: "언덕에서 보는 아침 윤슬", tip3: "조용한 소나무 골목길", tip4: "겨울 햇살 속 스카이캡슐",
+      tips_follow: "@loko.i.kr 팔로우",
+      safety_kicker: "안전이 먼저", safety_title: "모두가 지키는 간단한 규칙",
+      r1: "공개된 장소에서만 만나고, 밤 10시 전에 마쳐요.",
+      r2: "숙소·자택 방문과 개인 차량 이동은 하지 않아요.",
+      r3: "데이팅 앱이 아니에요. 원치 않는 접근은 즉시 이용 제한돼요.",
+      r4: "모든 현지인은 먼저 신원 확인과 짧은 영상 통화를 거쳐요.",
+      r5: "식비, 입장료, 교통비는 각자 부담해요.",
+      note_t: "뭔가 불편하다면?", note_p: "만나기 전이든 만나는 중이든 언제든 인스타그램 DM을 보내 주세요. 모든 신고를 바로 확인해요.",
+      note_btn: "인스타그램으로 문의하기",
+      band_t: "부산에 사시나요? LoKo.i 현지인이 되어 주세요.", band_p: "세계 여행자를 만나고, 외국어를 연습하고, 내 도시를 소개해 보세요. 일정은 내가 정해요.",
+      band_btn: "현지인으로 참여하기",
+      faq_kicker: "자주 묻는 질문", faq_title: "궁금한 점",
+      q1: "정말 무료인가요?", qa1: "네. LoKo.i는 여행자와 현지인 모두 무료예요. 연결에 비용을 받지 않아요.",
+      q2: "가이드 투어인가요?", qa2: "아니요. 현지인은 유료 가이드가 아니에요. 같은 걸 좋아하는 두 사람이 함께 즐기는 거예요.",
+      q3: "현지인은 어떤 사람들인가요?", qa3: "부산에 살면서 여행자를 만나고 싶은 사람들이에요. 첫 만남 전에 신원 확인과 짧은 영상 통화를 거쳐요.",
+      q4: "어떤 언어로 대화하나요?", qa4: "대부분 영어가 가능하고, 일부는 중국어나 일본어도 해요. 신청서에 언어를 적어 주시면 맞춰 연결해요.",
+      q5: "얼마나 빨리 연락이 오나요?", qa5: "보통 1~2일 안에 연락드려요. 가능하면 원하는 날짜 3일 전까지 신청해 주세요.",
+      f_rights: "© 2026 LoKo.i · 대한민국 부산", f_privacy: "개인정보 처리방침", f_home: "홈",
+      ap_kicker: "무료 · 약 3분", ap_title: "현지인 친구 찾기",
+      ap_sub: "부산에서 하고 싶은 걸 알려 주세요. 같은 걸 좋아하는, 신원 확인된 현지인을 보통 1~2일 안에 소개해 드려요.",
+      ap_sec1: "1. 여행 정보", ap_now: "지금 부산에 계신가요?", ap_now1: "아직이요", ap_now2: "이미 부산이에요",
+      ap_arrive: "부산 도착일", ap_leave: "부산 출발일",
+      ap_with: "누구와 여행하나요", ap_with1: "혼자", ap_with2: "친구", ap_with3: "연인·배우자", ap_with4: "가족(아이 동반)", ap_with5: "가족(성인)", ap_with6: "단체(5명 이상)",
+      ap_size: "참여 인원(본인 포함)", ap_kids: "아이 나이(있다면)", ap_kids_ph: "예: 5세, 9세",
+      ap_sec2: "2. 하고 싶은 것", ap_acts: "관심 있는 활동을 모두 골라 주세요",
+      ap_games: "경기 관람", ap_learn: "한국어·요리·지하철 타기", ap_views: "전망·원도심 골목", ap_family: "아이·가족 활동",
+      ap_details: "구체적으로 하고 싶은 게 있나요?", ap_details_ph: "예: 현지인이 가는 돼지국밥집에 가 보고 싶어요 / 야구장에서 응원해 보고 싶어요",
+      ap_area: "희망 지역", ar1: "해운대·센텀", ar2: "광안리·수영", ar3: "서면·전포", ar4: "남포·중구", ar5: "영도", ar6: "기장·송정", ar7: "상관없음",
+      ap_date: "희망 날짜", ap_time: "시간대", t1: "오전", t2: "오후", t3: "저녁(밤 10시까지)",
+      ap_lang: "가능한 언어", ap_gender: "현지인 선호", ap_g1: "상관없음", ap_g2: "나와 같은 성별",
+      ap_sec3: "3. 연락처", ap_name: "이름", ap_country: "국적", ap_age: "나이대", ap_email: "이메일",
+      ap_method: "편한 연락 방법", ap_handle: "해당 연락처의 ID 또는 번호", ap_source: "LoKo.i를 어떻게 알게 되셨나요?",
+      src_friend: "지인 소개", src_stay: "숙소 안내", src_search: "검색", src_other: "기타",
+      ap_sec4: "4. 동의",
+      c_priv_t: "개인정보 수집·이용 (필수)",
+      c_priv1: "수집 항목: 이름, 국적, 나이대, 이메일, 연락처 ID, 여행 일정, 동행 정보(아이 나이 포함), 활동, 지역, 시간대, 언어, 현지인 선호",
+      c_priv2: "이용 목적: 현지인 연결, 만남 관련 연락, 안전 관리, 서비스 개선(통계는 개인을 알아볼 수 없게 처리)",
+      c_priv3: "보유 기간: 제출일로부터 1년, 삭제 요청 시 즉시 파기",
+      c_priv4: "보관 위치: 구글 시트(Google LLC, 해외 서버)",
+      c_agree_priv: "개인정보 수집·이용에 동의합니다.",
+      c_third_t: "연결된 현지인에게 제공 (필수)",
+      c_third1: "제공받는 자: 연결된, 신원 확인을 마친 LoKo.i 현지인",
+      c_third2: "제공 항목: 이름, 연락처 ID, 인원, 활동, 날짜, 시간대, 지역, 언어",
+      c_third3: "목적: 일정 조율과 당일 만남. 만남 후 7일 안에 삭제하도록 현지인에게 요청합니다.",
+      c_agree_third: "위 정보를 연결된 현지인에게 제공하는 데 동의합니다.",
+      c_safe_t: "안전 수칙 (필수)",
+      c_safe5: "현지인은 유료 가이드가 아니에요. LoKo.i는 연결을 돕는 곳으로 활동의 당사자가 아니지만, 모든 신고는 즉시 조치해요.",
+      c_agree_safe: "안전 수칙을 지키겠습니다.",
+      c_adult: "만 18세 이상입니다. (18세 미만은 보호자가 신청하고 동행)",
+      c_photo: "LoKo.i 인스타그램 사진 촬영 (선택)", c_photo1: "얼굴이 나와도 괜찮아요", c_photo2: "얼굴 없는 사진만", c_photo3: "촬영 원하지 않아요",
+      ap_submit: "신청 보내기", ap_free: "항상 무료예요. 1~2일 안에 연락드려요.",
+      done_t: "신청 완료! 감사합니다", done_p: "같은 걸 좋아하는 현지인을 찾아 1~2일 안에 연락드릴게요. 그동안 인스타그램에서 부산 팁을 구경해 보세요.",
+      lc_kicker: "부산 현지인을 위한", lc_title: "LoKo.i 현지인 되기",
+      lc_sub: "나와 취향이 같은 여행자를 만나고, 외국어를 연습하고, 내 도시를 소개해 보세요. 언제, 무엇을 할지는 내가 정해요. 보수도 부담도 없어요.",
+      lc_sec1: "1. 나에 대해", lc_gender: "성별", lc_gender_hint: "여행자가 같은 성별의 현지인을 원할 때만 사용해요.",
+      g_w: "여성", g_m: "남성", g_n: "밝히지 않음",
+      lc_area: "잘 아는 지역", lc_sec2: "2. 함께하고 싶은 것", lc_acts: "여행자와 함께하고 싶은 활동",
+      lc_lang: "대화 가능한 언어", lc_level: "그 언어 수준",
+      lv1: "기초(번역 앱과 함께)", lv2: "일상 대화 가능", lv3: "유창함",
+      lc_avail: "주로 시간 되는 때", av1: "평일 낮", av2: "평일 저녁", av3: "주말",
+      lc_intro: "간단한 자기소개", lc_intro_hint: "부산의 어떤 점을 좋아하는지, 왜 여행자를 만나고 싶은지 적어 주세요.",
+      lc_kakao: "카카오톡 ID 또는 전화번호", lc_ig: "인스타그램 (선택)",
+      lc_priv1: "수집 항목: 이름, 나이대, 성별, 지역, 활동, 언어, 가능 시간, 자기소개, 이메일, 카카오톡 ID 또는 전화번호, 인스타그램",
+      lc_priv2: "이용 목적: 신원 확인, 여행자 연결, 만남 관련 연락, 안전 관리",
+      lc_safe5: "여행자에게 절대 돈을 요구하지 않고, 만남 후 7일 안에 여행자 정보를 삭제해요.",
+      lc_id: "첫 만남 전에 짧은 영상 통화와 신원 확인에 동의합니다.",
+      lc_adult: "만 19세 이상이며 부산에 살고 있습니다.",
+      lc_submit: "현지인으로 참여하기", lc_next: "며칠 안에 짧은 영상 통화 일정을 잡기 위해 연락드려요.",
+      lc_done_t: "환영해요!", lc_done_p: "참여해 주셔서 감사해요. 며칠 안에 영상 통화와 신원 확인 일정을 잡기 위해 연락드릴게요.",
+      pv_title: "개인정보 처리방침", pv_sub: "LoKo.i가 여러분의 정보를 다루는 방법이에요.",
+      pv_h1: "수집하는 정보", pv_p1: "신청서에 직접 입력한 정보만 수집해요: 이름, 연락처, 여행 일정이나 가능 시간, 관심 활동과 언어. 추적 쿠키나 광고는 쓰지 않아요.",
+      pv_h2: "이용 목적", pv_p2: "여행자와 현지인 연결, 만남 관련 연락, 안전 관리, 익명 통계를 통한 서비스 개선.",
+      pv_h3: "정보를 보는 사람", pv_p3: "LoKo.i 운영팀과, 만남에 필요한 정보에 한해 연결된 현지인 또는 여행자. 정보를 판매하지 않아요.",
+      pv_h4: "보관 위치와 기간", pv_p4: "구글 시트(Google LLC, 해외 서버)에 제출일로부터 1년간 보관 후 삭제해요.",
+      pv_h5: "이용자의 권리", pv_p5: "언제든 정보의 열람, 정정, 삭제를 요청할 수 있어요. 문의:",
+      pv_h6: "개인정보 책임자", pv_p6: "LoKo.i(대한민국 부산). 개인정보 담당: 대표 김민우",
+      pv_date: "최종 수정: 2026년 11월",
+      err_required: "* 표시된 항목을 입력해 주세요.", err_agree: "필수 동의 항목에 체크해 주세요.", err_email: "이메일 주소를 확인해 주세요.",
+      err_group: "* 표시된 항목에서 하나 이상 골라 주세요.", err_dates: "출발일은 도착일 이후여야 해요.",
+      err_send: "죄송해요, 오류가 났어요. 다시 시도하거나 인스타그램 @loko.i.kr로 DM 주세요.", sending: "보내는 중…",
+      form_not_ready: "신청서를 준비 중이에요. 지금은 인스타그램 @loko.i.kr로 DM 주세요."
+    }
+  };
+
+  var HTML_LANG = { en: "en", zh: "zh-Hant-TW", ko: "ko" };
+  var nodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
+  var phNodes = Array.prototype.slice.call(document.querySelectorAll("[data-i18n-ph]"));
+  var EN = {};
+  nodes.forEach(function (el) { var k = el.getAttribute("data-i18n"); if (!(k in EN)) EN[k] = el.textContent; });
+  phNodes.forEach(function (el) { EN[el.getAttribute("data-i18n-ph")] = el.getAttribute("placeholder") || ""; });
+  Object.keys(EXTRA_EN).forEach(function (k) { if (!(k in EN)) EN[k] = EXTRA_EN[k]; });
+  DICT.en = EN;
+
+  var current = "en";
+  window.LOKOI_T = function (key) {
+    var d = DICT[current] || EN;
+    return d[key] != null ? d[key] : (EN[key] != null ? EN[key] : key);
+  };
+
+  function apply(lang) {
+    if (!DICT[lang]) lang = "en";
+    current = lang;
+    var d = DICT[lang];
+    nodes.forEach(function (el) {
+      var k = el.getAttribute("data-i18n");
+      el.textContent = d[k] != null ? d[k] : EN[k];
+    });
+    phNodes.forEach(function (el) {
+      var k = el.getAttribute("data-i18n-ph");
+      el.setAttribute("placeholder", d[k] != null ? d[k] : EN[k]);
+    });
+    document.documentElement.lang = HTML_LANG[lang];
+    document.documentElement.setAttribute("data-lang", lang);
+    document.querySelectorAll("[data-lang-select]").forEach(function (s) { s.value = lang; });
+  }
+
+  function detect() {
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q && DICT[q]) return q;
+    try { var saved = localStorage.getItem("lokoi_lang"); if (saved && DICT[saved]) return saved; } catch (e) {}
+    var langs = navigator.languages || [navigator.language || "en"];
+    for (var i = 0; i < langs.length; i++) {
+      var l = String(langs[i]).toLowerCase();
+      if (l.indexOf("zh") === 0) return "zh";
+      if (l.indexOf("ko") === 0) return "ko";
+      if (l.indexOf("en") === 0) return "en";
+    }
+    return "en";
+  }
+
+  document.querySelectorAll("[data-lang-select]").forEach(function (s) {
+    s.addEventListener("change", function () {
+      try { localStorage.setItem("lokoi_lang", s.value); } catch (e) {}
+      apply(s.value);
+    });
+  });
+
+  apply(detect());
+})();

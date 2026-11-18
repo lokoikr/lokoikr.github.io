@@ -96,7 +96,7 @@
     if (pd && ar && lv && (pd < ar || pd > lv)) blocks.push('희망 날짜가 여행 기간 밖');
 
     // 4) 일행 수 ≤ 현지인이 받을 수 있는 인원 (필수, 미기재면 4명까지)
-    var size = groupSize(t), cap = parseInt(l.max_group, 10) || (/5/.test(l.max_group || '') ? 99 : 4);
+    var size = groupSize(t), mg = clean(l.max_group), cap = /\+/.test(mg) ? 99 : (parseInt(mg, 10) || 4);
     if (size > cap) blocks.push('일행 ' + size + '명 > 현지인 가능 인원 ' + cap + '명');
 
     // 5) 신원 확인 (선택: 켜면 제외, 끄면 주의 표시)

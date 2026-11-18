@@ -181,6 +181,18 @@
     </nav>
   </div>
 </footer>
+<div class="m-bar" data-m-bar hidden>
+  <a class="btn btn-primary" href="apply.html" data-i18n="cta_meet">Meet a local</a>
+  <a class="btn btn-line" href="local.html" data-i18n="hero_cta2">I live in Busan</a>
+</div>
+<script>
+// 휴대폰: 첫 화면을 지나면 아래에 신청 버튼 고정
+(function () {
+  var bar = document.querySelector('[data-m-bar]'), hero = document.querySelector('.hero');
+  if (!bar || !hero || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (e) { bar.hidden = e[0].isIntersecting; document.body.classList.toggle('has-m-bar', !e[0].isIntersecting); }).observe(hero);
+})();
+</script>
 <script src="assets/i18n.js"></script>
 </body>
 </html>

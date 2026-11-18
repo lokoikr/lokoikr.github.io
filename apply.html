@@ -71,6 +71,7 @@
           <div class="field"><label for="arrive"><span data-i18n="ap_arrive">Arriving in Busan</span><span class="req">*</span></label><input id="arrive" name="arrive" type="date" required></div>
           <div class="field"><label for="leave"><span data-i18n="ap_leave">Leaving Busan</span><span class="req">*</span></label><input id="leave" name="leave" type="date" required></div>
         </div>
+        <p class="note-soft" data-long-stay hidden><span data-i18n="ap_long">Staying in Busan for 2 months or more? You can also join as a local.</span> <a href="local.html" data-i18n="band_btn">Join as a local</a></p>
         <div class="field">
           <label for="stay" data-i18n="ap_stay">Where are you staying in Busan?</label>
           <select id="stay" name="stay_area">
@@ -96,8 +97,8 @@
             </select>
           </div>
         </div>
-        <div class="field">
-          <label for="kids" data-i18n="ap_kids">Kids' ages, if any</label>
+        <div class="field" data-show-when="travelling_with=Family with kids">
+          <label for="kids"><span data-i18n="ap_kids">Kids' ages, if any</span><span class="req">*</span></label>
           <input id="kids" name="kids_ages" type="text" data-i18n-ph="ap_kids_ph" placeholder="e.g. 5, 9">
         </div>
       </fieldset>
@@ -121,6 +122,11 @@
         <div class="field">
           <label for="details" data-i18n="ap_details">Anything specific?</label>
           <textarea id="details" name="details" data-i18n-ph="ap_details_ph" placeholder="e.g. I want to eat pork soup where locals go, or cheer at a baseball game."></textarea>
+        </div>
+        <div class="field">
+          <label for="notes" data-i18n="ap_notes">Anything we should know?</label>
+          <span class="hint" data-i18n="ap_notes_hint">Food needs (vegetarian, halal, allergies), mobility, or anything that helps the day go well.</span>
+          <input id="notes" name="notes" type="text" maxlength="200">
         </div>
         <div class="field">
           <span class="label" id="l-area" data-i18n="ap_area">Preferred area</span>
@@ -178,6 +184,22 @@
           <div class="field"><label for="name"><span data-i18n="ap_name">Name</span><span class="req">*</span></label><input id="name" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="country"><span data-i18n="ap_country">Country</span><span class="req">*</span></label><input id="country" name="country" type="text" autocomplete="country-name" required></div>
         </div>
+        <div class="field">
+          <label for="about"><span data-i18n="ap_about">A line about you</span><span class="req">*</span></label>
+          <span class="hint" data-i18n="ap_about_hint">Your local reads this before meeting you. e.g. "Grad student from Taipei, into film cameras and street food."</span>
+          <textarea id="about" name="about_me" rows="2" maxlength="200" required></textarea>
+        </div>
+        <div class="field photo-field" data-photo>
+          <span class="label"><span data-i18n="ph_label">Your photo</span> <span class="opt" data-i18n="opt">(optional)</span></span>
+          <span class="hint" data-i18n="ph_hint_t">A clear photo of your face helps your local find you. Only our team and your matched local see it.</span>
+          <label class="photo-drop">
+            <input type="file" accept="image/*" data-photo-input>
+            <span class="photo-empty"><span class="photo-ic" data-ic="camera"></span><b data-i18n="ph_add">Add a photo</b><small data-i18n="ph_small">Camera or gallery</small></span>
+            <img data-photo-preview alt="" hidden>
+          </label>
+          <button type="button" class="link-btn" data-photo-remove hidden data-i18n="ph_remove">Remove photo</button>
+        </div>
+
         <div class="row-2">
           <div class="field">
             <label for="age" data-i18n="ap_age">Age range</label>
@@ -194,7 +216,7 @@
               <option value="Instagram DM">Instagram DM</option><option value="WhatsApp">WhatsApp</option><option value="LINE">LINE</option><option value="KakaoTalk">KakaoTalk</option><option value="Email">Email</option>
             </select>
           </div>
-          <div class="field"><label for="handle"><span data-i18n="ap_handle">Your ID or number there</span><span class="req">*</span></label><input id="handle" name="contact_id" type="text" required></div>
+          <div class="field"><label for="handle"><span data-i18n="ap_handle">Your ID or number there</span><span class="req">*</span></label><input id="handle" name="contact_id" type="text" autocomplete="off" autocapitalize="off" required></div>
         </div>
         <div class="field">
           <label for="source" data-i18n="ap_source">How did you find us?</label>
@@ -209,10 +231,10 @@
         <div class="consent">
           <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
             <ul>
-              <li data-i18n="c_priv1">We collect: name, country, age range, email, contact ID, trip dates, group details (incl. kids' ages), activities, area, time, languages and buddy preference.</li>
+              <li data-i18n="c_priv1">We collect: name, country, age range, email, contact ID, trip dates, group details (incl. kids' ages), activities, area, time, languages, buddy preference, a line about you and notes. Optional: your photo.</li>
               <li data-i18n="c_priv2">Why: to connect you with a local, contact you about the meetup, keep everyone safe, and improve LoKo.i (statistics are anonymous).</li>
               <li data-i18n="c_priv3">How long: 1 year from submission, or deleted right away when you ask.</li>
-              <li data-i18n="c_priv4">Where: stored in Google Sheets (Google LLC, servers outside Korea).</li>
+              <li data-i18n="c_priv4">Where: stored in Google Sheets and Google Drive (Google LLC, servers outside Korea).</li>
             </ul>
           </details>
           <label class="check"><input type="checkbox" name="agree_privacy" value="Yes" required><span data-i18n="c_agree_priv">I agree to the collection and use of my personal information.</span></label>
@@ -262,6 +284,11 @@
     <div class="done" data-form-done hidden tabindex="-1">
       <h2 data-i18n="done_t">Got it, thank you!</h2>
       <p data-i18n="done_p">We'll look for a local who loves the same things and get back to you within 1–2 days. Meanwhile, follow our Busan tips on Instagram.</p>
+      <ol class="done-steps">
+        <li data-ic="clock"><span data-i18n="done_s1">We look for a local who fits you (1–2 days).</span></li>
+        <li data-ic="user"><span data-i18n="done_s2">We send you their first name, photo and intro on the contact you gave us.</span></li>
+        <li data-ic="chat"><span data-i18n="done_s3">Need to change or cancel? Reply to our message or DM @loko.i.kr anytime.</span></li>
+      </ol>
       <a class="btn btn-dark" href="https://www.instagram.com/loko.i.kr/" target="_blank" rel="noopener" data-i18n="tips_follow">Follow @loko.i.kr</a>
     </div>
   </div>

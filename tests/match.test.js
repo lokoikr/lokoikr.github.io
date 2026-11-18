@@ -2,7 +2,7 @@
 const assert = require('assert');
 const M = require('../assets/match.js');
 global.window = {};
-require('../admin/sample.js');
+require('./fixture-sample.js');
 const { travelers, locals } = window.LOKOI_SAMPLE;
 
 let n = 0;

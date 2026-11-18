@@ -159,10 +159,30 @@
           </div>
         </div>
         <div class="field">
+          <label for="freq" data-i18n="lc_freq">How often could you meet?</label>
+          <select id="freq" name="frequency">
+            <option value="Once to try" data-i18n="fq1">Once, to try it out</option>
+            <option value="1-2 a month" selected data-i18n="fq2">1–2 times a month</option>
+            <option value="Most weeks" data-i18n="fq3">Most weeks</option>
+          </select>
+        </div>
+        <div class="field">
           <label for="intro"><span data-i18n="lc_intro">Say hi in a few lines</span><span class="req">*</span></label>
           <span class="hint" data-i18n="lc_intro_hint">What do you love about Busan, and why do you want to meet travelers?</span>
-          <textarea id="intro" name="intro" required></textarea>
+          <textarea id="intro" name="intro" minlength="20" maxlength="400" required></textarea>
+          <span class="hint" data-i18n="lc_intro_rule">Travelers read this. Please leave out phone numbers, links and prices; we share contacts after matching.</span>
         </div>
+        <div class="field photo-field" data-photo>
+          <span class="label"><span data-i18n="ph_label">Your photo</span> <span class="opt" data-i18n="opt">(optional)</span></span>
+          <span class="hint" data-i18n="lc_ph_hint">A clear face photo speeds up your ID check. Only our team and your matched traveler see it.</span>
+          <label class="photo-drop">
+            <input type="file" accept="image/*" data-photo-input>
+            <span class="photo-empty"><span class="photo-ic" data-ic="camera"></span><b data-i18n="ph_add">Add a photo</b><small data-i18n="ph_small">Camera or gallery</small></span>
+            <img data-photo-preview alt="" hidden>
+          </label>
+          <button type="button" class="link-btn" data-photo-remove hidden data-i18n="ph_remove">Remove photo</button>
+        </div>
+
       </fieldset>
 
       <fieldset>
@@ -187,10 +207,10 @@
         <div class="consent">
           <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
             <ul>
-              <li data-i18n="lc_priv1">We collect: name, age range, Korean or foreign resident (and nationality), gender, areas, activities, languages, availability, introduction, email, KakaoTalk ID or phone, Instagram.</li>
+              <li data-i18n="lc_priv1">We collect: name, age range, Korean or foreign resident (and nationality), gender, areas, activities, languages, availability, how often you can meet, introduction, email, KakaoTalk ID or phone, Instagram. Optional: your photo.</li>
               <li data-i18n="lc_priv2">Why: to check identity, match you with travelers, contact you about meetups and keep everyone safe.</li>
               <li data-i18n="c_priv3">How long: 1 year from submission, or deleted right away when you ask.</li>
-              <li data-i18n="c_priv4">Where: stored in Google Sheets (Google LLC, servers outside Korea).</li>
+              <li data-i18n="c_priv4">Where: stored in Google Sheets and Google Drive (Google LLC, servers outside Korea).</li>
             </ul>
           </details>
           <label class="check"><input type="checkbox" name="agree_privacy" value="Yes" required><span data-i18n="c_agree_priv">I agree to the collection and use of my personal information.</span></label>
@@ -223,6 +243,11 @@
     <div class="done" data-form-done hidden tabindex="-1">
       <h2 data-i18n="lc_done_t">Welcome aboard!</h2>
       <p data-i18n="lc_done_p">Thanks for joining. We'll message you within a few days to set up a short video call and ID check.</p>
+      <ol class="done-steps">
+        <li data-ic="video"><span data-i18n="lc_done_s1">We message you within a few days for a 10-minute video call.</span></li>
+        <li data-ic="shield"><span data-i18n="lc_done_s2">Have your ID or residence card ready. We only look; we never keep the number.</span></li>
+        <li data-ic="heart"><span data-i18n="lc_done_s3">When a traveler fits you, we send their intro first. You can always say no.</span></li>
+      </ol>
       <a class="btn btn-dark" href="https://www.instagram.com/loko.i.kr/" target="_blank" rel="noopener" data-i18n="tips_follow">Follow @loko.i.kr</a>
     </div>
   </div>

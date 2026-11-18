@@ -25,10 +25,11 @@ var COLUMNS = {
   traveler: ['submitted_at', 'status', 'name', 'country', 'age_range', 'email', 'contact_method', 'contact_id',
     'in_busan', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
     'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
-    'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult', 'site_lang'],
+    'about_me', 'notes', 'photo_id', 'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult',
+    'site_lang', 'fill_seconds'],
   local: ['submitted_at', 'status', 'name', 'age_range', 'resident_type', 'nationality', 'gender', 'home_district', 'max_group', 'email', 'contact_id', 'instagram',
-    'areas', 'activities', 'languages', 'language_level', 'availability', 'intro',
-    'source', 'agree_privacy', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang']
+    'areas', 'activities', 'languages', 'language_level', 'availability', 'frequency', 'intro', 'photo_id',
+    'source', 'agree_privacy', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang', 'fill_seconds']
 };
 var SHEET_NAMES = { traveler: '여행자 신청', local: '현지인 등록' };
 
@@ -41,6 +42,12 @@ function doPost(e) {
     if (data.website) return json_({ ok: true }); // 봇 차단용 숨은 칸
 
     data.status = '신규';
+
+    // 사진: 브라우저에서 줄인 JPEG(data URL) → 드라이브 'LoKo.i 신청 사진' 폴더에 저장, 시트엔 파일 ID만
+    if (data.photo) {
+      try { data.photo_id = savePhoto_(data.photo, type, data.name); } catch (err) { data.photo_id = '저장 실패: ' + err; }
+    }
+    delete data.photo;
     var sheet = getSheet_(type);
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
 
@@ -79,12 +86,47 @@ function doPost(e) {
   }
 }
 
-// 매칭 관리 화면용: 관리자 키가 맞을 때만 신청 목록을 돌려줌
+// 매칭 관리 화면용: 관리자 키가 맞을 때만 신청 목록(또는 사진 1장)을 돌려줌
 function doGet(e) {
   var key = e && e.parameter && e.parameter.key;
   var adminKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key || !adminKey || key !== adminKey) return json_({ ok: true, service: 'LoKo.i forms' });
+  if (e.parameter.photo) return json_(photo_(e.parameter.photo));
   return json_({ ok: true, travelers: rows_('traveler'), locals: rows_('local') });
+}
+
+function photoFolder_() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('PHOTO_FOLDER_ID');
+  if (id) { try { return DriveApp.getFolderById(id); } catch (err) {} }
+  var folder = DriveApp.createFolder('LoKo.i 신청 사진');
+  props.setProperty('PHOTO_FOLDER_ID', folder.getId());
+  return folder;
+}
+
+function savePhoto_(dataUrl, type, name) {
+  var m = String(dataUrl).match(/^data:(image\/(jpeg|png|webp));base64,(.+)$/);
+  if (!m) throw new Error('이미지 형식 아님');
+  var bytes = Utilities.base64Decode(m[3]);
+  if (bytes.length > 3 * 1024 * 1024) throw new Error('3MB 초과');
+  var stamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyyMMdd-HHmmss');
+  var safe = String(name || '').replace(/[^\w가-힣 ]/g, '').slice(0, 30);
+  var file = photoFolder_().createFile(Utilities.newBlob(bytes, m[1], (type === 'local' ? '현지인' : '여행자') + '_' + stamp + '_' + safe + '.' + (m[2] === 'jpeg' ? 'jpg' : m[2])));
+  return file.getId();
+}
+
+// 우리 사진 폴더 안의 파일만 돌려줌
+function photo_(id) {
+  try {
+    var file = DriveApp.getFileById(id);
+    var folderId = photoFolder_().getId(), inFolder = false, parents = file.getParents();
+    while (parents.hasNext()) if (parents.next().getId() === folderId) inFolder = true;
+    if (!inFolder) return { ok: false, error: 'not found' };
+    var blob = file.getBlob();
+    return { ok: true, mime: blob.getContentType(), data: Utilities.base64Encode(blob.getBytes()) };
+  } catch (err) {
+    return { ok: false, error: 'not found' };
+  }
 }
 
 function rows_(type) {
@@ -120,5 +162,7 @@ function setup() {
   getSheet_('local');
   var props = PropertiesService.getScriptProperties();
   if (!props.getProperty('ADMIN_KEY')) props.setProperty('ADMIN_KEY', Utilities.getUuid());
+  photoFolder_();
   Logger.log('매칭 관리 화면 키: ' + props.getProperty('ADMIN_KEY'));
+  Logger.log('사진 폴더: ' + photoFolder_().getUrl());
 }

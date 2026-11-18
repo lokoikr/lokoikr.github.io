@@ -10,8 +10,15 @@
  *    → 나온 웹 앱 URL(…/exec)을 사이트의 assets/config.js 의 ENDPOINT 에 붙여 넣습니다.
  */
 
+// 신청이 쌓일 구글 시트 ID ('LoKo.i 웹 신청'). 시트에 붙인 스크립트라면 비워 둬도 됩니다.
+var SHEET_ID = '1jZOIlaSQCYWU8hBX6WYtaPy2mx2bSvgXQ76F7TK8V9A';
+
 // 새 신청이 오면 알림 메일을 받을 주소 (비워 두면 메일을 보내지 않음)
 var NOTIFY_EMAIL = '';
+
+function book_() {
+  return SHEET_ID ? SpreadsheetApp.openById(SHEET_ID) : SpreadsheetApp.getActive();
+}
 
 // 시트별 열 순서 (여기 없는 항목은 맨 뒤에 자동으로 추가됩니다)
 var COLUMNS = {
@@ -58,7 +65,7 @@ function doPost(e) {
       var who = (data.name || '') + (data.country ? ' (' + data.country + ')' : '');
       MailApp.sendEmail(NOTIFY_EMAIL,
         '[LoKo.i] 새 ' + SHEET_NAMES[type] + ': ' + who,
-        '시트에서 확인하세요: ' + SpreadsheetApp.getActive().getUrl());
+        '시트에서 확인하세요: ' + book_().getUrl());
     }
     return json_({ ok: true });
   } catch (err) {
@@ -73,7 +80,7 @@ function doGet() {
 }
 
 function getSheet_(type) {
-  var ss = SpreadsheetApp.getActive();
+  var ss = book_();
   var name = SHEET_NAMES[type];
   var sheet = ss.getSheetByName(name);
   if (!sheet) {

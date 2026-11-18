@@ -40,19 +40,26 @@
 
 <main id="main">
   <div class="wrap page-head">
-    <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="ap_kicker">Free · About 3 minutes</span>
-    <h1 data-i18n="ap_title">Find a local buddy</h1>
-    <p data-i18n="ap_sub">Tell us what you'd love to do in Busan. We'll introduce you to an ID-checked local who enjoys the same thing, usually within 1–2 days.</p>
+    <div class="ph-grid">
+      <div>
+        <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="ap_kicker">Free · About 3 minutes</span>
+        <h1 data-i18n="ap_title">Find a local buddy</h1>
+        <p data-i18n="ap_sub">Tell us what you'd love to do in Busan. We'll introduce you to an ID-checked local who enjoys the same thing, usually within 1–2 days.</p>
+        <ul class="ph-points"><li data-ic="tag"><span data-i18n="badge1">Always free</span></li><li data-ic="shield"><span data-i18n="badge2">ID-checked locals</span></li><li data-ic="chat"><span data-i18n="ap_pt3">Reply in 1–2 days</span></li></ul>
+      </div>
+      <figure class="ph-photo"><img src="assets/img/sparkle.jpg" alt="Morning sea sparkling below the hill road to Dalmaji" fetchpriority="high"><figcaption data-ic="pin">Dalmaji-gil, Busan</figcaption></figure>
+    </div>
   </div>
 
   <div class="wrap form-wrap">
     <div class="form-msg warn" data-endpoint-warning hidden data-i18n="form_not_ready">The form is being set up. For now, please message us on Instagram @loko.i.kr.</div>
 
+    <div class="form-layout">
     <form class="lk-form" data-lk-form="traveler" novalidate>
       <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
       <fieldset>
-        <legend data-i18n="ap_sec1">1. Your trip</legend>
+        <legend data-ic="plane" data-i18n="ap_sec1">1. Your trip</legend>
         <div class="field">
           <span class="label" id="l-now" data-i18n="ap_now">Are you in Busan now?</span>
           <div class="choices" role="radiogroup" aria-labelledby="l-now">
@@ -96,7 +103,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="ap_sec2">2. What you'd love to do</legend>
+        <legend data-ic="heart" data-i18n="ap_sec2">2. What you'd love to do</legend>
         <div class="field" data-required-group="activities">
           <span class="label" id="l-acts"><span data-i18n="ap_acts">Pick all that interest you</span><span class="req">*</span></span>
           <div class="choices" role="group" aria-labelledby="l-acts">
@@ -166,7 +173,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="ap_sec3">3. How to reach you</legend>
+        <legend data-ic="chat" data-i18n="ap_sec3">3. How to reach you</legend>
         <div class="row-2">
           <div class="field"><label for="name"><span data-i18n="ap_name">Name</span><span class="req">*</span></label><input id="name" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="country"><span data-i18n="ap_country">Country</span><span class="req">*</span></label><input id="country" name="country" type="text" autocomplete="country-name" required></div>
@@ -198,7 +205,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="ap_sec4">4. Agreements</legend>
+        <legend data-ic="shield" data-i18n="ap_sec4">4. Agreements</legend>
         <div class="consent">
           <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
             <ul>
@@ -249,6 +256,8 @@
         <span class="hint" style="margin:0" data-i18n="ap_free">Free, always. We'll reply within 1–2 days.</span>
       </div>
     </form>
+      <aside class="form-aside" aria-labelledby="aside-t"><h2 id="aside-t" data-i18n="how_title">Three steps to a local day</h2><ul><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-9-9c-1.5-3.4 1-7 4.5-7 2 0 3.5 1.2 4.5 2.7C13 5.2 14.5 4 16.5 4 20 4 22.5 7.6 21 11c-2 4.5-9 9-9 9z"/></svg></span><span><b data-i18n="s1_t">Tell us your plan</b><small data-i18n="s1_p">Pick activities, dates and languages in a 3-minute form.</small></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span><span><b data-i18n="s2_t">We connect you</b><small data-i18n="s2_p">We match you with an ID-checked local and introduce you both, usually within 1–2 days.</small></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><b data-i18n="s3_t">Meet and enjoy</b><small data-i18n="s3_p">Meet in a public place and do the activity together. Everyone pays their own way.</small></span></li></ul></aside>
+    </div>
 
     <div class="done" data-form-done hidden tabindex="-1">
       <h2 data-i18n="done_t">Got it, thank you!</h2>

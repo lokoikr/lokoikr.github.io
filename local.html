@@ -40,19 +40,26 @@
 
 <main id="main">
   <div class="wrap page-head">
-    <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="lc_kicker">For Busan locals</span>
-    <h1 data-i18n="lc_title">Become a LoKo.i local</h1>
-    <p data-i18n="lc_sub">Meet travelers who love what you love, practice languages and show off your city. You choose when and what. No pay, no pressure.</p>
+    <div class="ph-grid">
+      <div>
+        <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="lc_kicker">For Busan locals</span>
+        <h1 data-i18n="lc_title">Become a LoKo.i local</h1>
+        <p data-i18n="lc_sub">Meet travelers who love what you love, practice languages and show off your city. You choose when and what. No pay, no pressure.</p>
+        <ul class="ph-points"><li data-ic="video"><span data-i18n="lc_pt1">Short video call first</span></li><li data-ic="cal"><span data-i18n="lc_pt2">On your own schedule</span></li><li data-ic="globe"><span data-i18n="lc_pt3">Meet the world in Busan</span></li></ul>
+      </div>
+      <figure class="ph-photo"><img src="assets/img/lane.jpg" alt="A quiet pine-lined lane above Cheongsapo" fetchpriority="high"><figcaption data-ic="pin">Cheongsapo, Busan</figcaption></figure>
+    </div>
   </div>
 
   <div class="wrap form-wrap">
     <div class="form-msg warn" data-endpoint-warning hidden data-i18n="form_not_ready">The form is being set up. For now, please message us on Instagram @loko.i.kr.</div>
 
+    <div class="form-layout">
     <form class="lk-form" data-lk-form="local" novalidate>
       <div class="hp" aria-hidden="true"><label for="website">Website</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 
       <fieldset>
-        <legend data-i18n="lc_sec1">1. About you</legend>
+        <legend data-ic="user" data-i18n="lc_sec1">1. About you</legend>
         <div class="row-2">
           <div class="field"><label for="name"><span data-i18n="ap_name">Name</span><span class="req">*</span></label><input id="name" name="name" type="text" autocomplete="name" required></div>
           <div class="field">
@@ -103,7 +110,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="lc_sec2">2. What you'd share</legend>
+        <legend data-ic="heart" data-i18n="lc_sec2">2. What you'd share</legend>
         <div class="field" data-required-group="activities">
           <span class="label" id="l-acts"><span data-i18n="lc_acts">Activities you'd enjoy with a traveler</span><span class="req">*</span></span>
           <div class="choices" role="group" aria-labelledby="l-acts">
@@ -159,7 +166,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="ap_sec3">3. How to reach you</legend>
+        <legend data-ic="chat" data-i18n="ap_sec3">3. How to reach you</legend>
         <div class="row-2">
           <div class="field"><label for="email"><span data-i18n="ap_email">Email</span><span class="req">*</span></label><input id="email" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="kakao"><span data-i18n="lc_kakao">KakaoTalk ID or phone</span><span class="req">*</span></label><input id="kakao" name="contact_id" type="text" required></div>
@@ -176,7 +183,7 @@
       </fieldset>
 
       <fieldset>
-        <legend data-i18n="ap_sec4">4. Agreements</legend>
+        <legend data-ic="shield" data-i18n="ap_sec4">4. Agreements</legend>
         <div class="consent">
           <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
             <ul>
@@ -210,6 +217,8 @@
         <span class="hint" style="margin:0" data-i18n="lc_next">We'll contact you within a few days to set up a short video call.</span>
       </div>
     </form>
+      <aside class="form-aside" aria-labelledby="aside-t"><h2 id="aside-t" data-i18n="safety_title">Simple rules, for everyone</h2><ul><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3z"/></svg></span><span><b data-i18n="lc_pt1">Short video call first</b><small data-i18n="lc_next">We'll contact you within a few days to set up a short video call.</small></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span><b data-i18n="r1">Meet only in public places, and wrap up by 10 pm.</b></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11l8-7 8 7v9H4z"/><path d="M3 3l18 18"/></svg></span><span><b data-i18n="r2">No home or hotel visits, and no rides in private cars.</b></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-9-9c-1.5-3.4 1-7 4.5-7 2 0 3.5 1.2 4.5 2.7C13 5.2 14.5 4 16.5 4 20 4 22.5 7.6 21 11c-2 4.5-9 9-9 9z"/><path d="M3 3l18 18"/></svg></span><span><b data-i18n="r3">Not a dating app. Unwanted advances get you removed.</b></span></li><li><span class="rule-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18"/><circle cx="16.5" cy="15" r="1.2"/></svg></span><span><b data-i18n="r5">Everyone pays for their own food, tickets and transport.</b></span></li></ul></aside>
+    </div>
 
     <div class="done" data-form-done hidden tabindex="-1">
       <h2 data-i18n="lc_done_t">Welcome aboard!</h2>

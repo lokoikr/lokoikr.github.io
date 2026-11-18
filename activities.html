@@ -35,6 +35,14 @@
   .spot b { display: block; font-size: 17px; }
   .spot .ko { color: var(--ink-3); font-size: 14px; }
   .spot p { margin: 8px 0 0; font-size: 15px; color: var(--ink-2); }
+  .ac-nav a[data-ic] { gap: 8px; }
+  .ac-nav a[data-ic]::before { color: var(--c); }
+  .ac-ic { flex: none; width: 52px; height: 52px; border-radius: 16px; background: var(--cb); display: grid; place-items: center; }
+  .ac-ic svg { width: 28px; height: 28px; stroke: var(--c); }
+  .spot { position: relative; border-top: 4px solid var(--c); }
+  .sp-ic { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--cb); margin-bottom: 12px; }
+  .sp-ic svg { width: 20px; height: 20px; stroke: var(--c); }
+  html[data-lang] .spot p::before { color: var(--c); }
   .spot p::before { content: "Local tip · "; font-weight: 700; color: var(--accent-ink); }
   html[data-lang="zh"] .spot p::before { content: "在地小撇步 · "; }
   html[data-lang="ko"] .spot p::before { content: "로컬 팁 · "; }
@@ -73,71 +81,71 @@
 
   <div class="wrap">
     <nav class="ac-nav" aria-label="Activities">
-      <a href="#walks" data-i18n="a1_t">Walks &amp; nature</a>
-      <a href="#sports" data-i18n="a2_t">Sports</a>
-      <a href="#games" data-i18n="a3_t">Games</a>
-      <a href="#food" data-i18n="a4_t">Food &amp; markets</a>
-      <a href="#culture" data-i18n="a5_t">Culture &amp; art</a>
-      <a href="#sea" data-i18n="a6_t">By the sea</a>
+      <a href="#walks" data-ic="walk" style="--c:#1E9E6A" data-i18n="a1_t">Walks &amp; nature</a>
+      <a href="#sports" data-ic="run" style="--c:#E8620C" data-i18n="a2_t">Sports</a>
+      <a href="#games" data-ic="ball" style="--c:#D93A40" data-i18n="a3_t">Games</a>
+      <a href="#food" data-ic="bowl" style="--c:#B07D00" data-i18n="a4_t">Food &amp; markets</a>
+      <a href="#culture" data-ic="art" style="--c:#6A4BEB" data-i18n="a5_t">Culture &amp; art</a>
+      <a href="#sea" data-ic="sea" style="--c:#1A4FD6" data-i18n="a6_t">By the sea</a>
     </nav>
 
-    <section class="ac" id="walks" style="padding-bottom:40px">
-      <div class="ac-head"><h2 data-i18n="a1_t">Walks &amp; nature</h2></div>
+    <section class="ac" id="walks" style="--c:#1E9E6A;--cb:#E6F6EF;padding-bottom:40px">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-10 4 6 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg></span><h2 data-i18n="a1_t">Walks &amp; nature</h2></div>
       <p data-i18n="ac1_d">Busan is a city of coastlines and hills. A local knows the quiet stretches and the best time of day.</p>
       <ul class="spots">
-        <li class="spot"><b>Igidae Coastal Walk</b><span class="ko">이기대 해안산책로</span><p data-i18n="ac1_1">Go late afternoon for Gwangan Bridge views across the water.</p></li>
-        <li class="spot"><b>Haeundae Blueline Park trail</b><span class="ko">해운대 블루라인파크 산책로</span><p data-i18n="ac1_2">Walk Mipo to Cheongsapo along the old rail line, then take the hill road for the view.</p></li>
-        <li class="spot"><b>Jangsan</b><span class="ko">장산</span><p data-i18n="ac1_3">An easy local hike above Haeundae. Wear real shoes; the top is rocky.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-10 4 6 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg></span><b>Igidae Coastal Walk</b><span class="ko">이기대 해안산책로</span><p data-i18n="ac1_1">Go late afternoon for Gwangan Bridge views across the water.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-10 4 6 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg></span><b>Haeundae Blueline Park trail</b><span class="ko">해운대 블루라인파크 산책로</span><p data-i18n="ac1_2">Walk Mipo to Cheongsapo along the old rail line, then take the hill road for the view.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20l6-10 4 6 3-4 5 8z"/><circle cx="17" cy="6" r="2"/></svg></span><b>Jangsan</b><span class="ko">장산</span><p data-i18n="ac1_3">An easy local hike above Haeundae. Wear real shoes; the top is rocky.</p></li>
       </ul>
     </section>
 
-    <section class="ac" id="sports">
-      <div class="ac-head"><h2 data-i18n="a2_t">Sports</h2></div>
+    <section class="ac" id="sports" style="--c:#E8620C;--cb:#FFF0E5">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4.5" r="2"/><path d="M7 21l3-6 3 2v4"/><path d="M6 11l4-3 4 1 2 3h3"/><path d="M10 15l1-6"/></svg></span><h2 data-i18n="a2_t">Sports</h2></div>
       <p data-i18n="ac2_d">The easiest way to feel like a local: move together.</p>
       <ul class="spots">
-        <li class="spot"><b>Beach run</b><span class="ko">해운대·광안리 아침 러닝</span><p data-i18n="ac2_1">Locals run the sand path early in the morning, before the crowds.</p></li>
-        <li class="spot"><b>Songjeong surfing</b><span class="ko">송정 해변 서핑</span><p data-i18n="ac2_2">The calmest beach for first-timers, with surf shops right on the sand.</p></li>
-        <li class="spot"><b>Futsal pickup game</b><span class="ko">풋살</span><p data-i18n="ac2_3">Your local can book an indoor court. Bring indoor shoes.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4.5" r="2"/><path d="M7 21l3-6 3 2v4"/><path d="M6 11l4-3 4 1 2 3h3"/><path d="M10 15l1-6"/></svg></span><b>Beach run</b><span class="ko">해운대·광안리 아침 러닝</span><p data-i18n="ac2_1">Locals run the sand path early in the morning, before the crowds.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4.5" r="2"/><path d="M7 21l3-6 3 2v4"/><path d="M6 11l4-3 4 1 2 3h3"/><path d="M10 15l1-6"/></svg></span><b>Songjeong surfing</b><span class="ko">송정 해변 서핑</span><p data-i18n="ac2_2">The calmest beach for first-timers, with surf shops right on the sand.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4.5" r="2"/><path d="M7 21l3-6 3 2v4"/><path d="M6 11l4-3 4 1 2 3h3"/><path d="M10 15l1-6"/></svg></span><b>Futsal pickup game</b><span class="ko">풋살</span><p data-i18n="ac2_3">Your local can book an indoor court. Bring indoor shoes.</p></li>
       </ul>
     </section>
 
-    <section class="ac" id="games">
-      <div class="ac-head"><h2 data-i18n="a3_t">Games</h2></div>
+    <section class="ac" id="games" style="--c:#D93A40;--cb:#FDECEC">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 6c3 3 3 9 0 12"/><path d="M18 6c-3 3-3 9 0 12"/></svg></span><h2 data-i18n="a3_t">Games</h2></div>
       <p data-i18n="ac3_d">Busan fans are famous for their energy. Learn the cheers from someone who grew up with them.</p>
       <ul class="spots">
-        <li class="spot"><b>Lotte Giants baseball</b><span class="ko">사직야구장 롯데 자이언츠</span><p data-i18n="ac3_1">Season runs spring to autumn. Your local will teach you the chants.</p></li>
-        <li class="spot"><b>Busan KCC Egis basketball</b><span class="ko">부산 KCC 이지스 농구</span><p data-i18n="ac3_2">The winter option: indoor, loud and close to the court.</p></li>
-        <li class="spot"><b>Busan IPark football</b><span class="ko">부산 아이파크 축구</span><p data-i18n="ac3_3">A relaxed local match, easy to join on the day.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 6c3 3 3 9 0 12"/><path d="M18 6c-3 3-3 9 0 12"/></svg></span><b>Lotte Giants baseball</b><span class="ko">사직야구장 롯데 자이언츠</span><p data-i18n="ac3_1">Season runs spring to autumn. Your local will teach you the chants.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 6c3 3 3 9 0 12"/><path d="M18 6c-3 3-3 9 0 12"/></svg></span><b>Busan KCC Egis basketball</b><span class="ko">부산 KCC 이지스 농구</span><p data-i18n="ac3_2">The winter option: indoor, loud and close to the court.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M6 6c3 3 3 9 0 12"/><path d="M18 6c-3 3-3 9 0 12"/></svg></span><b>Busan IPark football</b><span class="ko">부산 아이파크 축구</span><p data-i18n="ac3_3">A relaxed local match, easy to join on the day.</p></li>
       </ul>
     </section>
 
-    <section class="ac" id="food">
-      <div class="ac-head"><h2 data-i18n="a4_t">Food &amp; markets</h2></div>
+    <section class="ac" id="food" style="--c:#B07D00;--cb:#FFF6DB">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M9 7c0-2 2-2 2-4"/><path d="M14 7c0-2 2-2 2-4"/></svg></span><h2 data-i18n="a4_t">Food &amp; markets</h2></div>
       <p data-i18n="ac4_d">Eat where locals eat, and order like one.</p>
       <ul class="spots">
-        <li class="spot"><b>Dwaeji gukbap</b><span class="ko">돼지국밥</span><p data-i18n="ac4_1">Busan's pork soup. Your local will show you how to season it at the table.</p></li>
-        <li class="spot"><b>Gukje &amp; Bupyeong markets</b><span class="ko">국제시장·부평깡통시장</span><p data-i18n="ac4_2">Go in the evening for the night market stalls.</p></li>
-        <li class="spot"><b>Jeonpo café street</b><span class="ko">전포카페거리</span><p data-i18n="ac4_3">Small independent cafés, a short walk from Seomyeon.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M9 7c0-2 2-2 2-4"/><path d="M14 7c0-2 2-2 2-4"/></svg></span><b>Dwaeji gukbap</b><span class="ko">돼지국밥</span><p data-i18n="ac4_1">Busan's pork soup. Your local will show you how to season it at the table.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M9 7c0-2 2-2 2-4"/><path d="M14 7c0-2 2-2 2-4"/></svg></span><b>Gukje &amp; Bupyeong markets</b><span class="ko">국제시장·부평깡통시장</span><p data-i18n="ac4_2">Go in the evening for the night market stalls.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M9 7c0-2 2-2 2-4"/><path d="M14 7c0-2 2-2 2-4"/></svg></span><b>Jeonpo café street</b><span class="ko">전포카페거리</span><p data-i18n="ac4_3">Small independent cafés, a short walk from Seomyeon.</p></li>
       </ul>
     </section>
 
-    <section class="ac" id="culture">
-      <div class="ac-head"><h2 data-i18n="a5_t">Culture &amp; art</h2></div>
+    <section class="ac" id="culture" style="--c:#6A4BEB;--cb:#F0ECFF">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><h2 data-i18n="a5_t">Culture &amp; art</h2></div>
       <p data-i18n="ac5_d">Hillside villages, old factories turned art spaces, and the stories behind them.</p>
       <ul class="spots">
-        <li class="spot"><b>Gamcheon Culture Village</b><span class="ko">감천문화마을</span><p data-i18n="ac5_1">Go early before the tour groups, and wander the back alleys.</p></li>
-        <li class="spot"><b>Huinnyeoul Culture Village</b><span class="ko">흰여울문화마을</span><p data-i18n="ac5_2">A cliffside lane on Yeongdo with sea views at every turn.</p></li>
-        <li class="spot"><b>F1963</b><span class="ko">F1963</span><p data-i18n="ac5_3">A former wire factory, now a bookstore, gallery and garden.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><b>Gamcheon Culture Village</b><span class="ko">감천문화마을</span><p data-i18n="ac5_1">Go early before the tour groups, and wander the back alleys.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><b>Huinnyeoul Culture Village</b><span class="ko">흰여울문화마을</span><p data-i18n="ac5_2">A cliffside lane on Yeongdo with sea views at every turn.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><b>F1963</b><span class="ko">F1963</span><p data-i18n="ac5_3">A former wire factory, now a bookstore, gallery and garden.</p></li>
       </ul>
     </section>
 
-    <section class="ac" id="sea">
-      <div class="ac-head"><h2 data-i18n="a6_t">By the sea</h2></div>
+    <section class="ac" id="sea" style="--c:#1A4FD6;--cb:#EAF0FF">
+      <div class="ac-head"><span class="ac-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M4 14l8-10 8 10z"/></svg></span><h2 data-i18n="a6_t">By the sea</h2></div>
       <p data-i18n="ac6_d">Busan from the water and from above.</p>
       <ul class="spots">
-        <li class="spot"><b>Sky Capsule &amp; Beach Train</b><span class="ko">스카이캡슐·해변열차</span><p data-i18n="ac6_1">Book ahead on weekends. Sunset rides sell out first.</p></li>
-        <li class="spot"><b>Songdo Marine Cable Car</b><span class="ko">송도해상케이블카</span><p data-i18n="ac6_2">Pick a glass-floor cabin if you are brave.</p></li>
-        <li class="spot"><b>Gwangalli at night</b><span class="ko">광안리 야경</span><p data-i18n="ac6_3">On many Saturday nights there is a drone light show. Check the schedule first.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M4 14l8-10 8 10z"/></svg></span><b>Sky Capsule &amp; Beach Train</b><span class="ko">스카이캡슐·해변열차</span><p data-i18n="ac6_1">Book ahead on weekends. Sunset rides sell out first.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M4 14l8-10 8 10z"/></svg></span><b>Songdo Marine Cable Car</b><span class="ko">송도해상케이블카</span><p data-i18n="ac6_2">Pick a glass-floor cabin if you are brave.</p></li>
+        <li class="spot"><span class="sp-ic"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M4 14l8-10 8 10z"/></svg></span><b>Gwangalli at night</b><span class="ko">광안리 야경</span><p data-i18n="ac6_3">On many Saturday nights there is a drone light show. Check the schedule first.</p></li>
       </ul>
       <div class="ac-cta"><a class="btn btn-primary" href="apply.html" data-i18n="hero_cta1">Find a local buddy</a></div>
     </section>

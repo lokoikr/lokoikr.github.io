@@ -205,6 +205,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); outline
 .form-msg { padding: 14px 16px; border-radius: 12px; font-weight: 600; }
 .form-msg.err { background: #FDECEC; color: var(--danger); }
 .form-msg.warn { background: #FFF5DA; color: #6B4A00; }
+[data-endpoint-warning] { margin-bottom: 20px; max-width: 760px; }
 .done { max-width: 760px; text-align: left; padding: 36px; border-radius: var(--radius); background: var(--accent-soft); }
 .done h2 { font-family: var(--font-head); font-size: 32px; margin: 0 0 8px; letter-spacing: -.8px; }
 .done p { margin: 0 0 16px; color: var(--ink-2); }

@@ -24,9 +24,9 @@ function book_() {
 var COLUMNS = {
   traveler: ['submitted_at', 'status', 'name', 'country', 'age_range', 'email', 'contact_method', 'contact_id',
     'in_busan', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
-    'activities', 'details', 'areas', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
+    'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
     'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult', 'site_lang'],
-  local: ['submitted_at', 'status', 'name', 'age_range', 'gender', 'email', 'contact_id', 'instagram',
+  local: ['submitted_at', 'status', 'name', 'age_range', 'gender', 'home_district', 'email', 'contact_id', 'instagram',
     'areas', 'activities', 'languages', 'language_level', 'availability', 'intro',
     'source', 'agree_privacy', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang']
 };
@@ -75,8 +75,23 @@ function doPost(e) {
   }
 }
 
-function doGet() {
-  return json_({ ok: true, service: 'LoKo.i forms' });
+// 매칭 관리 화면용: 관리자 키가 맞을 때만 신청 목록을 돌려줌
+function doGet(e) {
+  var key = e && e.parameter && e.parameter.key;
+  var adminKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
+  if (!key || !adminKey || key !== adminKey) return json_({ ok: true, service: 'LoKo.i forms' });
+  return json_({ ok: true, travelers: rows_('traveler'), locals: rows_('local') });
+}
+
+function rows_(type) {
+  var sheet = getSheet_(type);
+  var values = sheet.getDataRange().getDisplayValues();
+  var head = values.shift() || [];
+  return values.filter(function (r) { return r.join('') !== ''; }).map(function (r, i) {
+    var o = { id: type[0].toUpperCase() + (i + 2) };
+    head.forEach(function (h, j) { o[h] = r[j]; });
+    return o;
+  });
 }
 
 function getSheet_(type) {
@@ -99,4 +114,7 @@ function json_(obj) {
 function setup() {
   getSheet_('traveler');
   getSheet_('local');
+  var props = PropertiesService.getScriptProperties();
+  if (!props.getProperty('ADMIN_KEY')) props.setProperty('ADMIN_KEY', Utilities.getUuid());
+  Logger.log('매칭 관리 화면 키: ' + props.getProperty('ADMIN_KEY'));
 }

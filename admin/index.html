@@ -55,9 +55,18 @@
 </header>
 <main class="wrap admin">
   <h1>매칭 관리</h1>
-  <p class="lead">구글 시트에서 두 탭을 CSV로 내려받아 넣으면, 여행자마다 맞는 현지인을 점수와 이유로 추천해요. 파일은 이 브라우저 안에서만 처리되고 어디에도 전송되지 않아요.</p>
+  <p class="lead">웹사이트로 들어온 여행자 신청과 현지인 등록을 불러와, 여행자마다 맞는 현지인을 점수와 이유로 추천해요.</p>
 
-  <div class="panel">
+  <div class="panel" style="margin-bottom:16px">
+    <div class="bar-row" style="margin-bottom:8px">
+      <label for="akey" style="font-weight:700">관리자 키</label>
+      <input id="akey" type="password" autocomplete="off" placeholder="Apps Script setup 실행 때 나온 키" style="flex:1 1 260px;min-width:0">
+      <button class="btn btn-primary btn-sm" id="load" type="button">시트에서 불러와 매칭</button>
+    </div>
+    <p class="note" id="loadMsg">신청서 시트에서 바로 읽어 와요. 키는 이 브라우저에만 저장돼요.</p>
+  </div>
+
+  <details class="panel" style="padding:12px 20px"><summary style="cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center">CSV 파일로 넣기 (시트 연결 전 / 예비용)</summary>
     <div class="loaders">
       <div><label for="fT">① 여행자 신청 CSV</label><input id="fT" type="file" accept=".csv,text/csv"></div>
       <div><label for="fL">② 현지인 등록 CSV</label><input id="fL" type="file" accept=".csv,text/csv"></div>
@@ -67,11 +76,12 @@
       <button class="btn btn-primary btn-sm" id="run" type="button">매칭 실행</button>
       <button class="btn btn-dark btn-sm" id="demo" type="button">예시 데이터로 보기</button>
     </div>
-    <p class="note">시트 메뉴: 파일 › 다운로드 › 쉼표로 구분된 값(.csv). 탭마다 한 번씩 내려받으세요.</p>
-  </div>
+    <p class="note">시트 메뉴: 파일 › 다운로드 › 쉼표로 구분된 값(.csv). 탭마다 한 번씩 내려받으세요. 파일은 이 브라우저 안에서만 처리돼요.</p>
+  </details>
 
   <div id="out" aria-live="polite"></div>
 </main>
+<script src="../assets/config.js"></script>
 <script src="../assets/match.js"></script>
 <script src="sample.js"></script>
 <script>
@@ -145,12 +155,31 @@
   }
 
   document.getElementById('run').addEventListener('click', function () {
-    if (!data.travelers || !data.locals) { alert('두 CSV 파일을 모두 넣어 주세요.'); return; }
+    if (!data.travelers || !data.locals) { document.getElementById('out').textContent = ''; document.getElementById('out').appendChild(el('p', 'form-msg err', '두 CSV 파일을 모두 넣어 주세요.')); return; }
     render(data.travelers, data.locals, false);
   });
   document.getElementById('demo').addEventListener('click', function () {
     render(LOKOI_SAMPLE.travelers, LOKOI_SAMPLE.locals, true);
   });
+  // 시트에서 바로 불러오기 (Apps Script doGet + 관리자 키)
+  var keyInput = document.getElementById('akey'), msg = document.getElementById('loadMsg');
+  try { keyInput.value = localStorage.getItem('lokoi_admin_key') || ''; } catch (e) {}
+  document.getElementById('load').addEventListener('click', function () {
+    var cfg = window.LOKOI_CONFIG || {}, key = keyInput.value.trim();
+    if (!cfg.ENDPOINT) { msg.textContent = '신청서 연결(assets/config.js의 ENDPOINT)이 아직 비어 있어요.'; return; }
+    if (!key) { msg.textContent = '관리자 키를 넣어 주세요.'; keyInput.focus(); return; }
+    try { localStorage.setItem('lokoi_admin_key', key); } catch (e) {}
+    msg.textContent = '불러오는 중…';
+    fetch(cfg.ENDPOINT + '?key=' + encodeURIComponent(key))
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d.travelers) { msg.textContent = '키가 맞지 않아요. Apps Script 실행 기록의 키를 확인해 주세요.'; return; }
+        msg.textContent = '여행자 ' + d.travelers.length + '건, 현지인 ' + d.locals.length + '명을 불러왔어요.';
+        render(d.travelers, d.locals, false);
+      })
+      .catch(function () { msg.textContent = '불러오지 못했어요. 인터넷 연결이나 배포 주소를 확인해 주세요.'; });
+  });
+
   if (/[?&]demo=1/.test(location.search)) render(LOKOI_SAMPLE.travelers, LOKOI_SAMPLE.locals, true);
 })();
 </script>

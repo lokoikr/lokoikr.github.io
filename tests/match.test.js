@@ -48,6 +48,14 @@ t('배정: 여행자당 1명, 같은 날 같은 현지인 중복 없음', () => 
   assert.ok(a.matches.length >= 3);
 });
 
+t('지역 상관없음이면 숙소 지역으로, 현지인 사는 구도 반영', () => {
+  const tr = { languages: 'English', areas: 'Anywhere', stay_area: 'Haeundae / Centum' };
+  const near = M.scorePair(tr, { languages: 'English', home_district: 'Haeundae-gu' });
+  const far = M.scorePair(tr, { languages: 'English', home_district: 'Saha-gu' });
+  assert.ok(near.parts.area > far.parts.area);
+  assert.ok(near.reasons.some(r => r.includes('숙소 근처')));
+});
+
 t('CSV 파싱: 따옴표 안 쉼표와 줄바꿈', () => {
   const rows = M.parseCSV('name,activities,intro\n"Kim","Sports, By the sea","hi\nthere"\n');
   assert.strictEqual(rows.length, 1);

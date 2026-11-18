@@ -182,7 +182,7 @@ legend { font-family: var(--font-head); font-weight: 800; font-size: 22px; paddi
 .hint { color: var(--ink-3); font-size: 14px; margin-top: -4px; }
 .row-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 600px) { .row-2 { grid-template-columns: minmax(0, 1fr); } fieldset { padding: 18px; } }
-input[type="text"], input[type="email"], input[type="date"], input[type="tel"], select, textarea {
+input[type="text"], input[type="email"], input[type="date"], input[type="tel"], input[type="password"], select, textarea {
   width: 100%; min-height: 48px; padding: 12px 14px; border-radius: 12px; border: 1.5px solid #CFD2DB;
   font: 400 16px var(--font-body); color: var(--ink); background: #fff;
 }

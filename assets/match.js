@@ -17,6 +17,12 @@
 
   var W = { activity: 45, area: 20, time: 20, level: 10, balance: 5 };
   var VERIFIED = ['확인 완료', 'verified', 'Verified'];
+  // 현지인이 사는 구 → 신청서의 지역 묶음
+  var DISTRICT_AREA = {
+    'Haeundae-gu': 'Haeundae / Centum', 'Suyeong-gu': 'Gwangalli / Suyeong', 'Nam-gu': 'Gwangalli / Suyeong',
+    'Busanjin-gu': 'Seomyeon / Jeonpo', 'Jung-gu': 'Nampo / Jung-gu', 'Seo-gu': 'Nampo / Jung-gu', 'Dong-gu': 'Nampo / Jung-gu',
+    'Yeongdo-gu': 'Yeongdo', 'Gijang-gun': 'Gijang / Songjeong'
+  };
 
   function list(v) {
     if (Array.isArray(v)) return v.map(clean).filter(Boolean);
@@ -67,12 +73,20 @@
     var actScore = ta.length ? W.activity * (acts.length / ta.length) : 0;
     if (acts.length) reasons.push('활동 ' + acts.length + '/' + ta.length + '개 일치 (' + acts.join(', ') + ')');
 
-    // 5) 지역
-    var tr = list(t.areas), lr = list(l.areas);
+    // 5) 지역: 여행자가 고른 지역 (없거나 '상관없음'이면 숙소 지역) ↔ 현지인이 잘 아는 지역 + 사는 구
+    var picked = list(t.areas);
+    var anywhere = !picked.length || picked.indexOf('Anywhere') !== -1;
+    var stay = clean(t.stay_area);
+    var useStay = anywhere && stay && ['Not decided', 'Other'].indexOf(stay) === -1;
+    var tr = useStay ? [stay] : picked;
+    var lr = list(l.areas);
+    var home = DISTRICT_AREA[clean(l.home_district)];
+    if (home && lr.indexOf(home) === -1) lr.push(home);
     var areaHit = overlap(tr, lr);
-    var anywhere = !tr.length || tr.indexOf('Anywhere') !== -1;
-    var areaScore = anywhere ? W.area * 0.75 : (areaHit.length ? W.area : 0);
-    if (areaHit.length) reasons.push('지역 일치 (' + areaHit.join(', ') + ')');
+    var areaScore;
+    if (useStay) areaScore = areaHit.length ? W.area : W.area * 0.6;
+    else areaScore = anywhere ? W.area * 0.75 : (areaHit.length ? W.area : 0);
+    if (areaHit.length) reasons.push((useStay ? '여행자 숙소 근처' : '지역 일치') + ' (' + areaHit.join(', ') + ')');
     else if (anywhere) reasons.push('여행자 지역 상관없음');
 
     // 6) 시간대

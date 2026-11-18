@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Things to do with a local — LoKo.i</title>
+<meta name="description" content="Activity ideas for your day with a Busan local: coastal walks, surfing, baseball, markets, art villages and the sea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .ac-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+  .ac-nav a { text-decoration: none; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--line); color: var(--ink-2); font-weight: 600; font-size: 15px; min-height: 44px; display: inline-flex; align-items: center; }
+  .ac-nav a:hover { border-color: var(--accent); color: var(--accent-ink); }
+  .ac { padding: 40px 0; border-top: 1px solid var(--line); scroll-margin-top: 80px; }
+  .ac-head { display: flex; gap: 16px; align-items: center; margin-bottom: 8px; }
+  .ac-head h2 { font-family: var(--font-head); font-size: clamp(26px, 4vw, 34px); letter-spacing: -.8px; margin: 0; }
+  .ac > p { color: var(--ink-3); margin: 0 0 18px; max-width: 62ch; }
+  .spots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; list-style: none; padding: 0; margin: 0; }
+  @media (max-width: 860px) { .spots { grid-template-columns: minmax(0, 1fr); } }
+  .spot { border: 1px solid var(--line); border-radius: 16px; padding: 18px; background: #fff; }
+  .spot b { display: block; font-size: 17px; }
+  .spot .ko { color: var(--ink-3); font-size: 14px; }
+  .spot p { margin: 8px 0 0; font-size: 15px; color: var(--ink-2); }
+  .spot p::before { content: "Local tip · "; font-weight: 700; color: var(--accent-ink); }
+  html[data-lang="zh"] .spot p::before { content: "在地小撇步 · "; }
+  html[data-lang="ko"] .spot p::before { content: "로컬 팁 · "; }
+  .ac-cta { margin-top: 18px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="LoKo.i home"><span class="brand-mark" aria-hidden="true">k</span>LoKo.i</a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#how" data-i18n="nav_how">How it works</a>
+      <a href="activities.html" data-i18n="nav_acts">Activities</a>
+      <a href="index.html#safety" data-i18n="nav_safety">Safety</a>
+      <a href="local.html" data-i18n="nav_local">Become a local</a>
+    </nav>
+    <div class="header-tools">
+      <label class="hp" for="lang">Language</label>
+      <select id="lang" class="lang-select" data-lang-select>
+        <option value="en">English</option>
+        <option value="zh">繁體中文</option>
+        <option value="ko">한국어</option>
+      </select>
+      <a class="btn btn-primary btn-sm" href="apply.html" data-i18n="cta_meet">Meet a local</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap page-head">
+    <span class="kicker" style="font-size:14px;font-weight:700;letter-spacing:2px;color:var(--accent-ink);text-transform:uppercase" data-i18n="acts_kicker">Activities</span>
+    <h1 data-i18n="ac_title">Ideas for your local day</h1>
+    <p data-i18n="ac_sub">Pick one in the form, or tell us your own idea. Your local buddy knows the way.</p>
+  </div>
+
+  <div class="wrap">
+    <nav class="ac-nav" aria-label="Activities">
+      <a href="#walks" data-i18n="a1_t">Walks &amp; nature</a>
+      <a href="#sports" data-i18n="a2_t">Sports</a>
+      <a href="#games" data-i18n="a3_t">Games</a>
+      <a href="#food" data-i18n="a4_t">Food &amp; markets</a>
+      <a href="#culture" data-i18n="a5_t">Culture &amp; art</a>
+      <a href="#sea" data-i18n="a6_t">By the sea</a>
+    </nav>
+
+    <section class="ac" id="walks" style="padding-bottom:40px">
+      <div class="ac-head"><h2 data-i18n="a1_t">Walks &amp; nature</h2></div>
+      <p data-i18n="ac1_d">Busan is a city of coastlines and hills. A local knows the quiet stretches and the best time of day.</p>
+      <ul class="spots">
+        <li class="spot"><b>Igidae Coastal Walk</b><span class="ko">이기대 해안산책로</span><p data-i18n="ac1_1">Go late afternoon for Gwangan Bridge views across the water.</p></li>
+        <li class="spot"><b>Haeundae Blueline Park trail</b><span class="ko">해운대 블루라인파크 산책로</span><p data-i18n="ac1_2">Walk Mipo to Cheongsapo along the old rail line, then take the hill road for the view.</p></li>
+        <li class="spot"><b>Jangsan</b><span class="ko">장산</span><p data-i18n="ac1_3">An easy local hike above Haeundae. Wear real shoes; the top is rocky.</p></li>
+      </ul>
+    </section>
+
+    <section class="ac" id="sports">
+      <div class="ac-head"><h2 data-i18n="a2_t">Sports</h2></div>
+      <p data-i18n="ac2_d">The easiest way to feel like a local: move together.</p>
+      <ul class="spots">
+        <li class="spot"><b>Beach run</b><span class="ko">해운대·광안리 아침 러닝</span><p data-i18n="ac2_1">Locals run the sand path early in the morning, before the crowds.</p></li>
+        <li class="spot"><b>Songjeong surfing</b><span class="ko">송정 해변 서핑</span><p data-i18n="ac2_2">The calmest beach for first-timers, with surf shops right on the sand.</p></li>
+        <li class="spot"><b>Futsal pickup game</b><span class="ko">풋살</span><p data-i18n="ac2_3">Your local can book an indoor court. Bring indoor shoes.</p></li>
+      </ul>
+    </section>
+
+    <section class="ac" id="games">
+      <div class="ac-head"><h2 data-i18n="a3_t">Games</h2></div>
+      <p data-i18n="ac3_d">Busan fans are famous for their energy. Learn the cheers from someone who grew up with them.</p>
+      <ul class="spots">
+        <li class="spot"><b>Lotte Giants baseball</b><span class="ko">사직야구장 롯데 자이언츠</span><p data-i18n="ac3_1">Season runs spring to autumn. Your local will teach you the chants.</p></li>
+        <li class="spot"><b>Busan KCC Egis basketball</b><span class="ko">부산 KCC 이지스 농구</span><p data-i18n="ac3_2">The winter option: indoor, loud and close to the court.</p></li>
+        <li class="spot"><b>Busan IPark football</b><span class="ko">부산 아이파크 축구</span><p data-i18n="ac3_3">A relaxed local match, easy to join on the day.</p></li>
+      </ul>
+    </section>
+
+    <section class="ac" id="food">
+      <div class="ac-head"><h2 data-i18n="a4_t">Food &amp; markets</h2></div>
+      <p data-i18n="ac4_d">Eat where locals eat, and order like one.</p>
+      <ul class="spots">
+        <li class="spot"><b>Dwaeji gukbap</b><span class="ko">돼지국밥</span><p data-i18n="ac4_1">Busan's pork soup. Your local will show you how to season it at the table.</p></li>
+        <li class="spot"><b>Gukje &amp; Bupyeong markets</b><span class="ko">국제시장·부평깡통시장</span><p data-i18n="ac4_2">Go in the evening for the night market stalls.</p></li>
+        <li class="spot"><b>Jeonpo café street</b><span class="ko">전포카페거리</span><p data-i18n="ac4_3">Small independent cafés, a short walk from Seomyeon.</p></li>
+      </ul>
+    </section>
+
+    <section class="ac" id="culture">
+      <div class="ac-head"><h2 data-i18n="a5_t">Culture &amp; art</h2></div>
+      <p data-i18n="ac5_d">Hillside villages, old factories turned art spaces, and the stories behind them.</p>
+      <ul class="spots">
+        <li class="spot"><b>Gamcheon Culture Village</b><span class="ko">감천문화마을</span><p data-i18n="ac5_1">Go early before the tour groups, and wander the back alleys.</p></li>
+        <li class="spot"><b>Huinnyeoul Culture Village</b><span class="ko">흰여울문화마을</span><p data-i18n="ac5_2">A cliffside lane on Yeongdo with sea views at every turn.</p></li>
+        <li class="spot"><b>F1963</b><span class="ko">F1963</span><p data-i18n="ac5_3">A former wire factory, now a bookstore, gallery and garden.</p></li>
+      </ul>
+    </section>
+
+    <section class="ac" id="sea">
+      <div class="ac-head"><h2 data-i18n="a6_t">By the sea</h2></div>
+      <p data-i18n="ac6_d">Busan from the water and from above.</p>
+      <ul class="spots">
+        <li class="spot"><b>Sky Capsule &amp; Beach Train</b><span class="ko">스카이캡슐·해변열차</span><p data-i18n="ac6_1">Book ahead on weekends. Sunset rides sell out first.</p></li>
+        <li class="spot"><b>Songdo Marine Cable Car</b><span class="ko">송도해상케이블카</span><p data-i18n="ac6_2">Pick a glass-floor cabin if you are brave.</p></li>
+        <li class="spot"><b>Gwangalli at night</b><span class="ko">광안리 야경</span><p data-i18n="ac6_3">On many Saturday nights there is a drone light show. Check the schedule first.</p></li>
+      </ul>
+      <div class="ac-cta"><a class="btn btn-primary" href="apply.html" data-i18n="hero_cta1">Find a local buddy</a></div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span data-i18n="f_rights">© 2026 LoKo.i · Busan, Korea</span>
+    <nav aria-label="Footer">
+      <a href="index.html" data-i18n="f_home">Home</a>
+      <a href="privacy.html" data-i18n="f_privacy">Privacy</a>
+      <a href="https://www.instagram.com/loko.i.kr/" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+</footer>
+<script src="assets/i18n.js"></script>
+</body>
+</html>

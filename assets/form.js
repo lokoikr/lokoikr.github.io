@@ -41,6 +41,8 @@
       // dates
       var a = form.querySelector('[name="arrive"]'), l = form.querySelector('[name="leave"]');
       if (a && l && a.value && l.value && l.value < a.value) return { msg: T('err_dates'), el: l };
+      var pref = form.querySelector('[name="buddy_pref"]:checked'), g = form.querySelector('[name="gender"]:checked');
+      if (pref && pref.value === 'Same gender' && (!g || g.value === 'Prefer not to say')) return { msg: T('err_gender'), el: g };
       return null;
     }
 

@@ -24,7 +24,7 @@ function book_() {
 var COLUMNS = {
   traveler: ['submitted_at', 'status', 'name', 'country', 'age_range', 'email', 'contact_method', 'contact_id',
     'in_busan', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
-    'activities', 'details', 'areas', 'preferred_date', 'time_slots', 'languages', 'buddy_pref',
+    'activities', 'details', 'areas', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
     'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult', 'site_lang'],
   local: ['submitted_at', 'status', 'name', 'age_range', 'gender', 'email', 'contact_id', 'instagram',
     'areas', 'activities', 'languages', 'language_level', 'availability', 'intro',

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>매칭 관리 — LoKo.i</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  .admin { padding: 32px 0 80px; }
+  .admin h1 { font-family: var(--font-head); font-size: clamp(30px, 5vw, 44px); letter-spacing: -1px; margin: 0 0 6px; }
+  .lead { color: var(--ink-3); margin: 0 0 24px; }
+  .panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: #fff; }
+  .loaders { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 700px) { .loaders { grid-template-columns: minmax(0, 1fr); } }
+  .loaders label { font-weight: 700; display: block; margin-bottom: 8px; }
+  .loaders input[type=file] { width: 100%; font: 15px var(--font-body); }
+  .bar-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 24px; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 24px; }
+  @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .stat { background: var(--bg-soft); border-radius: 14px; padding: 16px; }
+  .stat b { display: block; font: 800 30px var(--font-head); }
+  .stat span { color: var(--ink-3); font-size: 14px; }
+  h2.sec { font-family: var(--font-head); font-size: 24px; margin: 28px 0 12px; letter-spacing: -.4px; }
+  .match { display: grid; grid-template-columns: minmax(0, 1fr) 120px minmax(0, 1fr); gap: 16px; align-items: center; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 10px; background: #fff; }
+  @media (max-width: 700px) { .match { grid-template-columns: minmax(0, 1fr); } }
+  .who b { display: block; font-size: 16px; }
+  .who small { color: var(--ink-3); font-size: 13px; }
+  .score { text-align: center; }
+  .score b { font: 800 34px var(--font-head); color: var(--accent-ink); line-height: 1; }
+  .meter { height: 8px; background: var(--bg-soft); border-radius: 99px; overflow: hidden; margin-top: 8px; }
+  .meter i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+  .reasons { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); }
+  .tag.warn { background: #FFF5DA; color: #6B4A00; }
+  .tag.no { background: #FDECEC; color: var(--danger); }
+  details.trav { border: 1px solid var(--line); border-radius: 14px; padding: 0 16px; margin-bottom: 8px; background: #fff; }
+  details.trav summary { cursor: pointer; padding: 14px 0; font-weight: 700; min-height: 44px; }
+  .pick { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+  .pick .n { font: 800 18px var(--font-head); width: 44px; color: var(--accent-ink); }
+  .empty { color: var(--ink-3); }
+  .note { font-size: 14px; color: var(--ink-3); margin-top: 6px; }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true">k</span>LoKo.i</a>
+    <span style="margin-left:auto;font-weight:700;color:var(--ink-3)">매칭 관리</span>
+  </div>
+</header>
+<main class="wrap admin">
+  <h1>매칭 관리</h1>
+  <p class="lead">구글 시트에서 두 탭을 CSV로 내려받아 넣으면, 여행자마다 맞는 현지인을 점수와 이유로 추천해요. 파일은 이 브라우저 안에서만 처리되고 어디에도 전송되지 않아요.</p>
+
+  <div class="panel">
+    <div class="loaders">
+      <div><label for="fT">① 여행자 신청 CSV</label><input id="fT" type="file" accept=".csv,text/csv"></div>
+      <div><label for="fL">② 현지인 등록 CSV</label><input id="fL" type="file" accept=".csv,text/csv"></div>
+    </div>
+    <div class="bar-row">
+      <label class="check"><input type="checkbox" id="verified" checked><span>신원 확인 완료(status = 확인 완료)인 현지인만</span></label>
+      <button class="btn btn-primary btn-sm" id="run" type="button">매칭 실행</button>
+      <button class="btn btn-dark btn-sm" id="demo" type="button">예시 데이터로 보기</button>
+    </div>
+    <p class="note">시트 메뉴: 파일 › 다운로드 › 쉼표로 구분된 값(.csv). 탭마다 한 번씩 내려받으세요.</p>
+  </div>
+
+  <div id="out" aria-live="polite"></div>
+</main>
+<script src="../assets/match.js"></script>
+<script src="sample.js"></script>
+<script>
+(function () {
+  var data = { travelers: null, locals: null };
+  var LABEL = { activity: '활동', area: '지역', time: '시간', level: '언어', balance: '배분' };
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  function readFile(input, key) {
+    input.addEventListener('change', function () {
+      var f = input.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () { data[key] = LokoMatch.parseCSV(r.result); };
+      r.readAsText(f, 'utf-8');
+    });
+  }
+  readFile(document.getElementById('fT'), 'travelers');
+  readFile(document.getElementById('fL'), 'locals');
+
+  function byId(list) { var m = {}; list.forEach(function (x) { m[x.id] = x; }); return m; }
+
+  function render(travelers, locals, demo) {
+    var out = document.getElementById('out'); out.textContent = '';
+    var opts = { onlyVerified: document.getElementById('verified').checked };
+    var res = LokoMatch.assign(travelers, locals, opts);
+    var rec = LokoMatch.recommend(travelers, locals, opts);
+    var T = byId(travelers), L = byId(locals);
+
+    if (demo) out.appendChild(el('p', 'form-msg warn', '예시 데이터예요. 실제 사람이 아닌 가상의 신청입니다.'));
+    var stats = el('div', 'stats');
+    [[travelers.length, '여행자 신청'], [locals.length, '현지인'], [res.matches.length, '배정 완료'], [res.unmatched.length, '배정 안 됨']]
+      .forEach(function (s) { var d = el('div', 'stat'); d.appendChild(el('b', null, s[0])); d.appendChild(el('span', null, s[1])); stats.appendChild(d); });
+    out.appendChild(stats);
+
+    out.appendChild(el('h2', 'sec', '추천 배정안'));
+    if (!res.matches.length) out.appendChild(el('p', 'empty', '조건에 맞는 배정이 없어요.'));
+    res.matches.forEach(function (m) {
+      var t = T[m.travelerId], l = L[m.localId];
+      var row = el('div', 'match');
+      var a = el('div', 'who'); a.appendChild(el('b', null, t.name)); a.appendChild(el('small', null, (t.preferred_date || '날짜 미정') + ' · ' + (t.activities || '')));
+      var s = el('div', 'score'); s.appendChild(el('b', null, m.score)); var meter = el('div', 'meter'); var i = el('i'); i.style.width = m.score + '%'; meter.appendChild(i); s.appendChild(meter);
+      var b = el('div', 'who'); b.appendChild(el('b', null, l.name)); b.appendChild(el('small', null, (l.languages || '') + ' · ' + (l.areas || '')));
+      var rs = el('div', 'reasons');
+      m.reasons.forEach(function (r) { rs.appendChild(el('span', /확인 필요/.test(r) ? 'tag warn' : 'tag', r)); });
+      Object.keys(m.parts).forEach(function (k) { rs.appendChild(el('span', 'tag warn', LABEL[k] + ' ' + m.parts[k])); });
+      row.appendChild(a); row.appendChild(s); row.appendChild(b); row.appendChild(rs);
+      out.appendChild(row);
+    });
+
+    out.appendChild(el('h2', 'sec', '여행자별 후보 (상위 3명)'));
+    rec.forEach(function (r) {
+      var d = el('details', 'trav'); d.appendChild(el('summary', null, r.traveler.name + ' — 후보 ' + r.picks.length + '명'));
+      if (!r.picks.length) d.appendChild(el('p', 'empty', '조건에 맞는 현지인이 없어요.'));
+      r.picks.forEach(function (p) {
+        var row = el('div', 'pick'); row.appendChild(el('span', 'n', p.score)); row.appendChild(el('b', null, p.localName));
+        p.reasons.forEach(function (x) { row.appendChild(el('span', 'tag', x)); });
+        d.appendChild(row);
+      });
+      r.excluded.forEach(function (x) {
+        var row = el('div', 'pick'); row.appendChild(el('span', 'n', '—')); row.appendChild(el('span', null, x.localName));
+        x.blocks.forEach(function (b) { row.appendChild(el('span', 'tag no', b)); });
+        d.appendChild(row);
+      });
+      out.appendChild(d);
+    });
+  }
+
+  document.getElementById('run').addEventListener('click', function () {
+    if (!data.travelers || !data.locals) { alert('두 CSV 파일을 모두 넣어 주세요.'); return; }
+    render(data.travelers, data.locals, false);
+  });
+  document.getElementById('demo').addEventListener('click', function () {
+    render(LOKOI_SAMPLE.travelers, LOKOI_SAMPLE.locals, true);
+  });
+  if (/[?&]demo=1/.test(location.search)) render(LOKOI_SAMPLE.travelers, LOKOI_SAMPLE.locals, true);
+})();
+</script>
+</body>
+</html>

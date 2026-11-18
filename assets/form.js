@@ -11,6 +11,13 @@
 
     if (!cfg.ENDPOINT && warn) warn.hidden = false;
 
+    // 혼자 여행이면 인원 1명으로 맞춤
+    var withSel = form.querySelector('[name="travelling_with"]'), sizeSel = form.querySelector('[name="group_size"]');
+    if (withSel && sizeSel) withSel.addEventListener('change', function () {
+      if (withSel.value === 'Solo') sizeSel.value = '1';
+      else if (sizeSel.value === '1') sizeSel.value = withSel.value === 'Group (5+)' ? '5+' : '2';
+    });
+
     function showError(msg, focusEl) {
       errBox.textContent = msg;
       errBox.hidden = false;
@@ -41,6 +48,20 @@
       // dates
       var a = form.querySelector('[name="arrive"]'), l = form.querySelector('[name="leave"]');
       if (a && l && a.value && l.value && l.value < a.value) return { msg: T('err_dates'), el: l };
+      // 여행자 신청서: 날짜·인원·국가 확인
+      var now = new Date(), today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+      var pd = form.querySelector('[name="preferred_date"]'), here = form.querySelector('[name="in_busan"]:checked');
+      if (l && l.value && l.value < today) return { msg: T('err_past'), el: l };
+      if (a && a.value && a.value < today && !(here && here.value === 'Already here')) return { msg: T('err_past'), el: a };
+      if (pd && pd.value) {
+        if (pd.value < today) return { msg: T('err_past'), el: pd };
+        if (a && l && a.value && l.value && (pd.value < a.value || pd.value > l.value)) return { msg: T('err_range'), el: pd };
+      }
+      var w = form.querySelector('[name="travelling_with"]'), size = form.querySelector('[name="group_size"]'), kids = form.querySelector('[name="kids_ages"]');
+      if (w && size && w.value === 'Solo' && size.value !== '1') return { msg: T('err_solo'), el: size };
+      if (w && kids && w.value === 'Family with kids' && !kids.value.trim()) return { msg: T('err_kids'), el: kids };
+      var country = form.querySelector('[name="country"]');
+      if (country && /^\s*(south\s*)?korea\s*$|^\s*(republic of korea|rok|대한민국|한국|韓國|南韓|kr)\s*$/i.test(country.value)) return { msg: T('err_korea'), el: country };
       var pref = form.querySelector('[name="buddy_pref"]:checked'), g = form.querySelector('[name="gender"]:checked');
       if (pref && pref.value === 'Same gender' && (!g || g.value === 'Prefer not to say')) return { msg: T('err_gender'), el: g };
       return null;

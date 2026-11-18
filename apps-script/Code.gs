@@ -26,7 +26,7 @@ var COLUMNS = {
     'in_busan', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
     'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
     'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult', 'site_lang'],
-  local: ['submitted_at', 'status', 'name', 'age_range', 'gender', 'home_district', 'email', 'contact_id', 'instagram',
+  local: ['submitted_at', 'status', 'name', 'age_range', 'resident_type', 'nationality', 'gender', 'home_district', 'max_group', 'email', 'contact_id', 'instagram',
     'areas', 'activities', 'languages', 'language_level', 'availability', 'intro',
     'source', 'agree_privacy', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang']
 };
@@ -59,7 +59,11 @@ function doPost(e) {
       if (/^[=+\-@]/.test(v)) v = "'" + v;
       return v.slice(0, 2000);
     });
-    sheet.appendRow(row);
+    // 모든 칸을 '일반 텍스트'로 저장: 날짜(2026-12-05)가 시트 날짜로 바뀌거나
+    // 전화번호 010… 의 앞자리 0이 사라지는 문제 방지
+    var range = sheet.getRange(sheet.getLastRow() + 1, 1, 1, row.length);
+    range.setNumberFormat('@');
+    range.setValues([row]);
 
     if (NOTIFY_EMAIL) {
       var who = (data.name || '') + (data.country ? ' (' + data.country + ')' : '');

@@ -14,9 +14,52 @@ t('언어가 안 겹치면 제외', () => {
   assert.ok(r.blocks.includes('대화 언어가 겹치지 않음'));
 });
 
-t('한국어를 하는 여행자는 언어 조건 통과', () => {
-  const r = M.scorePair({ languages: 'Korean' }, { languages: 'English' });
-  assert.strictEqual(r.eligible, true);
+t('한국어를 하는 여행자는 한국인 현지인과 통함, 한국어 안 고른 외국인 거주자와는 안 통함', () => {
+  assert.strictEqual(M.scorePair({ languages: 'Korean' }, { languages: 'English' }).eligible, true);
+  assert.strictEqual(M.scorePair({ languages: 'Korean' }, { languages: 'English', resident_type: 'Foreign resident' }).eligible, false);
+  assert.strictEqual(M.scorePair({ languages: 'Korean' }, { languages: 'English, Korean', resident_type: 'Foreign resident' }).eligible, true);
+});
+
+t('희망 날짜가 여행 기간 밖이면 제외, 배정은 기간 안 날짜로 조정 제안', () => {
+  const tr = { id: 'X', languages: 'English', arrive: '2026-12-05', leave: '2026-12-07', preferred_date: '2026-12-09', activities: 'Sports' };
+  const lo = { id: 'Y', languages: 'English', activities: 'Sports', availability: 'Weekend' };
+  assert.ok(M.scorePair(tr, lo).blocks.includes('희망 날짜가 여행 기간 밖'));
+  const a = M.assign([tr], [lo]);
+  assert.strictEqual(a.matches.length, 1);
+  assert.ok(a.matches[0].altDate >= '2026-12-05' && a.matches[0].altDate <= '2026-12-07');
+});
+
+t('일행 수가 현지인 가능 인원보다 많으면 제외', () => {
+  const r = M.scorePair({ languages: 'English', group_size: '4' }, { languages: 'English', max_group: '2' });
+  assert.strictEqual(r.eligible, false);
+});
+
+t('아이 동반인데 현지인이 아이 동행을 안 고르면 감점+주의', () => {
+  const tr = { languages: 'English', activities: 'Kids & family', travelling_with: 'Family with kids' };
+  const no = M.scorePair(tr, { languages: 'English', activities: 'Sports' });
+  const yes = M.scorePair(tr, { languages: 'English', activities: 'Kids & family' });
+  assert.ok(yes.score > no.score);
+  assert.ok(no.warnings.some(w => w.includes('아이')));
+});
+
+t('한국인 현지인이 같은 조건의 외국인 거주자보다 높게', () => {
+  const tr = { languages: 'Chinese', country: 'Taiwan' };
+  const ko = M.scorePair(tr, { languages: 'Chinese', language_level: 'Fluent' });
+  const tw = M.scorePair(tr, { languages: 'Chinese', language_level: 'Fluent', resident_type: 'Foreign resident', nationality: 'Taiwan' });
+  assert.ok(ko.score > tw.score);
+});
+
+t('시트 날짜 표기(2026. 12. 5)도 읽음, 끝난 신청은 매칭에서 뺌', () => {
+  assert.strictEqual(M.normDate('2026. 12. 5'), '2026-12-05');
+  const rows = [{ status: '신규', leave: '2026-12-10' }, { status: '연결 완료', leave: '2026-12-10' }, { status: '신규', leave: '2026-11-01' }];
+  assert.strictEqual(M.active(rows, '2026-11-18', true).length, 1);
+});
+
+t('현지인 한 명에게 배정이 몰리지 않음 (최대 2건)', () => {
+  const lo = [{ id: 'L', languages: 'English', activities: 'Sports' }, { id: 'M', languages: 'English' }];
+  const tr = [1, 2, 3].map(i => ({ id: 'T' + i, languages: 'English', activities: 'Sports', preferred_date: '2026-12-0' + i }));
+  const a = M.assign(tr, lo, { minScore: 1 });
+  assert.ok(a.matches.filter(m => m.localId === 'L').length <= 2);
 });
 
 t('같은 성별 조건', () => {

@@ -87,7 +87,7 @@
 <script>
 (function () {
   var data = { travelers: null, locals: null };
-  var LABEL = { activity: '활동', area: '지역', time: '시간', level: '언어', balance: '배분' };
+  var LABEL = { activity: '활동', area: '지역', time: '시간', level: '언어', local: '한국인', balance: '배분' };
 
   function el(tag, cls, text) {
     var e = document.createElement(tag);
@@ -110,7 +110,11 @@
 
   function render(travelers, locals, demo) {
     var out = document.getElementById('out'); out.textContent = '';
-    var opts = { onlyVerified: document.getElementById('verified').checked };
+    var now = new Date(), today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var allT = travelers.length, allL = locals.length;
+    travelers = LokoMatch.active(travelers, demo ? '' : today, true);
+    locals = LokoMatch.active(locals, '', false);
+    var opts = { onlyVerified: document.getElementById('verified').checked, today: demo ? '' : today };
     var res = LokoMatch.assign(travelers, locals, opts);
     var rec = LokoMatch.recommend(travelers, locals, opts);
     var T = byId(travelers), L = byId(locals);
@@ -120,17 +124,19 @@
     [[travelers.length, '여행자 신청'], [locals.length, '현지인'], [res.matches.length, '배정 완료'], [res.unmatched.length, '배정 안 됨']]
       .forEach(function (s) { var d = el('div', 'stat'); d.appendChild(el('b', null, s[0])); d.appendChild(el('span', null, s[1])); stats.appendChild(d); });
     out.appendChild(stats);
+    if (allT - travelers.length || allL - locals.length) out.appendChild(el('p', 'empty', '연결 완료·취소·보류이거나 여행이 끝난 신청 ' + (allT - travelers.length + allL - locals.length) + '건은 빼고 매칭했어요.'));
 
     out.appendChild(el('h2', 'sec', '추천 배정안'));
     if (!res.matches.length) out.appendChild(el('p', 'empty', '조건에 맞는 배정이 없어요.'));
     res.matches.forEach(function (m) {
       var t = T[m.travelerId], l = L[m.localId];
       var row = el('div', 'match');
-      var a = el('div', 'who'); a.appendChild(el('b', null, t.name)); a.appendChild(el('small', null, (t.preferred_date || '날짜 미정') + ' · ' + (t.activities || '')));
+      var a = el('div', 'who'); a.appendChild(el('b', null, t.name)); a.appendChild(el('small', null, (m.altDate ? m.altDate + ' (조정)' : (t.preferred_date || '날짜 미정')) + ' · ' + (t.country || '') + ' · ' + (t.group_size || '1') + '명 · ' + (t.activities || '')));
       var s = el('div', 'score'); s.appendChild(el('b', null, m.score)); var meter = el('div', 'meter'); var i = el('i'); i.style.width = m.score + '%'; meter.appendChild(i); s.appendChild(meter);
       var b = el('div', 'who'); b.appendChild(el('b', null, l.name)); b.appendChild(el('small', null, (l.languages || '') + ' · ' + (l.areas || '')));
       var rs = el('div', 'reasons');
       m.reasons.forEach(function (r) { rs.appendChild(el('span', /확인 필요/.test(r) ? 'tag warn' : 'tag', r)); });
+      (m.warnings || []).forEach(function (w) { rs.appendChild(el('span', 'tag warn', '⚠ ' + w)); });
       Object.keys(m.parts).forEach(function (k) { rs.appendChild(el('span', 'tag part', LABEL[k] + ' ' + m.parts[k])); });
       row.appendChild(a); row.appendChild(s); row.appendChild(b); row.appendChild(rs);
       out.appendChild(row);
@@ -143,6 +149,7 @@
       r.picks.forEach(function (p) {
         var row = el('div', 'pick'); row.appendChild(el('span', 'n', p.score)); row.appendChild(el('b', null, p.localName));
         p.reasons.forEach(function (x) { row.appendChild(el('span', 'tag', x)); });
+        (p.warnings || []).forEach(function (w) { row.appendChild(el('span', 'tag warn', '⚠ ' + w)); });
         d.appendChild(row);
       });
       r.excluded.forEach(function (x) {

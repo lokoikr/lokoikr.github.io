@@ -108,7 +108,9 @@
 
   function byId(list) { var m = {}; list.forEach(function (x) { m[x.id] = x; }); return m; }
 
+  var last = null;
   function render(travelers, locals, demo) {
+    last = [travelers, locals, demo];
     var out = document.getElementById('out'); out.textContent = '';
     var now = new Date(), today = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
     var allT = travelers.length, allL = locals.length;
@@ -124,6 +126,8 @@
     [[travelers.length, '여행자 신청'], [locals.length, '현지인'], [res.matches.length, '배정 완료'], [res.unmatched.length, '배정 안 됨']]
       .forEach(function (s) { var d = el('div', 'stat'); d.appendChild(el('b', null, s[0])); d.appendChild(el('span', null, s[1])); stats.appendChild(d); });
     out.appendChild(stats);
+    var verifiedN = locals.filter(function (l) { return /확인 완료|verified/i.test(l.status || ''); }).length;
+    if (opts.onlyVerified && verifiedN < locals.length) out.appendChild(el('p', 'form-msg warn', '신원 확인 전 현지인 ' + (locals.length - verifiedN) + '명은 빠졌어요. 영상통화·신분 확인을 마치면 시트 status를 "확인 완료"로 바꿔 주세요. 미리 보려면 위의 체크를 끄세요.'));
     if (allT - travelers.length || allL - locals.length) out.appendChild(el('p', 'empty', '연결 완료·취소·보류이거나 여행이 끝난 신청 ' + (allT - travelers.length + allL - locals.length) + '건은 빼고 매칭했어요.'));
 
     out.appendChild(el('h2', 'sec', '추천 배정안'));
@@ -187,6 +191,7 @@
       .catch(function () { msg.textContent = '불러오지 못했어요. 인터넷 연결이나 배포 주소를 확인해 주세요.'; });
   });
 
+  document.getElementById('verified').addEventListener('change', function () { if (last) render(last[0], last[1], last[2]); });
   if (/[?&]demo=1/.test(location.search)) render(LOKOI_SAMPLE.travelers, LOKOI_SAMPLE.locals, true);
 })();
 </script>

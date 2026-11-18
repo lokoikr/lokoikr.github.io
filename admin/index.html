@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
-  .admin { padding: 32px 0 80px; }
+  .admin { padding-top: 32px; padding-bottom: 80px; }
   .admin h1 { font-family: var(--font-head); font-size: clamp(30px, 5vw, 44px); letter-spacing: -1px; margin: 0 0 6px; }
   .lead { color: var(--ink-3); margin: 0 0 24px; }
   .panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: #fff; }
@@ -37,6 +37,7 @@
   .tag { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--accent-soft); color: var(--accent-ink); }
   .tag.warn { background: #FFF5DA; color: #6B4A00; }
   .tag.no { background: #FDECEC; color: var(--danger); }
+  .tag.part { background: var(--bg-soft); color: var(--ink-3); }
   details.trav { border: 1px solid var(--line); border-radius: 14px; padding: 0 16px; margin-bottom: 8px; background: #fff; }
   details.trav summary { cursor: pointer; padding: 14px 0; font-weight: 700; min-height: 44px; }
   .pick { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
@@ -120,7 +121,7 @@
       var b = el('div', 'who'); b.appendChild(el('b', null, l.name)); b.appendChild(el('small', null, (l.languages || '') + ' · ' + (l.areas || '')));
       var rs = el('div', 'reasons');
       m.reasons.forEach(function (r) { rs.appendChild(el('span', /확인 필요/.test(r) ? 'tag warn' : 'tag', r)); });
-      Object.keys(m.parts).forEach(function (k) { rs.appendChild(el('span', 'tag warn', LABEL[k] + ' ' + m.parts[k])); });
+      Object.keys(m.parts).forEach(function (k) { rs.appendChild(el('span', 'tag part', LABEL[k] + ' ' + m.parts[k])); });
       row.appendChild(a); row.appendChild(s); row.appendChild(b); row.appendChild(rs);
       out.appendChild(row);
     });

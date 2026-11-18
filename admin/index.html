@@ -64,6 +64,7 @@
       <button class="btn btn-primary btn-sm" id="load" type="button">시트에서 불러와 매칭</button>
     </div>
     <p class="note" id="loadMsg">신청서 시트에서 바로 읽어 와요. 키는 이 브라우저에만 저장돼요.</p>
+    <label class="check" style="margin-top:8px"><input type="checkbox" id="verified" checked><span>신원 확인 완료(status = 확인 완료)인 현지인만 배정</span></label>
   </div>
 
   <details class="panel" style="padding:12px 20px"><summary style="cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center">CSV 파일로 넣기 (시트 연결 전 / 예비용)</summary>
@@ -72,7 +73,6 @@
       <div><label for="fL">② 현지인 등록 CSV</label><input id="fL" type="file" accept=".csv,text/csv"></div>
     </div>
     <div class="bar-row">
-      <label class="check"><input type="checkbox" id="verified" checked><span>신원 확인 완료(status = 확인 완료)인 현지인만</span></label>
       <button class="btn btn-primary btn-sm" id="run" type="button">매칭 실행</button>
       <button class="btn btn-dark btn-sm" id="demo" type="button">예시 데이터로 보기</button>
     </div>

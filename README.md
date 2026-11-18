@@ -9,11 +9,26 @@
 | `local.html` | 현지인 등록 신청서 |
 | `privacy.html` | 개인정보 처리방침 |
 | `activities.html` | 활동별 로컬 추천 (6개 분야, 18곳) |
-| `admin/index.html` | 매칭 관리 화면 (시트 CSV를 넣으면 추천 배정안) · `?demo=1`로 예시 보기 |
+| `admin/index.html` | 매칭 관리 화면 (관리자 키로 시트를 불러와 추천 배정안) · `?demo=1`로 예시 보기 |
 | `assets/match.js` | 매칭 엔진 (언어·성별 조건 + 활동·지역·시간·언어 수준 점수) · 테스트 `node tests/match.test.js` |
 | `dm-agent/` | 인스타 DM 다국어 AI 자동 응대 서버 (자세한 내용은 `dm-agent/README.md`) |
 
 신청서 내용은 구글 시트에 저장됩니다. 서버 비용은 0원입니다.
+
+## 지금 상태 (2026-11-18)
+
+사이트·신청서·시트·매칭 화면 모두 연결 완료. 아래 링크만 공유하면 바로 신청을 받을 수 있어요.
+
+| 용도 | 링크 |
+|---|---|
+| 홈 (인스타 프로필) | https://minucoo.github.io/loko-i-web/ |
+| 여행자 신청 · 영어 | https://minucoo.github.io/loko-i-web/apply.html?lang=en |
+| 여행자 신청 · 대만 | https://minucoo.github.io/loko-i-web/apply.html?lang=zh |
+| 현지인 등록 · 한국어 | https://minucoo.github.io/loko-i-web/local.html?lang=ko |
+
+링크를 카톡·인스타에 붙이면 미리보기 이미지(`assets/img/og.jpg`, 현지인용 `og-local.jpg`)가 떠요.
+
+운영 순서: 시트에 `신규`로 쌓임 → 현지인은 영상통화·신분 확인 후 `확인 완료` → 매칭 화면에서 추천안 확인 → 연결 후 `연결 완료`(다음 매칭에서 자동 제외).
 
 ## 1. 사이트 공개하기 (GitHub Pages)
 

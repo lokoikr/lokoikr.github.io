@@ -178,6 +178,23 @@
     nav.appendChild(back); nav.appendChild(next); nav.appendChild(btn);
     actions.parentNode.insertBefore(nav, actions.nextSibling);
 
+    // 마지막 단계: 상대에게 보일 내 소개 카드 미리보기
+    var pv = form.querySelector('[data-pcard]');
+    function renderPreview() {
+      if (!pv || !window.LokoCard) return;
+      var row = {};
+      new FormData(form).forEach(function (v, k) { if (!(v instanceof File)) row[k] = row[k] ? row[k] + ', ' + v : v; });
+      pv.textContent = '';
+      pv.appendChild(LokoCard.build(row, type, document.documentElement.getAttribute('data-lang') || 'en', photoData, { preview: true }));
+    }
+
+    // '한국어로 대화 가능'을 고르면 언어에 한국어도 체크
+    form.addEventListener('change', function (e) {
+      if (e.target.name === 'korean_level' && e.target.value === 'Conversational') {
+        var k = form.querySelector('[name="languages"][value="Korean"]'); if (k) k.checked = true;
+      }
+    });
+
     function show(i, focus) {
       step = Math.max(0, Math.min(steps.length - 1, i));
       steps.forEach(function (fs, j) { fs.hidden = j !== step; });
@@ -187,6 +204,7 @@
       var lg = steps[step].querySelector('legend');
       title.textContent = lg ? lg.textContent.replace(/^\d+\.\s*/, '') : '';
       fill.style.width = ((step + 1) / steps.length * 100) + '%';
+      if (last) renderPreview();
       errBox.hidden = true;
       if (focus) {
         var y = top.getBoundingClientRect().top + window.pageYOffset - 76;

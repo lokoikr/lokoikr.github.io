@@ -17,13 +17,17 @@ window.LOKOI_SAMPLE = {
    "areas": "Nampo / Jung-gu",
    "stay_area": "Nampo / Jung-gu",
    "preferred_date": "2026-12-05",
-   "time_slots": "Afternoon",
    "buddy_pref": "Same gender",
    "gender": "Woman",
    "travelling_with": "Solo",
    "group_size": "1",
    "about_me": "Grad student from Taipei, love film cameras and street food.",
-   "photo_id": "p1"
+   "photo_id": "p1",
+   "first_visit": "First time in Busan",
+   "korean_level": "A little",
+   "budget": "Normal",
+   "site_lang": "zh",
+   "time_slots": "Afternoon"
   },
   {
    "arrive": "2026-12-04",
@@ -96,7 +100,11 @@ window.LOKOI_SAMPLE = {
    "group_size": "4",
    "kids_ages": "6, 9",
    "about_me": "Family of four, kids love the beach.",
-   "notes": "Kids are allergic to peanuts"
+   "notes": "Kids are allergic to peanuts",
+   "first_visit": "First time in Korea",
+   "korean_level": "None",
+   "budget": "Light",
+   "photo_id": "p6"
   },
   {
    "arrive": "2026-12-04",
@@ -234,7 +242,12 @@ window.LOKOI_SAMPLE = {
    "max_group": "2",
    "intro": "남포동에서 나고 자랐어요. 시장 골목 맛집을 소개하고 싶어요.",
    "photo_id": "p2",
-   "fill_seconds": "240"
+   "fill_seconds": "240",
+   "busan_years": "Born here",
+   "occupation": "출판사 편집자",
+   "fav_spot": "깡통시장 안 유부주머니 노점",
+   "buddy_pref": "Same gender",
+   "name_en": "Jieun"
   },
   {
    "id": "L2",
@@ -255,7 +268,10 @@ window.LOKOI_SAMPLE = {
    "max_group": "5+",
    "intro": "롯데 자이언츠 20년차 팬입니다. 사직구장 응원 같이 가요!",
    "photo_id": "p3",
-   "fill_seconds": "200"
+   "fill_seconds": "200",
+   "busan_years": "Born here",
+   "occupation": "회사원",
+   "fav_spot": "사직구장 1루 응원석"
   },
   {
    "id": "L3",
@@ -298,7 +314,10 @@ window.LOKOI_SAMPLE = {
    "max_group": "4",
    "intro": "PKNU grad student from Taichung. Lived in Busan 4 years.",
    "photo_id": "p5",
-   "fill_seconds": "260"
+   "fill_seconds": "260",
+   "busan_years": "3-10 years",
+   "occupation": "Grad student",
+   "fav_spot": "Gwangalli night drone show spot on the stairs"
   },
   {
    "id": "L5",

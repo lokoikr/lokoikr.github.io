@@ -36,7 +36,7 @@
     'Yeongdo': ['Nampo / Jung-gu'],
     'Gijang / Songjeong': ['Haeundae / Centum']
   };
-  var DONE = ['연결 완료', '완료', '취소', '보류', '중지', 'done', 'cancelled'];
+  var DONE = ['연결 완료', '완료', '취소', '보류', '중지', 'done', 'cancelled'];  // '소개 보냄'은 아직 진행 중이라 포함 안 함
 
   // '2026-12-05', '2026. 12. 5', '2026/12/5' → '2026-12-05'
   function normDate(v) {
@@ -80,6 +80,7 @@
 
     // 1) 언어 (필수). 한국어는 한국인 현지인 또는 한국어를 고른 외국인 거주자와만 통함
     var tl = list(t.languages), ll = list(l.languages);
+    if (clean(t.korean_level) === 'Conversational' && tl.indexOf('Korean') === -1) tl.push('Korean');
     if (speaksKoreanL(l) && ll.indexOf('Korean') === -1) ll.push('Korean');
     var common = overlap(tl, ll);
     var foreignOnly = overlap(common, ['English', 'Chinese', 'Japanese']);
@@ -89,6 +90,12 @@
     if (/same/i.test(t.buddy_pref || '')) {
       var tg = clean(t.gender), lg = clean(l.gender);
       if (!tg || /prefer not/i.test(tg) || tg !== lg) blocks.push('같은 성별 조건 불일치');
+    }
+
+    // 2-1) 현지인이 '같은 성별만'을 골랐으면 여행자 성별이 같아야 함 (필수)
+    if (/same/i.test(l.buddy_pref || '')) {
+      var tg2 = clean(t.gender), lg2 = clean(l.gender);
+      if (!lg2 || /prefer not/i.test(lg2) || tg2 !== lg2) blocks.push('현지인이 같은 성별만 원함');
     }
 
     // 3) 날짜가 여행 기간 안인지 (필수)

@@ -106,4 +106,27 @@ t('CSV 파싱: 따옴표 안 쉼표와 줄바꿈', () => {
   assert.strictEqual(rows[0].intro, 'hi\nthere');
 });
 
+t('현지인이 같은 성별만 원하면 다른 성별 여행자 제외', () => {
+  const lo = { languages: 'English', gender: 'Woman', buddy_pref: 'Same gender' };
+  assert.strictEqual(M.scorePair({ languages: 'English', gender: 'Man' }, lo).eligible, false);
+  assert.strictEqual(M.scorePair({ languages: 'English', gender: 'Woman' }, lo).eligible, true);
+});
+
+t('한국어 대화 가능 여행자는 한국어로도 통함', () => {
+  assert.strictEqual(M.scorePair({ languages: 'English', korean_level: 'Conversational' }, { languages: 'Japanese' }).eligible, true);
+});
+
+const C = require('../assets/card.js');
+t('소개 카드: 성 빼고 이름, 연락처는 절대 안 넣음', () => {
+  assert.strictEqual(C.firstName('김지은'), '지은');
+  assert.strictEqual(C.firstName('Mei Lin'), 'Mei');
+  const tr = { name: 'Mei Lin', country: 'Taiwan', email: 'mei@x.com', contact_id: 'meiline', about_me: 'hi', preferred_date: '2026-12-05', activities: 'Food & markets' };
+  const lo = { name: '김지은', email: 'j@x.com', contact_id: '010-1111-2222', intro: '안녕', busan_years: 'Born here', languages: 'Chinese' };
+  for (const [to, lang] of [['traveler', 'en'], ['traveler', 'zh'], ['local', 'ko']]) {
+    const m = C.message(tr, lo, to, lang);
+    assert.ok(!/@x\.com|010-1111|meiline|Lin\b|김지은/.test(m), to + lang);
+  }
+  assert.ok(C.message(tr, lo, 'traveler', 'zh').includes('釜山土生土長'));
+});
+
 console.log(`\n${n} tests passed`);

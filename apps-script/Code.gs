@@ -23,13 +23,13 @@ function book_() {
 // 시트별 열 순서 (여기 없는 항목은 맨 뒤에 자동으로 추가됩니다)
 var COLUMNS = {
   traveler: ['submitted_at', 'status', 'name', 'country', 'age_range', 'email', 'contact_method', 'contact_id',
-    'in_busan', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
-    'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'buddy_pref', 'gender',
-    'about_me', 'notes', 'photo_id', 'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult',
+    'in_busan', 'first_visit', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
+    'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'korean_level', 'buddy_pref', 'gender',
+    'about_me', 'budget', 'notes', 'photo_id', 'source', 'photo_ok', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_adult',
     'site_lang', 'fill_seconds'],
-  local: ['submitted_at', 'status', 'name', 'age_range', 'resident_type', 'nationality', 'gender', 'home_district', 'max_group', 'email', 'contact_id', 'instagram',
-    'areas', 'activities', 'languages', 'language_level', 'availability', 'frequency', 'intro', 'photo_id',
-    'source', 'agree_privacy', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang', 'fill_seconds']
+  local: ['submitted_at', 'status', 'name', 'name_en', 'age_range', 'resident_type', 'nationality', 'busan_years', 'occupation', 'gender', 'home_district', 'max_group', 'email', 'contact_id', 'instagram',
+    'areas', 'activities', 'languages', 'language_level', 'availability', 'frequency', 'buddy_pref', 'fav_spot', 'intro', 'photo_id',
+    'source', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang', 'fill_seconds']
 };
 var SHEET_NAMES = { traveler: '여행자 신청', local: '현지인 등록' };
 

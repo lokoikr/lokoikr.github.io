@@ -81,6 +81,25 @@
           <input id="nat" name="nationality" type="text" autocomplete="country-name">
         </div>
         <div class="field">
+          <label for="nameen"><span data-i18n="lc_nameen">Name travelers can call you</span> <span class="opt" data-i18n="opt">(optional)</span></label>
+          <span class="hint" data-i18n="lc_nameen_hint">In English letters, e.g. Jieun or Jay. Shown on your intro card instead of your full name.</span>
+          <input id="nameen" name="name_en" type="text" maxlength="20" autocapitalize="words">
+        </div>
+        <div class="field">
+          <label for="years"><span data-i18n="lc_years">How long have you lived in Busan?</span><span class="req">*</span></label>
+          <select id="years" name="busan_years" required>
+            <option value="" data-i18n="lc_years0">Choose one</option>
+            <option value="Born here" data-i18n="yr1">Born and raised in Busan</option>
+            <option value="10+ years" data-i18n="yr2">10+ years</option>
+            <option value="3-10 years" data-i18n="yr3">3–10 years</option>
+            <option value="Under 3 years" data-i18n="yr4">Under 3 years</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="job"><span data-i18n="lc_job">What do you do?</span> <span class="opt" data-i18n="opt">(optional)</span></label>
+          <input id="job" name="occupation" type="text" maxlength="40" data-i18n-ph="lc_job_ph" placeholder="e.g. university student, nurse, designer">
+        </div>
+        <div class="field">
           <span class="label" id="l-g" data-i18n="lc_gender">Gender</span>
           <span class="hint" data-i18n="lc_gender_hint">Only used when a traveler asks for a same-gender buddy.</span>
           <div class="choices" role="radiogroup" aria-labelledby="l-g">
@@ -167,9 +186,22 @@
           </select>
         </div>
         <div class="field">
+          <span class="label" id="l-buddy_pref"><span data-i18n="lc_bp">Who would you like to meet?</span></span>
+          <span class="hint" data-i18n="lc_bp_hint">Choose "same gender" and we only match you with travelers of your gender.</span>
+          <div class="choices" role="radiogroup" aria-labelledby="l-buddy_pref">
+            <label class="chip"><input type="radio" name="buddy_pref" value="No preference" checked><span data-i18n="ap_g1">No preference</span></label>
+            <label class="chip"><input type="radio" name="buddy_pref" value="Same gender"><span data-i18n="lc_bp2">Same gender as me only</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="spot"><span data-i18n="lc_spot">One spot you love to show</span> <span class="opt" data-i18n="opt">(optional)</span></label>
+          <input id="spot" name="fav_spot" type="text" maxlength="80" data-i18n-ph="lc_spot_ph" placeholder="e.g. a pork soup place behind Seomyeon market">
+        </div>
+        <div class="field">
           <label for="intro"><span data-i18n="lc_intro">Say hi in a few lines</span><span class="req">*</span></label>
           <span class="hint" data-i18n="lc_intro_hint">What do you love about Busan, and why do you want to meet travelers?</span>
           <textarea id="intro" name="intro" minlength="20" maxlength="400" required></textarea>
+          <span class="hint" data-i18n="lc_intro_lang">Travelers read this in English or Chinese. Writing in English helps, but Korean is fine too; we'll translate it.</span>
           <span class="hint" data-i18n="lc_intro_rule">Travelers read this. Please leave out phone numbers, links and prices; we share contacts after matching.</span>
         </div>
         <div class="field photo-field" data-photo>
@@ -204,10 +236,15 @@
 
       <fieldset>
         <legend data-ic="shield" data-i18n="ap_sec4">4. Agreements</legend>
+        <div class="preview" data-preview>
+          <p class="preview-t" data-i18n="pv_title_l">This is what your traveler will see</p>
+          <div class="pcard" data-pcard></div>
+          <p class="hint" data-i18n="pv_note_l">Your email and KakaoTalk/phone stay private until you both say yes.</p>
+        </div>
         <div class="consent">
           <details><summary data-i18n="c_priv_t">Personal information (required)</summary>
             <ul>
-              <li data-i18n="lc_priv1">We collect: name, age range, Korean or foreign resident (and nationality), gender, areas, activities, languages, availability, how often you can meet, introduction, email, KakaoTalk ID or phone, Instagram. Optional: your photo.</li>
+              <li data-i18n="lc_priv1">We collect: name, name for travelers, age range, Korean or foreign resident (and nationality), gender, areas, activities, languages, years in Busan, availability, how often you can meet, who you'd like to meet, introduction, email, KakaoTalk ID or phone, Instagram. Optional: what you do, favorite spot, your photo.</li>
               <li data-i18n="lc_priv2">Why: to check identity, match you with travelers, contact you about meetups and keep everyone safe.</li>
               <li data-i18n="c_priv3">How long: 1 year from submission, or deleted right away when you ask.</li>
               <li data-i18n="c_priv4">Where: stored in Google Sheets and Google Drive (Google LLC, servers outside Korea).</li>
@@ -226,6 +263,16 @@
             </ul>
           </details>
           <label class="check"><input type="checkbox" name="agree_safety" value="Yes" required><span data-i18n="c_agree_safe">I will follow the safety rules.</span></label>
+        </div>
+        <div class="consent">
+          <details><summary data-i18n="lc_third_t">Sharing with your matched traveler (required)</summary>
+            <ul>
+              <li data-i18n="lc_third1">Shared with: only the traveler we match you with.</li>
+              <li data-i18n="lc_third2">What: first name, photo, age range, years in Busan, what you do, languages, intro and favorite spot. Your KakaoTalk or phone is shared only after you both say yes.</li>
+              <li data-i18n="lc_third3">Why: so the traveler can decide and recognize you. We ask travelers to delete it within 7 days after the meetup.</li>
+            </ul>
+          </details>
+          <label class="check"><input type="checkbox" name="agree_share" value="Yes" required><span data-i18n="lc_agree_third">I agree to share my profile with my matched traveler (contact only after we both say yes).</span></label>
         </div>
         <label class="check"><input type="checkbox" name="agree_id" value="Yes" required><span data-i18n="lc_id">I agree to a short video call and an ID check (Korean ID or residence card) before my first meetup. We never keep ID numbers.</span></label>
         <label class="check"><input type="checkbox" name="agree_adult" value="Yes" required><span data-i18n="lc_adult">I am 19 or older and live in Busan.</span></label>
@@ -265,6 +312,7 @@
 </footer>
 <script src="assets/config.js"></script>
 <script src="assets/i18n.js"></script>
+<script src="assets/card.js"></script>
 <script src="assets/form.js"></script>
 <script>
 // 외국인 거주자를 고르면 국적 칸과 한국어 선택지를 보여 줌

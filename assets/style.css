@@ -407,3 +407,23 @@ html[data-lang="ko"] h1, html[data-lang="ko"] h2, html[data-lang="ko"] h3 { word
   .page-head p { font-size: 16px; }
 }
 .form-done .ph-photo, .form-done .ph-points, .form-done .page-head p { display: none; }
+
+/* ---------- intro card (preview + operator) ---------- */
+.lk-card { width: 100%; max-width: 380px; background: #fff; border-radius: 22px; box-shadow: 0 1px 0 rgba(17,17,20,.04), 0 10px 30px rgba(17,17,20,.10); padding: 20px; box-sizing: border-box; font-family: var(--font-body); color: var(--ink); }
+.lk-card-head { display: flex; gap: 14px; align-items: center; }
+.lk-card-photo { flex: none; width: 84px; height: 84px; border-radius: 20px; background: var(--accent-soft) center / cover no-repeat; display: grid; place-items: center; font: 800 34px var(--font-head); color: var(--accent-ink); }
+.lk-card-who { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.lk-card-who b { font: 800 24px/1.15 var(--font-head); letter-spacing: -.3px; }
+.lk-card-who small { color: var(--ink-3); font-size: 14px; line-height: 1.4; }
+.lk-card-badge { align-self: flex-start; background: #E6F6EF; color: #137A50; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+.lk-card-quote { margin: 16px 0 0; background: #F5F8FF; border-radius: 14px; padding: 12px 14px; font-size: 15px; line-height: 1.55; }
+.lk-card-facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 7px 12px; margin: 14px 0 0; font-size: 14px; line-height: 1.45; }
+.lk-card-facts dt { color: var(--ink-3); white-space: nowrap; }
+.lk-card-facts dd { margin: 0; overflow-wrap: anywhere; }
+.lk-card-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-3); }
+.lk-card-logo { font: 800 15px var(--font-head); color: var(--ink); }
+.preview { background: var(--bg-soft); border-radius: 18px; padding: 16px; margin-bottom: 18px; }
+.preview-t { font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+.preview-t::before { content: "👀"; }
+.preview .hint { margin: 10px 0 0; }
+.photo-ic::before { display: block; }

@@ -68,7 +68,13 @@ async function t(name, fn) { await fn(); n++; console.log('ok -', name); }
 
   const commentBody = (id, text, from = 'u1', media = 'm1') => ({ entry: [{ id: 'me', changes: [{ field: 'comments', value: { id, text, from: { id: from, username: 'x' }, media: { id: media } } }] }] });
 
-  await t('댓글: 키워드 있으면 언어 맞춰 링크 DM, 없으면 무시', () => {
+  await t('댓글: 기본은 아무 댓글에나 언어 맞춰 링크 DM', () => {
+    const [c0] = A.extractComments(commentBody('c0', 'so pretty 😍', 'u0'), new Set(), 'me');
+    assert.ok(A.planCommentReply(c0, new Set()).dm.includes('lang=en'));
+  });
+
+  await t('댓글: 키워드 모드면 키워드 있을 때만, 언어 맞춰 링크 DM', () => {
+    process.env.COMMENT_MODE = 'keyword';
     const sent = new Set();
     const [c1] = A.extractComments(commentBody('c1', 'BUSAN 🙌'), new Set(), 'me');
     const p1 = A.planCommentReply(c1, sent);
@@ -79,6 +85,7 @@ async function t(name, fn) { await fn(); n++; console.log('ok -', name); }
     assert.ok(A.planCommentReply(c3, sent).dm.includes('local.html'));
     const [c4] = A.extractComments(commentBody('c4', 'nice photo', 'u4'), new Set(), 'me');
     assert.strictEqual(A.planCommentReply(c4, sent), null);
+    delete process.env.COMMENT_MODE;
   });
 
   await t('댓글: 내 댓글·같은 댓글·같은 사람 같은 게시물 중복은 1번만', () => {

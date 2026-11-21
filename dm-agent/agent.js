@@ -111,8 +111,10 @@ function matchesKeyword(text, keywords) {
 }
 
 // 댓글 1건 → 보낼 DM (키워드 없거나 같은 게시물에 이미 보낸 사람이면 null)
-function planCommentReply(c, sentPairs, keywords) {
-  if (!matchesKeyword(c.text, keywords)) return null;
+// mode 'any'(기본): 모든 댓글에 1번 · 'keyword': 키워드 댓글에만
+// (계정 정지 예방 결정 2026-11-07: 같은 키워드 반복 유도는 봇으로 보일 수 있어 '아무 댓글이나'가 기본)
+function planCommentReply(c, sentPairs, keywords, mode) {
+  if ((mode || process.env.COMMENT_MODE || 'any') === 'keyword' && !matchesKeyword(c.text, keywords)) return null;
   const pair = (c.userId || c.commentId) + '|' + (c.mediaId || '');
   if (sentPairs && sentPairs.has(pair)) return null;
   if (sentPairs) sentPairs.add(pair);

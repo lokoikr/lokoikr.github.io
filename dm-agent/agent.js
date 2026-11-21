@@ -88,4 +88,61 @@ async function sendDM(recipientId, text, { igToken, graphVersion, fetchImpl }) {
   if (!res.ok) throw new Error('Instagram send ' + res.status + ' ' + (await res.text()).slice(0, 200));
 }
 
-module.exports = { detectLang, classify, verifySignature, extractMessages, handleMessage, sendDM, askClaude };
+// ---------- 댓글 → DM (인스타 '비공개 답장') ----------
+// 웹훅 'comments' 필드에서 처리할 댓글만 뽑기 (내 댓글·중복 제외)
+function extractComments(body, seen, selfId) {
+  const out = [];
+  for (const entry of (body && body.entry) || []) {
+    for (const ch of entry.changes || []) {
+      if (ch.field !== 'comments' || !ch.value) continue;
+      const v = ch.value, from = v.from || {};
+      if (!v.id || !v.text) continue;
+      if (selfId && (from.id === selfId || entry.id === from.id)) continue;
+      if (seen) { if (seen.has(v.id)) continue; seen.add(v.id); }
+      out.push({ commentId: v.id, text: String(v.text).slice(0, 500), userId: from.id, username: from.username, mediaId: v.media && v.media.id });
+    }
+  }
+  return out;
+}
+
+function matchesKeyword(text, keywords) {
+  const s = String(text || '').toLowerCase();
+  return (keywords || K.COMMENT_KEYWORDS).some(k => s.includes(k));
+}
+
+// 댓글 1건 → 보낼 DM (키워드 없거나 같은 게시물에 이미 보낸 사람이면 null)
+function planCommentReply(c, sentPairs, keywords) {
+  if (!matchesKeyword(c.text, keywords)) return null;
+  const pair = (c.userId || c.commentId) + '|' + (c.mediaId || '');
+  if (sentPairs && sentPairs.has(pair)) return null;
+  if (sentPairs) sentPairs.add(pair);
+  // 한글 댓글 → 부산 사는 사람일 가능성이 커서 현지인 등록 링크
+  const lang = detectLang(c.text);
+  const kind = classify(c.text);
+  // 데이트·돈 목적 댓글엔 링크를 보내지 않고 담당자에게만 알림
+  if (kind === 'dating' || kind === 'money') return { lang, dm: null, notify: kind, publicReply: null };
+  return { lang, dm: K.COMMENT_DM[lang], notify: kind, publicReply: K.PUBLIC_REPLY[lang][Math.floor(Math.random() * K.PUBLIC_REPLY[lang].length)] };
+}
+
+async function sendPrivateReply(commentId, text, { igToken, graphVersion, fetchImpl }) {
+  const url = `https://graph.instagram.com/${graphVersion || 'v21.0'}/me/messages`;
+  const res = await (fetchImpl || fetch)(url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${igToken}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ recipient: { comment_id: commentId }, message: { text } })
+  });
+  if (!res.ok) throw new Error('Private reply ' + res.status + ' ' + (await res.text()).slice(0, 200));
+}
+
+async function replyToComment(commentId, text, { igToken, graphVersion, fetchImpl }) {
+  const url = `https://graph.instagram.com/${graphVersion || 'v21.0'}/${encodeURIComponent(commentId)}/replies`;
+  const res = await (fetchImpl || fetch)(url, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${igToken}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ message: text })
+  });
+  if (!res.ok) throw new Error('Comment reply ' + res.status);
+}
+
+module.exports = { detectLang, classify, verifySignature, extractMessages, handleMessage, sendDM, askClaude,
+  extractComments, matchesKeyword, planCommentReply, sendPrivateReply, replyToComment };

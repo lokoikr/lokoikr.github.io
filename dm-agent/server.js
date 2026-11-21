@@ -13,6 +13,7 @@ const ctx = {
   firstContact: new Set()
 };
 const seen = new Set();
+const seenComments = new Set(), sentPairs = new Set();
 
 function log(...a) { console.log(new Date().toISOString(), ...a); }
 
@@ -54,6 +55,22 @@ const server = http.createServer((req, res) => {
           await A.sendDM(msg.senderId, out.reply, ctx);
           log('replied', out.lang, out.notify || 'ai');
         } catch (e) { log('error', e.message); }
+      }
+      // 댓글 → 링크 DM (COMMENT_DM=1 일 때만)
+      if (env.COMMENT_DM === '1') {
+        for (const c of A.extractComments(body, seenComments, env.IG_USER_ID)) {
+          try {
+            const plan = A.planCommentReply(c, sentPairs);
+            if (!plan) continue;
+            if (plan.notify) await notifyTeam({ kind: 'comment_' + plan.notify, lang: plan.lang, text: c.text, sender: c.username });
+            if (!plan.dm) continue;
+            if (env.DRY_RUN === '1') { log('DRY_RUN comment DM', c.username, plan.lang); continue; }
+            await A.sendPrivateReply(c.commentId, plan.dm, ctx);
+            if (env.PUBLIC_REPLY === '1') await A.replyToComment(c.commentId, plan.publicReply, ctx).catch(e => log('public reply failed', e.message));
+            log('comment DM sent', plan.lang);
+          } catch (e) { log('comment error', e.message); }
+        }
+        if (seenComments.size > 5000) { seenComments.clear(); sentPairs.clear(); }
       }
       if (seen.size > 5000) seen.clear();
     });

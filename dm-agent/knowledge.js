@@ -45,4 +45,24 @@ const EMERGENCY = {
   ja: '危険な状況なら、すぐに112（警察）か119（救急）に電話してください。担当者にも知らせました。'
 };
 
-module.exports = { SYSTEM_PROMPT, AI_NOTE, HANDOFF, EMERGENCY, SITE };
+// 댓글 → DM 자동 링크 (인스타 '비공개 답장'). 키워드 댓글에 1번만 보냄.
+// utm_source=instagram&utm_medium=comment 는 방문 분석에서 '댓글로 들어온 사람'을 구분하려는 표시
+const COMMENT_DM = {
+  en: `Hi! Thanks for your comment 🌊 Here's how to meet a Busan local who loves the same things, free:\n${SITE}/apply.html?lang=en&utm_source=instagram&utm_medium=comment\nIt takes about 3 minutes. Any questions, just reply here!`,
+  zh: `嗨！謝謝你的留言 🌊 這裡可以免費配對和你喜好相同的釜山在地人：\n${SITE}/apply.html?lang=zh&utm_source=instagram&utm_medium=comment\n填寫大約 3 分鐘，有問題直接回覆這裡就好！`,
+  ko: `댓글 고마워요 🌊 부산에 사신다면 외국인 여행자와 함께하는 현지인으로 참여해 보세요 (무료):\n${SITE}/local.html?lang=ko&utm_source=instagram&utm_medium=comment\n궁금한 건 여기로 답장 주세요!`,
+  ja: `コメントありがとうございます 🌊 同じ趣味の釜山ローカルと無料でつながれます：\n${SITE}/apply.html?lang=en&utm_source=instagram&utm_medium=comment\n約3分で申し込めます。質問はこちらに返信してください！`
+};
+
+// 댓글에 공개로 다는 짧은 답 (같은 문장 반복은 스팸처럼 보여서 돌려 씀)
+const PUBLIC_REPLY = {
+  en: ['Sent you a DM 📩', 'Check your DMs! 🌊', 'Link is in your DMs 🙌'],
+  zh: ['已私訊給你 📩', '請看私訊喔！🌊', '連結已傳到私訊 🙌'],
+  ko: ['DM 보냈어요 📩', 'DM 확인해 주세요! 🌊', 'DM으로 링크 보냈어요 🙌'],
+  ja: ['DMを送りました 📩', 'DMをご確認ください！🌊', 'DMにリンクを送りました 🙌']
+};
+
+// 이 단어가 들어간 댓글에만 링크 DM (환경변수 COMMENT_KEYWORDS 로 바꿀 수 있음)
+const COMMENT_KEYWORDS = (process.env.COMMENT_KEYWORDS || 'busan,부산,釜山,link,링크,連結,local,로컬,apply,신청,報名').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+
+module.exports = { SYSTEM_PROMPT, AI_NOTE, HANDOFF, EMERGENCY, SITE, COMMENT_DM, PUBLIC_REPLY, COMMENT_KEYWORDS };

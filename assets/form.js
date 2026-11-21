@@ -205,6 +205,7 @@
       title.textContent = lg ? lg.textContent.replace(/^\d+\.\s*/, '') : '';
       fill.style.width = ((step + 1) / steps.length * 100) + '%';
       if (last) renderPreview();
+      if (window.LokoTrack) LokoTrack(type + '_step', { step: step + 1 });
       errBox.hidden = true;
       if (focus) {
         var y = top.getBoundingClientRect().top + window.pageYOffset - 76;
@@ -213,7 +214,7 @@
     }
     next.addEventListener('click', function () {
       var p = validate(steps[step]);
-      if (p) { showError(p.msg, p.el); return; }
+      if (p) { showError(p.msg, p.el); if (window.LokoTrack) LokoTrack(type + '_error', { step: step + 1, field: (p.el && p.el.name) || '' }); return; }
       show(step + 1, true); saveDraft();
     });
     back.addEventListener('click', function () { show(step - 1, true); });
@@ -277,6 +278,7 @@
         if (warn) warn.hidden = true;
         done.hidden = false;
         document.body.classList.add('form-done');
+        if (window.LokoTrack) LokoTrack(type + '_submit', { lang: document.documentElement.getAttribute('data-lang') || 'en', photo: photoData ? 'yes' : 'no' });
         done.focus({ preventScroll: true });
         window.scrollTo({ top: Math.max(0, done.getBoundingClientRect().top + window.pageYOffset - 80), behavior: 'smooth' });
       }).catch(function () {

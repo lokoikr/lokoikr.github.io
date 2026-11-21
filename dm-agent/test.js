@@ -66,5 +66,44 @@ async function t(name, fn) { await fn(); n++; console.log('ok -', name); }
     assert.ok(out.reply.includes('담당자'));
   });
 
+  const commentBody = (id, text, from = 'u1', media = 'm1') => ({ entry: [{ id: 'me', changes: [{ field: 'comments', value: { id, text, from: { id: from, username: 'x' }, media: { id: media } } }] }] });
+
+  await t('댓글: 키워드 있으면 언어 맞춰 링크 DM, 없으면 무시', () => {
+    const sent = new Set();
+    const [c1] = A.extractComments(commentBody('c1', 'BUSAN 🙌'), new Set(), 'me');
+    const p1 = A.planCommentReply(c1, sent);
+    assert.strictEqual(p1.lang, 'en'); assert.ok(p1.dm.includes('apply.html?lang=en&utm_source=instagram&utm_medium=comment'));
+    const [c2] = A.extractComments(commentBody('c2', '我想參加 釜山', 'u2'), new Set(), 'me');
+    assert.ok(A.planCommentReply(c2, sent).dm.includes('lang=zh'));
+    const [c3] = A.extractComments(commentBody('c3', '부산 살아요!', 'u3'), new Set(), 'me');
+    assert.ok(A.planCommentReply(c3, sent).dm.includes('local.html'));
+    const [c4] = A.extractComments(commentBody('c4', 'nice photo', 'u4'), new Set(), 'me');
+    assert.strictEqual(A.planCommentReply(c4, sent), null);
+  });
+
+  await t('댓글: 내 댓글·같은 댓글·같은 사람 같은 게시물 중복은 1번만', () => {
+    const seenC = new Set(), sent = new Set();
+    assert.strictEqual(A.extractComments(commentBody('c9', 'busan', 'me'), seenC, 'me').length, 0);
+    const a = A.extractComments(commentBody('c10', 'busan'), seenC, 'me');
+    const b = A.extractComments(commentBody('c10', 'busan'), seenC, 'me');
+    assert.strictEqual(a.length, 1); assert.strictEqual(b.length, 0);
+    assert.ok(A.planCommentReply(a[0], sent));
+    const [again] = A.extractComments(commentBody('c11', 'busan link pls'), seenC, 'me');
+    assert.strictEqual(A.planCommentReply(again, sent), null);
+  });
+
+  await t('댓글: 데이트 목적이면 링크 대신 담당자 알림', () => {
+    const [c] = A.extractComments(commentBody('c20', 'busan girlfriend?', 'u20'), new Set(), 'me');
+    const p = A.planCommentReply(c, new Set());
+    assert.strictEqual(p.dm, null); assert.strictEqual(p.notify, 'dating');
+  });
+
+  await t('댓글: 비공개 답장은 comment_id로 보냄', async () => {
+    let req;
+    await A.sendPrivateReply('c77', 'hi', { igToken: 't', fetchImpl: async (url, o) => { req = { url, body: JSON.parse(o.body) }; return { ok: true }; } });
+    assert.ok(req.url.endsWith('/me/messages'));
+    assert.deepStrictEqual(req.body.recipient, { comment_id: 'c77' });
+  });
+
   console.log(`\n${n} tests passed`);
 })().catch(e => { console.error(e); process.exit(1); });

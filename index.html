@@ -41,7 +41,7 @@
         <option value="zh">繁體中文</option>
         <option value="ko">한국어</option>
       </select>
-      <a class="btn btn-primary btn-sm" href="apply.html" data-i18n="cta_meet">Meet a local</a>
+      <a class="btn btn-primary btn-sm" href="apply.html" data-umami-event="cta_header" data-i18n="cta_meet">Meet a local</a>
     </div>
   </div>
 </header>
@@ -54,8 +54,8 @@
       <h1 data-i18n="hero_title">Do Busan with a local.</h1>
       <p data-i18n="hero_sub">Not a tour. Not a dating app. Just Busan locals and travelers doing the same thing together, for free.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="apply.html" data-i18n="hero_cta1">Find a local buddy</a>
-        <a class="btn btn-ghost" href="local.html" data-i18n="hero_cta2">I live in Busan</a>
+        <a class="btn btn-primary" href="apply.html" data-umami-event="cta_hero_traveler" data-i18n="hero_cta1">Find a local buddy</a>
+        <a class="btn btn-ghost" href="local.html" data-umami-event="cta_hero_local" data-i18n="hero_cta2">I live in Busan</a>
       </div>
       <div class="hero-badges">
         <span class="badge" data-ic="tag" data-i18n="badge1">Always free</span>
@@ -147,7 +147,7 @@
         <div>
           <h2 data-i18n="band_t">Live in Busan? Become a LoKo.i local.</h2>
           <p data-i18n="band_p">Meet travelers from around the world, practice languages, and show off your city, on your own schedule.</p>
-          <a class="btn" href="local.html" data-i18n="band_btn">Join as a local</a>
+          <a class="btn" href="local.html" data-umami-event="cta_band_local" data-i18n="band_btn">Join as a local</a>
         </div>
         <svg class="band-art" viewBox="0 0 260 170" aria-hidden="true"><rect x="8" y="10" width="132" height="44" rx="22" fill="#fff"/><path d="M30 52l-6 14 18-12z" fill="#fff"/><text x="74" y="39" text-anchor="middle" font-size="18" font-weight="700" font-family="Inter, sans-serif" fill="#111114">Hello!</text><rect x="112" y="66" width="140" height="44" rx="22" fill="#FFB547"/><path d="M232 108l8 14-20-12z" fill="#FFB547"/><text x="182" y="95" text-anchor="middle" font-size="18" font-weight="700" font-family="Noto Sans TC, sans-serif" fill="#111114">你好！</text><rect x="22" y="120" width="160" height="44" rx="22" fill="#111114"/><text x="102" y="149" text-anchor="middle" font-size="18" font-weight="700" font-family="Noto Sans KR, sans-serif" fill="#fff">안녕하세요!</text></svg>
       </div>
@@ -182,8 +182,8 @@
   </div>
 </footer>
 <div class="m-bar" data-m-bar hidden>
-  <a class="btn btn-primary" href="apply.html" data-i18n="cta_meet">Meet a local</a>
-  <a class="btn btn-line" href="local.html" data-i18n="hero_cta2">I live in Busan</a>
+  <a class="btn btn-primary" href="apply.html" data-umami-event="cta_mbar_traveler" data-i18n="cta_meet">Meet a local</a>
+  <a class="btn btn-line" href="local.html" data-umami-event="cta_mbar_local" data-i18n="hero_cta2">I live in Busan</a>
 </div>
 <script>
 // 휴대폰: 첫 화면을 지나면 아래에 신청 버튼 고정
@@ -193,6 +193,8 @@
   new IntersectionObserver(function (e) { bar.hidden = e[0].isIntersecting; document.body.classList.toggle('has-m-bar', !e[0].isIntersecting); }).observe(hero);
 })();
 </script>
+<script src="assets/config.js"></script>
+<script src="assets/analytics.js"></script>
 <script src="assets/i18n.js"></script>
 </body>
 </html>

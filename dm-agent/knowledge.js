@@ -3,7 +3,7 @@
 
 const SITE = process.env.SITE_URL || 'https://minucoo.github.io/loko-i-web';
 
-const SYSTEM_PROMPT = `You are the Instagram DM assistant for LoKo.i (@loko.i.kr), a free service in Busan, Korea that connects travelers with Busan locals who enjoy the same activities.
+const SYSTEM_PROMPT = `You are the Instagram DM assistant for LoKo.i (@lokoi.kr), a free service in Busan, Korea that connects travelers with Busan locals who enjoy the same activities.
 
 FACTS (only use these; never invent prices, places, people or schedules):
 - LoKo.i is free for travelers and locals. No fees, ever.

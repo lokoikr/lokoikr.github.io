@@ -7,7 +7,7 @@
     err_group: "Please choose at least one option where marked *.",
     err_dates: "Your leaving date should be after your arrival date.",
     err_gender: "To get a same-gender buddy, please tell us your gender.",
-    err_send: "Sorry, something went wrong. Please try again, or message us on Instagram @loko.i.kr.",
+    err_send: "Sorry, something went wrong. Please try again, or message us on Instagram @lokoi.kr.",
     err_range: "Your preferred date should be within your stay in Busan.",
     err_past: "That date has already passed. Please check your dates.",
     err_kids: "Please tell us your kids' ages so we can find a family-friendly local.",
@@ -20,7 +20,7 @@
     err_intro: "Please write at least 20 characters about yourself.",
     draft_note: "We restored what you typed last time.",
     sending: "Sending…",
-    form_not_ready: "The form is being set up. For now, please message us on Instagram @loko.i.kr."
+    form_not_ready: "The form is being set up. For now, please message us on Instagram @lokoi.kr."
   };
 
   var DICT = {
@@ -62,7 +62,7 @@
       a6_t: "海邊活動", a6_p: "遊艇、纜車、海岸列車",
       tips_kicker: "在地小撇步", tips_title: "在地人眼中的釜山", tips_sub: "真正在地人分享的旅遊小撇步，每週更新在 Instagram。",
       tip1: "黃昏的燈塔", tip2: "從坡上看早晨的波光", tip3: "安靜的松林小路", tip4: "冬日陽光下的天空膠囊列車",
-      tips_follow: "追蹤 @loko.i.kr",
+      tips_follow: "追蹤 @lokoi.kr",
       safety_kicker: "安全第一", safety_title: "簡單的規則，人人遵守",
       r1: "只在公開場所見面，晚上 10 點前結束。",
       r2: "不去住處或飯店，不搭私人車輛。",
@@ -145,7 +145,7 @@
       ph_err: "無法讀取這張照片，請換一張試試。",
       done_s1: "我們會找適合你的在地人（1–2 天）。",
       done_s2: "我們會透過你留下的聯絡方式，傳送對方的名字、照片和自我介紹。",
-      done_s3: "需要更改或取消嗎？隨時回覆我們的訊息，或私訊 @loko.i.kr。",
+      done_s3: "需要更改或取消嗎？隨時回覆我們的訊息，或私訊 @lokoi.kr。",
       lc_intro_rule: "旅人會看到這段。請不要寫電話、連結或價格，配對後我們會交換聯絡方式。",
       lc_ph_hint: "清楚的正面照能加快身分確認。只有我們團隊和配對的旅人看得到。",
       lc_freq: "多久可以見面一次？",
@@ -217,8 +217,8 @@
       pv_date: "最後更新：2026 年 11 月",
       err_required: "請填寫標有 * 的欄位。", err_agree: "請勾選必填的同意事項。", err_email: "請確認電子郵件地址。",
       err_group: "標有 * 的項目請至少選擇一個。", err_dates: "離開日期需晚於抵達日期。", err_gender: "若希望同性別夥伴，請選擇你的性別。",
-      err_send: "抱歉，發生錯誤。請再試一次，或用 Instagram @loko.i.kr 私訊我們。", sending: "傳送中…",
-      form_not_ready: "表單正在準備中。目前請用 Instagram @loko.i.kr 私訊我們。"
+      err_send: "抱歉，發生錯誤。請再試一次，或用 Instagram @lokoi.kr 私訊我們。", sending: "傳送中…",
+      form_not_ready: "表單正在準備中。目前請用 Instagram @lokoi.kr 私訊我們。"
     },
     ko: {
       skip: "본문으로 건너뛰기",
@@ -258,7 +258,7 @@
       a6_t: "바다", a6_p: "요트, 케이블카, 해변열차",
       tips_kicker: "로컬 팁", tips_title: "현지인이 보는 부산", tips_sub: "진짜 현지인이 알려 주는 팁을 매주 인스타그램에 올려요.",
       tip1: "해 질 녘 등대", tip2: "언덕에서 보는 아침 윤슬", tip3: "조용한 소나무 골목길", tip4: "겨울 햇살 속 스카이캡슐",
-      tips_follow: "@loko.i.kr 팔로우",
+      tips_follow: "@lokoi.kr 팔로우",
       safety_kicker: "안전이 먼저", safety_title: "모두가 지키는 간단한 규칙",
       r1: "공개된 장소에서만 만나고, 밤 10시 전에 마쳐요.",
       r2: "숙소·자택 방문과 개인 차량 이동은 하지 않아요.",
@@ -341,7 +341,7 @@
       ph_err: "사진을 읽지 못했어요. 다른 사진으로 해 주세요.",
       done_s1: "나와 맞는 현지인을 찾아요 (1~2일).",
       done_s2: "남겨 주신 연락처로 현지인의 이름, 사진, 소개를 보내 드려요.",
-      done_s3: "바꾸거나 취소하고 싶으면 메시지에 답장하거나 @loko.i.kr로 DM 주세요.",
+      done_s3: "바꾸거나 취소하고 싶으면 메시지에 답장하거나 @lokoi.kr로 DM 주세요.",
       lc_intro_rule: "여행자가 읽는 글이에요. 전화번호, 링크, 가격은 빼 주세요. 연결이 정해지면 연락처를 전해 드려요.",
       lc_ph_hint: "얼굴이 잘 보이는 사진이면 신원 확인이 빨라요. 운영팀과 연결된 여행자만 봐요.",
       lc_freq: "얼마나 자주 만날 수 있나요?",
@@ -413,8 +413,8 @@
       pv_date: "최종 수정: 2026년 11월",
       err_required: "* 표시된 항목을 입력해 주세요.", err_agree: "필수 동의 항목에 체크해 주세요.", err_email: "이메일 주소를 확인해 주세요.",
       err_group: "* 표시된 항목에서 하나 이상 골라 주세요.", err_dates: "출발일은 도착일 이후여야 해요.", err_gender: "같은 성별 현지인을 원하면 본인 성별을 골라 주세요.",
-      err_send: "죄송해요, 오류가 났어요. 다시 시도하거나 인스타그램 @loko.i.kr로 DM 주세요.", sending: "보내는 중…",
-      form_not_ready: "신청서를 준비 중이에요. 지금은 인스타그램 @loko.i.kr로 DM 주세요."
+      err_send: "죄송해요, 오류가 났어요. 다시 시도하거나 인스타그램 @lokoi.kr로 DM 주세요.", sending: "보내는 중…",
+      form_not_ready: "신청서를 준비 중이에요. 지금은 인스타그램 @lokoi.kr로 DM 주세요."
     }
   };
 

@@ -15,7 +15,7 @@
   s.defer = true;
   s.src = cfg.UMAMI_SRC || 'https://cloud.umami.is/script.js';
   s.setAttribute('data-website-id', id);
-  s.setAttribute('data-domains', 'minucoo.github.io');
+  s.setAttribute('data-domains', 'lokoikr.github.io');
   s.onload = function () {
     var t = setInterval(function () {
       if (!window.umami) return;

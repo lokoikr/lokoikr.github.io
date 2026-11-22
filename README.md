@@ -21,10 +21,10 @@
 
 | 용도 | 링크 |
 |---|---|
-| 홈 (인스타 프로필) | https://minucoo.github.io/loko-i-web/ |
-| 여행자 신청 · 영어 | https://minucoo.github.io/loko-i-web/apply.html?lang=en |
-| 여행자 신청 · 대만 | https://minucoo.github.io/loko-i-web/apply.html?lang=zh |
-| 현지인 등록 · 한국어 | https://minucoo.github.io/loko-i-web/local.html?lang=ko |
+| 홈 (인스타 프로필) | https://lokoikr.github.io/ |
+| 여행자 신청 · 영어 | https://lokoikr.github.io/apply.html?lang=en |
+| 여행자 신청 · 대만 | https://lokoikr.github.io/apply.html?lang=zh |
+| 현지인 등록 · 한국어 | https://lokoikr.github.io/local.html?lang=ko |
 
 링크를 카톡·인스타에 붙이면 미리보기 이미지(`assets/img/og.jpg`, 현지인용 `og-local.jpg`)가 떠요.
 
@@ -36,7 +36,7 @@
 
 1. 이 저장소의 **Settings › Pages**로 갑니다.
 2. Source를 **Deploy from a branch**로 두고, Branch를 **main**, 폴더를 **/ (root)**로 고른 뒤 Save를 누릅니다.
-3. 1~2분 뒤 `https://minucoo.github.io/loko-i-web/` 에서 사이트가 열립니다.
+3. 1~2분 뒤 `https://lokoikr.github.io/` 에서 사이트가 열립니다.
 
 ## 2. 신청서 연결하기 (구글 시트)
 

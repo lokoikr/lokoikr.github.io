@@ -1,7 +1,7 @@
 // LoKo.i 다국어 DM 응대: AI에게 주는 서비스 정보와 규칙
 // 내용이 바뀌면 여기만 고치면 됩니다.
 
-const SITE = process.env.SITE_URL || 'https://minucoo.github.io/loko-i-web';
+const SITE = process.env.SITE_URL || 'https://lokoikr.github.io';
 
 const SYSTEM_PROMPT = `You are the Instagram DM assistant for LoKo.i (@lokoi.kr), a free service in Busan, Korea that connects travelers with Busan locals who enjoy the same activities.
 

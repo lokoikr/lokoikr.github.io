@@ -24,22 +24,25 @@
 | `assets/config.js` | ENDPOINT(Apps Script 웹 앱 URL), `PHOTO_UPLOAD: true` |
 | `admin/` | 매칭 관리 화면. 관리자 키로 시트 불러오기 / CSV / `?demo=1`(sample.js). 신청자 점검 탭, 소개 카드 만들기(html2canvas) |
 | `apps-script/Code.gs` | 구글 시트 'LoKo.i 웹 신청'에 저장. doPost(모든 칸 일반 텍스트, 사진은 드라이브 'LoKo.i 신청 사진'), doGet(`?key=` 관리자용 목록, `&photo=ID`). 시트 탭: 여행자 신청 / 현지인 등록. 새 항목은 열 자동 추가 → 열만 늘면 재배포 불필요 |
+| `board.html` | **여행자 게시판**(확인 완료 현지인 전용, 개인 링크 `?t=토큰`). 게시판 동의(`board_ok`)한 여행자 글만, 이름·사진·연락처·자기소개 없이. '하고 싶은 것'은 연락처 지우고 구글 번역. "같이 할래요" → 시트 '현지인 지원' 탭. `?demo=1`(`&lang=en`) 예시 |
+| `apps-script/Lib.gs` | match.js+trust.js 묶음(자동 생성: `node tools/build-gs.js`). 게시판 필터·점수에 씀. **직접 고치지 않기** |
 | `dm-agent/` | 인스타 DM·댓글 다국어 응대 서버(Node). **현재 보류**(배포 안 함) |
-| `tests/` | `node tests/match.test.js`(18) · `node tests/trust.test.js`(7) · `node dm-agent/test.js`(13) |
+| `tests/` | `node tests/match.test.js`(18) · `node tests/trust.test.js`(7) · `node dm-agent/test.js`(13) · `node tests/board.test.js`(12) |
 
 ## 배포
 - `main`에 push하면 1~2분 뒤 GitHub Pages에 반영. 빌드 없음(순수 HTML/JS).
-- 바꾸기 전후로 위 테스트 3개 실행. i18n 키 누락도 확인(HTML의 `data-i18n` 키가 zh·ko 사전에 모두 있어야 함).
-- Apps Script 코드를 바꿨다면 시트의 Apps Script 편집기에 붙여 넣고 **배포 관리 › 새 버전**으로 갱신(URL 그대로).
+- 바꾸기 전후로 위 테스트 4개 실행. match.js·trust.js를 바꿨으면 `node tools/build-gs.js`로 Lib.gs도 갱신. i18n 키 누락도 확인(HTML의 `data-i18n` 키가 zh·ko 사전에 모두 있어야 함).
+- Apps Script 코드를 바꿨다면 시트의 Apps Script 편집기에 `Code.gs`와 `Lib.gs`(파일 이름 Lib)를 붙여 넣고 **배포 관리 › 새 버전**으로 갱신(URL 그대로).
 
 ## 운영 흐름
-시트에 `신규` → 현지인 영상통화·신원 확인 후 `확인 완료` → admin에서 매칭 추천 → 소개 카드를 양쪽에 보내 둘 다 "좋아요" → @lokoi.kr + 두 사람 인스타 단체 DM으로 연결 → `연결 완료`.
+시트에 `신규` → 현지인 영상통화·신원 확인 후 `확인 완료` → (게시판) admin '게시판 링크 복사'로 개인 링크 DM → 현지인이 게시판에서 지원 → admin '게시판 지원'에서 소개 카드 / (기존) admin에서 매칭 추천 → 소개 카드를 양쪽에 보내 둘 다 "좋아요" → @lokoi.kr + 두 사람 인스타 단체 DM으로 연결 → `연결 완료`.
 
 ## 확정된 결정 (요약)
 - 최우선 목표: 4~6주 안에 실제 연결 5건.
 - 신청 유입은 **인스타 프로필 링크**(여행자·현지인 2개). 댓글→DM 자동화(ManyChat·메타 자동 답장·dm-agent)는 보류. DM은 협업 문의가 올 수 있어 직접 응대.
 - 인스타 계정 보호: 같은 키워드 댓글 유도 금지, 스크래핑·자동 팔로우·대량 DM 금지.
 - 인스타 프로필 이름·소개는 누나가 만든 것 유지(Claude가 바꾸지 않음).
+- 게시판 1단계(2026-11-25): 로그인 없이 개인 링크. 여행자 공개는 선택 동의(board_ok). 2단계(Cloudflare·로그인·내 글/내 지원, 가온나AI 방식)는 연결 5건 달성 후.
 - 오픈소스는 쓸 때만: 지금은 Umami만. 로그인·신뢰 온도는 서비스가 통한 뒤(앱 전환 때).
 - 더 자세한 결정은 claude.ai 프로젝트 문서 `LoKo.i-결정-기록.md` 참고.
 

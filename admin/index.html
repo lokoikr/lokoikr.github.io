@@ -273,6 +273,57 @@
     local: [['name_en', '영문 이름'], ['resident_type', '구분'], ['nationality', '국적'], ['busan_years', '부산 거주'], ['occupation', '하는 일'], ['age_range', '나이대'], ['gender', '성별'], ['home_district', '사는 구'], ['intro', '자기소개'], ['fav_spot', '단골 장소'], ['buddy_pref', '만나고 싶은 사람'], ['languages', '언어'], ['language_level', '외국어 수준'], ['activities', '활동'], ['availability', '가능 시간'], ['frequency', '빈도'], ['max_group', '최대 인원'], ['instagram', '인스타'], ['contact_id', '연락처'], ['email', '이메일'], ['status', '상태'], ['fill_seconds', '작성 시간(초)'], ['submitted_at', '신청 시각']]
   };
   var ORDER = { risk: 0, check: 1, ok: 2 };
+  var applications = [];
+
+  // 여행자 게시판: 확인 완료된 현지인의 개인 링크 (Apps Script boardLink_)
+  function boardLinkBox(r) {
+    var box = el('div', 'bar-row'); box.style.margin = '0 0 12px';
+    var get = el('button', 'btn btn-primary btn-sm', '게시판 링크 복사'), again = el('button', 'btn btn-line btn-sm', '새 링크로 바꾸기'), note = el('span', 'note');
+    get.type = again.type = 'button';
+    function call(reset) {
+      if (!sheetMode) { note.textContent = '시트에서 불러온 뒤에 쓸 수 있어요.'; return; }
+      var cfg = window.LOKOI_CONFIG || {};
+      note.textContent = '만드는 중…';
+      fetch(cfg.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'board_link', key: document.getElementById('akey').value.trim(), local_id: r.id, reset: !!reset }) })
+        .then(function (x) { return x.json(); })
+        .then(function (d) {
+          if (!d.ok) { note.textContent = d.error === 'not verified' ? '시트 status가 "확인 완료"여야 해요.' : '만들지 못했어요 (' + d.error + ').'; return; }
+          var done = function () { note.textContent = (reset ? '새 링크(이전 링크는 막힘)를 ' : '') + '복사했어요. ' + LokoCard.firstName(r.name) + '님께 DM으로 보내 주세요.'; };
+          if (navigator.clipboard) navigator.clipboard.writeText(d.link).then(done, function () { note.textContent = d.link; });
+          else note.textContent = d.link;
+        })
+        .catch(function () { note.textContent = '연결 오류. Apps Script를 새 버전으로 배포했는지 확인해 주세요.'; });
+    }
+    get.addEventListener('click', function () { call(false); });
+    again.addEventListener('click', function () { if (confirm('지금 링크를 막고 새 링크를 만들까요?')) call(true); });
+    box.appendChild(get); box.appendChild(again); box.appendChild(note);
+    return box;
+  }
+
+  // 게시판으로 들어온 현지인 지원 → 소개 카드로 이어짐
+  function applicationList(rawT, rawL) {
+    var wrap = el('div');
+    var open = applications.filter(function (a) { return !/연결 완료|완료|취소|거절|done|cancel/i.test(a.status || ''); });
+    if (!open.length) { wrap.appendChild(el('p', 'empty', '아직 게시판 지원이 없어요. 확인 완료된 현지인에게 "게시판 링크 복사"로 개인 링크를 보내 주세요.')); return wrap; }
+    var Tm = byId(rawT), Lm = byId(rawL);
+    open.slice().reverse().forEach(function (a) {
+      var t = Tm[a.post_id], l = Lm[a.local_id];
+      var row = el('div', 'match');
+      var w1 = el('div', 'who'); if (l) w1.appendChild(avatar(l)); var x1 = el('div'); x1.appendChild(el('b', null, (a.local_name || '?') + ' → ' + (a.traveler_name || '?'))); x1.appendChild(el('small', null, a.applied_at + ' · ' + (a.status || '신규') + (t ? ' · ' + (t.preferred_date || '') + ' · ' + (t.activities || '') : ''))); w1.appendChild(x1);
+      var msgBox = el('div', 'reasons');
+      msgBox.appendChild(el('span', 'tag', a.message ? '“' + a.message + '”' : '(한마디 없음)'));
+      if (a.message_tr) msgBox.appendChild(el('span', 'tag part', a.traveler_lang + ': ' + a.message_tr));
+      var act = el('div', 'match-act');
+      if (t && l) { var ib = el('button', 'btn btn-primary btn-sm', '소개 카드 만들기'); ib.type = 'button'; ib.addEventListener('click', function () { openIntro(t, l, t.preferred_date); }); act.appendChild(ib); }
+      else act.appendChild(el('span', 'note', '신청 줄을 찾지 못했어요 (시트에서 줄을 지웠나요?)'));
+      row.style.gridTemplateColumns = 'minmax(0,1fr)';
+      row.appendChild(w1); row.appendChild(msgBox); row.appendChild(act);
+      wrap.appendChild(row);
+    });
+    wrap.appendChild(el('p', 'note', '지원 시트("현지인 지원")의 status를 "소개 보냄" → "연결 완료"처럼 바꿔 관리하세요. 메시지의 번역본(' + 'message_tr)을 소개 DM에 붙여 쓰면 돼요.'));
+    return wrap;
+  }
+
   function personList(rows, type) {
     var wrap = el('div', 'people');
     rows.map(function (r) { return { r: r, c: LokoTrust.check(r, type, rows) }; })
@@ -299,6 +350,7 @@
           else dd.textContent = v;
           dl.appendChild(dd);
         });
+        if (type === 'local' && /확인 완료|verified/i.test(r.status || '')) right.appendChild(boardLinkBox(r));
         right.appendChild(dl); body.appendChild(right); d.appendChild(body);
         wrap.appendChild(d);
       });
@@ -337,6 +389,8 @@
     if (dupN) out.appendChild(el('p', 'empty', '같은 사람이 여러 번 낸 신청 ' + dupN + '건은 가장 최근 것만 썼어요.'));
 
     if (riskT.length || riskL.length) out.appendChild(el('p', 'form-msg err', '의심 신청 ' + (riskT.length + riskL.length) + '건은 배정에서 뺐어요. 아래 "신청자 점검"에서 확인하세요.'));
+
+    if (!demo) { out.appendChild(el('h2', 'sec', '게시판 지원 ' + applications.length)); out.appendChild(applicationList(rawT, rawL)); }
 
     out.appendChild(el('h2', 'sec', '추천 배정안'));
     if (!res.matches.length) out.appendChild(el('p', 'empty', '조건에 맞는 배정이 없어요.'));
@@ -414,6 +468,7 @@
         if (!d.travelers) { msg.textContent = '키가 맞지 않아요. Apps Script 실행 기록의 키를 확인해 주세요.'; return; }
         msg.textContent = '여행자 ' + d.travelers.length + '건, 현지인 ' + d.locals.length + '명을 불러왔어요.';
         sheetMode = true;
+        applications = d.applications || [];
         render(d.travelers, d.locals, false);
       })
       .catch(function () { msg.textContent = '불러오지 못했어요. 인터넷 연결이나 배포 주소를 확인해 주세요.'; });

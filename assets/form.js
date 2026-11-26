@@ -126,8 +126,6 @@
         else if (a && l && a.value && l.value && (pd.value < a.value || pd.value > l.value)) checks.push({ msg: T('err_range'), el: pd });
       }
       if (withSel && sizeSel && withSel.value === 'Solo' && sizeSel.value !== '1') checks.push({ msg: T('err_solo'), el: sizeSel });
-      var country = form.querySelector('[name="country"]');
-      if (country && /^\s*(south\s*)?korea\s*$|^\s*(republic of korea|rok|대한민국|한국|韓國|南韓|kr)\s*$/i.test(country.value)) checks.push({ msg: T('err_korea'), el: country });
       var pref = form.querySelector('[name="buddy_pref"]:checked'), gen = form.querySelector('[name="gender"]:checked');
       if (pref && pref.value === 'Same gender' && (!gen || gen.value === 'Prefer not to say')) checks.push({ msg: T('err_gender'), el: gen || form.querySelector('[name="gender"]') });
       for (var c = 0; c < checks.length; c++) if (inScope(checks[c])) return checks[c];
@@ -267,10 +265,18 @@
 
       fetch(cfg.ENDPOINT, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(collect())
-      }).then(function () {
+      }).then(function (r) {
+        // 응답에 게시판 개인 링크 토큰이 옴 (읽지 못해도 신청은 접수된 것)
+        return r.json().catch(function () { return {}; });
+      }).then(function (res) {
+        if (res && res.ok === false) throw new Error(res.error || 'fail');
+        if (res && res.token) {
+          try { localStorage.setItem('lokoi_board_t', res.token); } catch (e3) {}
+          var bl = done.querySelector('[data-board-link]');
+          if (bl) { bl.hidden = false; var ba = bl.querySelector('a'); if (ba) ba.href = 'board.html?t=' + encodeURIComponent(res.token); }
+        }
         try { localStorage.removeItem(DRAFT); } catch (e2) {}
         form.hidden = true;
         var aside = document.querySelector('.form-aside');

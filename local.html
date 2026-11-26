@@ -274,6 +274,13 @@
           </details>
           <label class="check"><input type="checkbox" name="agree_share" value="Yes" required><span data-i18n="lc_agree_third">I agree to share my profile with my matched traveler (contact only after we both say yes).</span></label>
         </div>
+        <div class="consent">
+          <label class="check"><input type="checkbox" name="board_public" value="Yes"><span data-i18n="lc_board">(Optional, recommended) After my ID check, post me on the public LoKo.i board so travelers can find me. Shown: "Busan local" (and nationality for foreign residents), age range, years in Busan, areas, activities, free times, languages and the note below, auto-translated. Never your name, photo, job, district or contact. You can hide it anytime.</span></label>
+          <div class="field" style="margin-top:10px">
+            <label for="board_note"><span data-i18n="lc_note">A line for the board</span> <span class="opt" data-i18n="opt">(optional)</span></label>
+            <input id="board_note" name="board_note" type="text" maxlength="120" data-i18n-ph="lc_note_ph" placeholder="e.g. Born in Nampo. Let's eat in the market alleys and walk by the sea.">
+          </div>
+        </div>
         <label class="check"><input type="checkbox" name="agree_id" value="Yes" required><span data-i18n="lc_id">I agree to a short video call and an ID check (Korean ID or residence card) before my first meetup. We never keep ID numbers.</span></label>
         <label class="check"><input type="checkbox" name="agree_adult" value="Yes" required><span data-i18n="lc_adult">I am 19 or older and live in Busan.</span></label>
       </fieldset>
@@ -295,6 +302,10 @@
         <li data-ic="shield"><span data-i18n="lc_done_s2">Have your ID or residence card ready. We only look; we never keep the number.</span></li>
         <li data-ic="heart"><span data-i18n="lc_done_s3">When a traveler fits you, we send their intro first. You can always say no.</span></li>
       </ol>
+      <div data-board-link hidden style="background:#fff;border-radius:14px;padding:16px;margin:0 0 16px">
+        <p data-i18n="lc_done_board">Your personal board link is saved on this phone. After your ID check you can tap "Let's go" on travelers' posts. Bookmark it to come back.</p>
+        <a class="btn btn-primary" href="board.html" data-i18n="done_board_btn">Open the board</a>
+      </div>
       <a class="btn btn-dark" href="https://www.instagram.com/lokoi.kr/" target="_blank" rel="noopener" data-i18n="tips_follow">Follow @lokoi.kr</a>
     </div>
   </div>

@@ -3,24 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<title>여행자 게시판 — LoKo.i</title>
+<title>LoKo.i 게시판</title>
+<meta name="description" content="Travelers and Busan locals looking for someone to do things with. Free, ID-checked locals.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LoKo.i">
+<meta property="og:url" content="https://lokoikr.github.io/board.html">
+<meta property="og:title" content="LoKo.i board — find a buddy in Busan">
+<meta property="og:description" content="Travelers and Busan locals looking for someone to do things with. Free, ID-checked locals.">
+<meta property="og:image" content="https://lokoikr.github.io/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#2F6BFF">
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <link rel="apple-touch-icon" href="assets/img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 <style>
   .bd { padding-top: 24px; padding-bottom: 80px; max-width: 860px; }
   .bd h1 { font-family: var(--font-head); font-size: clamp(28px, 5vw, 40px); letter-spacing: -1px; margin: 0 0 4px; }
   .bd .sub { color: var(--ink-3); margin: 0 0 16px; font-size: 15px; }
-  .hello { font-weight: 700; color: var(--accent-ink); font-size: 15px; margin: 0 0 4px; }
+  .cta { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 18px; }
+  .cta .btn { flex: 1 1 200px; }
+  .mebar { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; background: var(--bg-soft); border-radius: 14px; padding: 12px 14px; margin: 0 0 18px; font-size: 15px; }
+  .mebar b { font-weight: 700; }
+  .mebar .grow { flex: 1 1 auto; color: var(--ink-3); }
   .bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
   .tabs { display: flex; gap: 2px; flex: 1 1 auto; overflow-x: auto; }
-  .tabs button { border: 0; background: none; font: 600 15px var(--font-body); color: var(--ink-3); padding: 12px 12px; min-height: 44px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
+  .tabs button { border: 0; background: none; font: 600 15px var(--font-body); color: var(--ink-3); padding: 12px 10px; min-height: 44px; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; }
   .tabs button[aria-pressed=true] { color: var(--ink); border-bottom-color: var(--accent); }
   .tabs .n { font-weight: 500; color: var(--ink-3); margin-left: 3px; font-size: 13px; }
   .search { flex: 0 1 220px; min-width: 0; margin: 6px 0; }
@@ -31,34 +42,38 @@
   .post button { all: unset; box-sizing: border-box; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; width: 100%; padding: 14px 4px; cursor: pointer; }
   .post button:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 8px; }
   .post button:hover .p-title { color: var(--accent-ink); }
-  .p-cat { grid-column: 1; font-size: 13px; font-weight: 700; color: var(--accent-ink); }
+  .p-top { grid-column: 1; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+  .who { font-weight: 700; border-radius: 6px; padding: 2px 7px; font-size: 12px; }
+  .who.traveler { background: var(--accent-soft); color: var(--accent-ink); }
+  .who.local { background: #E8F5EC; color: var(--ok); }
+  .p-cat { color: var(--ink-3); font-weight: 600; }
   .p-title { grid-column: 1; font-weight: 600; font-size: 17px; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .p-meta { grid-column: 1; font-size: 14px; color: var(--ink-3); }
   .p-side { grid-column: 2; grid-row: 1 / span 3; align-self: center; text-align: center; min-width: 56px; }
   .fit { display: inline-block; font: 800 20px var(--font-head); color: var(--ink); line-height: 1; }
   .fit small { display: block; font: 500 11px var(--font-body); color: var(--ink-3); margin-top: 3px; }
   .done-tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--ok); background: #E8F5EC; border-radius: 999px; padding: 3px 8px; }
-  .empty { color: var(--ink-3); padding: 32px 4px; text-align: center; }
-  .state { padding: 40px 4px; text-align: center; color: var(--ink-2); }
+  .mine-tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--ink-2); background: var(--bg-soft); border-radius: 999px; padding: 3px 8px; }
+  .empty, .state { color: var(--ink-3); padding: 32px 4px; text-align: center; }
   .foot-note { color: var(--ink-3); font-size: 13px; margin-top: 20px; text-align: center; }
   dialog.dt { border: 0; padding: 0; border-radius: 20px; width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); }
   dialog.dt::backdrop { background: rgba(17,17,20,.45); }
-  .dt-top { position: sticky; top: 0; background: #fff; display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .dt-top { position: sticky; top: 0; z-index: 1; background: #fff; display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
   .dt-body { padding: 18px; }
   .dt-body h2 { font-size: 20px; line-height: 1.4; margin: 4px 0 10px; }
   .dt-body dl { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 6px 12px; margin: 0 0 14px; font-size: 15px; }
   .dt-body dt { color: var(--ink-3); }
   .dt-body dd { margin: 0; }
-  .why { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
-  .why span { font-size: 13px; background: var(--accent-soft); color: var(--accent-ink); border-radius: 999px; padding: 4px 10px; }
   .orig { font-size: 14px; color: var(--ink-3); margin: -4px 0 14px; }
   .orig summary { cursor: pointer; min-height: 32px; display: inline-flex; align-items: center; }
-  .apply label { font-weight: 700; display: block; margin-bottom: 6px; }
-  .apply textarea { width: 100%; font: 16px var(--font-body); padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; min-height: 96px; }
-  .apply .hint { font-size: 13px; color: var(--ink-3); margin: 6px 0 12px; }
-  .apply .btn { width: 100%; }
+  .join label { font-weight: 700; display: block; margin-bottom: 6px; }
+  .join textarea { width: 100%; font: 16px var(--font-body); padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; min-height: 96px; }
+  .join .hint { font-size: 13px; color: var(--ink-3); margin: 6px 0 12px; }
+  .join .btn { width: 100%; }
+  .join .cta { margin: 10px 0 0; }
   .rules-mini { font-size: 13px; color: var(--ink-3); background: var(--bg-soft); border-radius: 12px; padding: 10px 12px; margin: 12px 0 0; }
-  .msg-ok { background: #E8F5EC; color: var(--ok); border-radius: 12px; padding: 12px; font-weight: 600; }
+  .msg-ok { background: #E8F5EC; color: var(--ok); border-radius: 12px; padding: 12px; font-weight: 600; margin: 0; }
+  .msg-info { background: var(--bg-soft); color: var(--ink-2); border-radius: 12px; padding: 12px; margin: 0; }
   .msg-err { background: #FDECEC; color: var(--danger); border-radius: 12px; padding: 12px; font-weight: 600; margin-top: 10px; }
 </style>
 </head>
@@ -66,18 +81,26 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="LoKo.i"><span class="brand-mark" aria-hidden="true">k</span>LoKo.i</a>
+    <div class="header-tools" style="margin-left:auto">
+      <label class="hp" for="lang">Language</label>
+      <select id="lang" class="lang-select">
+        <option value="en">English</option>
+        <option value="zh">繁體中文</option>
+        <option value="ko">한국어</option>
+      </select>
+    </div>
   </div>
 </header>
 <main class="wrap bd" id="main">
-  <p class="hello" id="hello"></p>
-  <h1 data-t="title">여행자 게시판</h1>
-  <p class="sub" data-t="sub">신원 확인을 마친 현지인만 볼 수 있어요. 여행자의 이름·사진·연락처는 보이지 않아요.</p>
-  <div id="app"><p class="state" data-t="loading">불러오는 중…</p></div>
-  <p class="foot-note" data-t="foot">이 링크는 나만 쓰는 개인 링크예요. 다른 사람에게 보내지 마세요.</p>
+  <h1 data-t="title"></h1>
+  <p class="sub" data-t="sub"></p>
+  <div id="top"></div>
+  <div id="app"><p class="state" data-t="loading"></p></div>
+  <p class="foot-note" data-t="foot"></p>
 </main>
 
 <dialog class="dt" id="dt" aria-labelledby="dtTitle">
-  <div class="dt-top"><b id="dtCat"></b><button class="btn btn-line btn-sm" type="button" id="dtClose" data-t="close">닫기</button></div>
+  <div class="dt-top"><span id="dtWho"></span><button class="btn btn-line btn-sm" type="button" id="dtClose" data-t="close"></button></div>
   <div class="dt-body" id="dtBody"></div>
 </dialog>
 
@@ -87,113 +110,228 @@
   'use strict';
   var T = {
     ko: {
-      title: '여행자 게시판', sub: '신원 확인을 마친 현지인만 볼 수 있어요. 여행자의 이름·사진·연락처는 보이지 않아요.',
-      loading: '불러오는 중…', foot: '이 링크는 나만 쓰는 개인 링크예요. 다른 사람에게 보내지 마세요.', close: '닫기',
-      hello: '{n}님, 안녕하세요', all: '전체', week: '이번 주', mine: '지원한 글', search: '검색 (활동·지역·국가)',
-      fit: '잘 맞음', applied: '지원함', none: '지금은 조건에 맞는 여행자 글이 없어요. 새 글이 올라오면 다시 확인해 주세요.',
-      noneMine: '아직 지원한 글이 없어요.', noHit: '검색 결과가 없어요.',
-      bad: '링크가 맞지 않거나 사용이 멈췄어요. 인스타 @lokoi.kr로 문의해 주세요.', fail: '불러오지 못했어요. 잠시 뒤 다시 열어 주세요.',
-      people: '명', with: '함께', when: '희망 날짜', stay: '여행 기간', time: '시간대', area: '지역', acts: '하고 싶은 활동',
-      lang: '대화 언어', kor: '한국어', visit: '방문', age: '나이대', kids: '아이 나이', from: '국가', why: '나와 맞는 점',
+      title: 'LoKo.i 게시판', sub: '부산에서 같이 할 사람을 찾는 여행인과 현지인. 연결은 @lokoi.kr이 확인한 뒤 무료로 해 드려요.',
+      loading: '불러오는 중…', foot: '이름·사진·연락처는 게시판에 보이지 않아요. 현지인은 모두 신원 확인을 마친 사람이에요.', close: '닫기',
+      traveler: '여행인', local: '현지인', all: '전체', mine: '보낸 글', search: '검색 (활동·지역·국가)',
+      writeT: '여행인으로 글쓰기', writeL: '현지인으로 글쓰기',
+      meHello: '{n}님 ({w})', mePublic: '내 글이 게시판에 올라가 있어요.', mePrivate: '내 글이 게시판에 없어요.', hide: '내 글 내리기', show: '내 글 올리기',
+      meUnverified: '신원 확인을 마치면 내 글이 보이고 "같이 해요"를 누를 수 있어요.',
+      badToken: '내 링크가 맞지 않아요. 글을 다시 올리거나 @lokoi.kr로 문의해 주세요.',
+      fit: '잘 맞음', applied: '보냄', myPost: '내 글', none: '아직 글이 없어요. 첫 글을 올려 주세요!', noneMine: '아직 "같이 해요"를 보낸 글이 없어요.', noHit: '검색 결과가 없어요.',
+      fail: '불러오지 못했어요. 잠시 뒤 다시 열어 주세요.',
+      when: '날짜', stay: '여행 기간', time: '시간대', area: '지역', acts: '하고 싶은 것', lang: '대화 언어', kor: '한국어', visit: '방문',
+      age: '나이대', kids: '아이 나이', from: '국가', with: '함께', avail: '가능한 때', freq: '빈도', years: '부산 거주', level: '외국어', maxg: '최대 인원',
       orig: '원문 보기', autoTr: '자동 번역이에요.',
-      msgL: '여행자에게 한마디', msgPh: '예: 저도 돼지국밥 좋아해요! 남포동 단골집 같이 가요.',
-      msgHint: '영어·번체 중국어로 번역해서 전달돼요. 연락처는 적지 마세요 (자동으로 지워져요).',
-      send: '같이 할래요', sending: '보내는 중…',
-      sent: '지원했어요! 여행자가 좋다고 하면 @lokoi.kr이 단체 DM으로 연결해 드려요.',
-      dup: '이미 지원한 글이에요. 여행자의 답을 기다려 주세요.', closed: '이 글은 마감됐거나 더 이상 볼 수 없어요.',
-      sendFail: '보내지 못했어요. 잠시 뒤 다시 시도해 주세요.',
+      msgL: '한마디', msgPh: '예: 저도 돼지국밥 좋아해요! 남포동 단골집 같이 가요.', msgHint: '상대 언어로 번역해서 전달돼요. 연락처는 적지 마세요 (자동으로 지워져요).',
+      send: '같이 해요', sending: '보내는 중…',
+      sent: '보냈어요! 상대도 좋다고 하면 @lokoi.kr이 인스타 단체 DM으로 연결해 드려요.', dup: '이미 보낸 글이에요. 상대의 답을 기다려 주세요.',
+      needPost: '"같이 해요"를 누르려면 먼저 내 글을 올려 주세요. 신청서가 곧 게시판 글이 돼요.',
+      same: '여행인은 현지인 글에, 현지인은 여행인 글에 "같이 해요"를 보낼 수 있어요.',
+      no_fit: '언어·성별·인원·날짜 조건이 맞지 않아서 연결할 수 없어요.', unverified: '신원 확인(영상통화)을 마치면 누를 수 있어요.',
+      inactive: '내 신청이 끝났거나 여행 날짜가 지났어요. 새로 신청해 주세요.', closed: '이 글은 마감됐어요.', invalid: '내 링크가 맞지 않아요.', sendFail: '보내지 못했어요. 잠시 뒤 다시 시도해 주세요.',
       rules: '만남 규칙: 낮·공개 장소, 밤 10시 전 마무리, 숙소·집·개인 차량·술 중심 활동 금지, 각자 계산.',
-      demo: '예시 화면이에요. 가상의 글이고 지원해도 저장되지 않아요.', want: '{a} 함께해요', today: '오늘', tomorrow: '내일'
+      demo: '예시 화면이에요. 가상의 글이고 아무것도 저장되지 않아요.', wantT: '{a} 같이 할 현지인 찾아요', wantL: '{a} 같이 해요', today: '오늘', tomorrow: '내일',
+      people: '{n}명', busan: '부산', from_x: '{c} 출신', hideAsk: '내 글을 게시판에서 내릴까요?'
     },
     en: {
-      title: 'Traveler board', sub: 'Only ID-checked locals can see this. Travelers’ names, photos and contacts are hidden.',
-      loading: 'Loading…', foot: 'This is your personal link. Please don’t share it.', close: 'Close',
-      hello: 'Hi {n}', all: 'All', week: 'This week', mine: 'Applied', search: 'Search (activity, area, country)',
-      fit: 'match', applied: 'Applied', none: 'No matching trips right now. Check back when new ones come in.',
-      noneMine: 'You haven’t applied to any trips yet.', noHit: 'No results.',
-      bad: 'This link is not valid or has been paused. Please message @lokoi.kr on Instagram.', fail: 'Couldn’t load. Please try again later.',
-      people: '', with: 'With', when: 'Preferred date', stay: 'Trip dates', time: 'Time', area: 'Area', acts: 'Activities',
-      lang: 'Languages', kor: 'Korean', visit: 'Visit', age: 'Age range', kids: 'Kids’ ages', from: 'Country', why: 'Why it fits you',
+      title: 'LoKo.i board', sub: 'Travelers and Busan locals looking for someone to do things with. @lokoi.kr checks and connects you, for free.',
+      loading: 'Loading…', foot: 'Names, photos and contacts never appear here. Every local has passed an ID check.', close: 'Close',
+      traveler: 'Traveler', local: 'Local', all: 'All', mine: 'Sent', search: 'Search (activity, area, country)',
+      writeT: 'Post as a traveler', writeL: 'Post as a Busan local',
+      meHello: '{n} ({w})', mePublic: 'Your post is on the board.', mePrivate: 'Your post is not on the board.', hide: 'Hide my post', show: 'Show my post',
+      meUnverified: 'After your ID check, your post appears and you can send "Let’s go".',
+      badToken: 'Your link is not valid. Please post again or message @lokoi.kr.',
+      fit: 'match', applied: 'Sent', myPost: 'Mine', none: 'No posts yet. Be the first!', noneMine: 'You haven’t sent "Let’s go" yet.', noHit: 'No results.',
+      fail: 'Couldn’t load. Please try again later.',
+      when: 'Date', stay: 'Trip dates', time: 'Time', area: 'Area', acts: 'Wants to', lang: 'Languages', kor: 'Korean', visit: 'Visit',
+      age: 'Age range', kids: 'Kids’ ages', from: 'Country', with: 'With', avail: 'Free on', freq: 'How often', years: 'In Busan', level: 'Foreign language', maxg: 'Max group',
       orig: 'Show original', autoTr: 'Auto-translated.',
-      msgL: 'A note to the traveler', msgPh: 'e.g. I love pork soup too! Let’s go to my favorite place in Nampo.',
-      msgHint: 'We translate it for the traveler. Don’t add contact details (they are removed).',
-      send: 'I’d like to join', sending: 'Sending…',
-      sent: 'Sent! If the traveler says yes, @lokoi.kr will connect you in a group DM.',
-      dup: 'You already applied. Please wait for the traveler’s answer.', closed: 'This trip is closed or no longer available.',
-      sendFail: 'Couldn’t send. Please try again.',
+      msgL: 'A short note', msgPh: 'e.g. I love pork soup too! Let’s try my favorite place in Nampo.', msgHint: 'We translate it for them. Don’t add contact details (they are removed).',
+      send: 'Let’s go', sending: 'Sending…',
+      sent: 'Sent! If they say yes too, @lokoi.kr connects you in an Instagram group DM.', dup: 'Already sent. Please wait for their answer.',
+      needPost: 'To send "Let’s go", first post your own. Your sign-up form becomes your post.',
+      same: 'Travelers can reach locals, and locals can reach travelers.',
+      no_fit: 'Language, gender, group size or dates don’t fit, so we can’t connect you.', unverified: 'You can send it after your ID check (video call).',
+      inactive: 'Your request has ended or your trip dates have passed. Please sign up again.', closed: 'This post is closed.', invalid: 'Your link is not valid.', sendFail: 'Couldn’t send. Please try again.',
       rules: 'Rules: daytime, public places, wrap up by 10 pm, no homes, hotels, private cars or drinking-focused plans, everyone pays their own way.',
-      demo: 'Demo page. These trips are made up and nothing is saved.', want: 'Join for {a}', today: 'Today', tomorrow: 'Tomorrow'
+      demo: 'Demo page. These posts are made up and nothing is saved.', wantT: 'Looking for a local: {a}', wantL: 'Let’s do {a}', today: 'Today', tomorrow: 'Tomorrow',
+      people: '{n} ppl', busan: 'Busan', from_x: 'from {c}', hideAsk: 'Hide your post from the board?'
+    },
+    zh: {
+      title: 'LoKo.i 留言板', sub: '想在釜山找人一起玩的旅人與在地人。由 @lokoi.kr 確認後免費幫你們牽線。',
+      loading: '載入中…', foot: '名字、照片和聯絡方式不會出現在這裡。所有在地人都通過了身分確認。', close: '關閉',
+      traveler: '旅人', local: '在地人', all: '全部', mine: '已送出', search: '搜尋（活動、地區、國家）',
+      writeT: '以旅人身分發文', writeL: '以釜山在地人身分發文',
+      meHello: '{n}（{w}）', mePublic: '你的貼文在留言板上。', mePrivate: '你的貼文不在留言板上。', hide: '隱藏我的貼文', show: '公開我的貼文',
+      meUnverified: '完成身分確認後，你的貼文會出現，也能送出「一起去」。',
+      badToken: '你的連結無效。請重新發文或私訊 @lokoi.kr。',
+      fit: '契合', applied: '已送出', myPost: '我的', none: '還沒有貼文，來發第一篇吧！', noneMine: '你還沒有送出「一起去」。', noHit: '沒有結果。',
+      fail: '無法載入，請稍後再試。',
+      when: '日期', stay: '旅行期間', time: '時段', area: '地區', acts: '想做的事', lang: '語言', kor: '韓文', visit: '造訪',
+      age: '年齡層', kids: '小孩年齡', from: '國家', with: '同行', avail: '有空時間', freq: '頻率', years: '住在釜山', level: '外語程度', maxg: '最多人數',
+      orig: '看原文', autoTr: '自動翻譯。',
+      msgL: '想說的話', msgPh: '例：我也愛豬肉湯飯！一起去南浦的愛店吧。', msgHint: '我們會翻譯給對方。請勿留下聯絡方式（會自動刪除）。',
+      send: '一起去', sending: '傳送中…',
+      sent: '已送出！對方也同意的話，@lokoi.kr 會用 Instagram 群組私訊幫你們牽線。', dup: '已經送出過了，請等待對方回覆。',
+      needPost: '要送出「一起去」，請先發一篇自己的貼文。報名表就是你的貼文。',
+      same: '旅人可以找在地人，在地人可以找旅人。',
+      no_fit: '語言、性別、人數或日期條件不符，無法牽線。', unverified: '完成身分確認（視訊）後就能送出。',
+      inactive: '你的申請已結束或旅行日期已過，請重新報名。', closed: '這篇貼文已截止。', invalid: '你的連結無效。', sendFail: '傳送失敗，請稍後再試。',
+      rules: '規則：白天、公開場所，晚上 10 點前結束，不去住處、飯店、私家車，不以喝酒為主，各付各的。',
+      demo: '範例頁面。貼文是虛構的，不會儲存任何內容。', wantT: '想找在地人一起：{a}', wantL: '一起去{a}吧', today: '今天', tomorrow: '明天',
+      people: '{n} 人', busan: '釜山', from_x: '來自{c}', hideAsk: '要把你的貼文從留言板隱藏嗎？'
     }
   };
+  // 시트 값(영어) → 화면 표시
   var V = {
-    'Walks & nature': '산책·자연', 'Sports': '운동', 'Games': '경기 관람', 'Food & markets': '음식·시장', 'Culture & art': '문화·예술',
-    'By the sea': '바다', 'Learn & daily life': '한국어·요리·지하철 타기', 'Views & old town': '전망·원도심 골목', 'Kids & family': '아이·가족 활동',
-    'Haeundae / Centum': '해운대·센텀', 'Gwangalli / Suyeong': '광안리·수영', 'Seomyeon / Jeonpo': '서면·전포', 'Nampo / Jung-gu': '남포·중구',
-    'Yeongdo': '영도', 'Gijang / Songjeong': '기장·송정', 'Anywhere': '상관없음', 'Not decided': '미정', 'Other': '기타',
-    'Morning': '오전', 'Afternoon': '오후', 'Evening': '저녁',
-    'English': '영어', 'Chinese': '중국어', 'Japanese': '일본어', 'Korean': '한국어',
-    'None': '못 해요', 'A little': '몇 마디', 'Conversational': '대화 가능',
-    'Solo': '혼자', 'Friends': '친구', 'Partner': '연인·배우자', 'Family with kids': '가족(아이 동반)', 'Family (adults)': '가족(성인)', 'Group (5+)': '단체(5명+)',
-    'First time in Korea': '한국 첫 방문', 'First time in Busan': '부산 첫 방문', 'Been to Busan': '부산 재방문',
-    'Taiwan': '대만', 'Hong Kong': '홍콩', 'Japan': '일본', 'USA': '미국', 'Singapore': '싱가포르', 'UK': '영국', 'Germany': '독일', 'China': '중국',
-    'Australia': '호주', 'Canada': '캐나다', 'France': '프랑스', 'Malaysia': '말레이시아', 'Thailand': '태국', 'Vietnam': '베트남', 'Philippines': '필리핀', 'Indonesia': '인도네시아'
+    ko: {
+      'Walks & nature': '산책·자연', 'Sports': '운동', 'Games': '경기 관람', 'Food & markets': '음식·시장', 'Culture & art': '문화·예술', 'By the sea': '바다',
+      'Learn & daily life': '한국어·요리·지하철', 'Views & old town': '전망·원도심 골목', 'Kids & family': '아이·가족',
+      'Haeundae / Centum': '해운대·센텀', 'Gwangalli / Suyeong': '광안리·수영', 'Seomyeon / Jeonpo': '서면·전포', 'Nampo / Jung-gu': '남포·중구',
+      'Yeongdo': '영도', 'Gijang / Songjeong': '기장·송정', 'Anywhere': '어디든', 'Not decided': '미정', 'Other': '기타',
+      'Morning': '오전', 'Afternoon': '오후', 'Evening': '저녁', 'Weekday daytime': '평일 낮', 'Weekday evening': '평일 저녁', 'Weekend': '주말',
+      'English': '영어', 'Chinese': '중국어', 'Japanese': '일본어', 'Korean': '한국어',
+      'None': '못 해요', 'A little': '몇 마디', 'Conversational': '대화 가능', 'Basic': '기초(번역 앱)', 'Fluent': '유창',
+      'Solo': '혼자', 'Friends': '친구', 'Partner': '연인·배우자', 'Family with kids': '가족(아이 동반)', 'Family (adults)': '가족(성인)', 'Group (5+)': '단체(5명+)',
+      'First time in Korea': '한국 첫 방문', 'First time in Busan': '부산 첫 방문', 'Been to Busan': '부산 재방문',
+      'Born here': '부산 토박이', '10+ years': '10년 이상', '3-10 years': '3~10년', 'Under 3 years': '3년 미만',
+      'Once to try': '한 번 해 보기', '1-2 a month': '한 달 1~2번', 'Most weeks': '거의 매주',
+      'Taiwan': '대만', 'Hong Kong': '홍콩', 'Japan': '일본', 'USA': '미국', 'Singapore': '싱가포르', 'UK': '영국', 'Germany': '독일', 'China': '중국',
+      'Australia': '호주', 'Canada': '캐나다', 'France': '프랑스', 'Malaysia': '말레이시아', 'Thailand': '태국', 'Vietnam': '베트남', 'Philippines': '필리핀', 'Indonesia': '인도네시아',
+      'Korea': '한국', 'South Korea': '한국'
+    },
+    zh: {
+      'Walks & nature': '散步與自然', 'Sports': '運動', 'Games': '看比賽', 'Food & markets': '美食與市場', 'Culture & art': '文化與藝術', 'By the sea': '海邊活動',
+      'Learn & daily life': '學韓文、做菜、搭地鐵', 'Views & old town': '景觀與老街巷弄', 'Kids & family': '親子活動',
+      'Haeundae / Centum': '海雲台 · Centum', 'Gwangalli / Suyeong': '廣安里 · 水營', 'Seomyeon / Jeonpo': '西面 · 田浦', 'Nampo / Jung-gu': '南浦 · 中區',
+      'Yeongdo': '影島', 'Gijang / Songjeong': '機張 · 松亭', 'Anywhere': '都可以', 'Not decided': '未定', 'Other': '其他',
+      'Morning': '上午', 'Afternoon': '下午', 'Evening': '晚上', 'Weekday daytime': '平日白天', 'Weekday evening': '平日晚上', 'Weekend': '週末',
+      'English': '英文', 'Chinese': '中文', 'Japanese': '日文', 'Korean': '韓文',
+      'None': '還不會', 'A little': '會幾個單字', 'Conversational': '能聊天', 'Basic': '基礎（翻譯 App）', 'Fluent': '流利',
+      'Solo': '一個人', 'Friends': '朋友', 'Partner': '伴侶', 'Family with kids': '家人（有小孩）', 'Family (adults)': '家人（成人）', 'Group (5+)': '團體（5 人以上）',
+      'First time in Korea': '第一次來韓國', 'First time in Busan': '第一次來釜山', 'Been to Busan': '來過釜山',
+      'Born here': '土生土長', '10+ years': '10 年以上', '3-10 years': '3–10 年', 'Under 3 years': '未滿 3 年',
+      'Once to try': '先試一次', '1-2 a month': '每月 1–2 次', 'Most weeks': '幾乎每週',
+      'Taiwan': '台灣', 'Hong Kong': '香港', 'Japan': '日本', 'USA': '美國', 'Singapore': '新加坡', 'UK': '英國', 'Germany': '德國', 'China': '中國',
+      'Korea': '韓國', 'South Korea': '韓國', 'Malaysia': '馬來西亞', 'Thailand': '泰國', 'Vietnam': '越南'
+    }
   };
-  var DAYS = { ko: ['일', '월', '화', '수', '목', '금', '토'], en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] };
+  var DAYS = { ko: ['일', '월', '화', '수', '목', '금', '토'], en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], zh: ['日', '一', '二', '三', '四', '五', '六'] };
 
-  var qs = new URLSearchParams(location.search);
-  var token = qs.get('t') || '', demo = qs.get('demo') === '1';
-  var lang = 'ko', state = { posts: [], applied: [], tab: 'all', q: '' };
-  var app = document.getElementById('app'), dlg = document.getElementById('dt');
-  var cfg = window.LOKOI_CONFIG || {};
+  var qs = new URLSearchParams(location.search), demo = qs.get('demo') === '1', cfg = window.LOKOI_CONFIG || {};
+  var app = document.getElementById('app'), top = document.getElementById('top'), dlg = document.getElementById('dt'), sel = document.getElementById('lang');
+  var lang = 'en', token = '', data = null, state = { tab: 'all', q: '' };
 
-  // 개인 링크의 토큰이 주소창·방문 기록에 오래 남지 않게 지움 (이 탭에서만 기억)
-  try {
-    if (token) { sessionStorage.setItem('lokoi_board_t', token); history.replaceState(null, '', location.pathname + (demo ? '?demo=1' : '')); }
-    else token = sessionStorage.getItem('lokoi_board_t') || '';
-  } catch (e) {}
+  function store(k, v) { try { if (v == null) return localStorage.getItem(k); if (v === '') localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
+  // 개인 링크(?t=)는 이 기기에 기억하고 주소창에서는 지움
+  token = qs.get('t') || '';
+  if (token && !demo) { store('lokoi_board_t', token); qs.delete('t'); history.replaceState(null, '', location.pathname + (qs.toString() ? '?' + qs : '')); }
+  else if (!demo) token = store('lokoi_board_t') || '';
 
-  function t(k, vars) { var s = (T[lang] || T.ko)[k] || T.ko[k] || k; if (vars) Object.keys(vars).forEach(function (x) { s = s.replace('{' + x + '}', vars[x]); }); return s; }
-  function v(x) { x = String(x || '').trim(); return lang === 'ko' ? (V[x] || x) : x; }
+  lang = (function () {
+    var q = qs.get('lang'); if (T[q]) return q;
+    var s = store('lokoi_lang'); if (T[s]) return s;
+    var l = String((navigator.languages || [navigator.language || 'en'])[0]).toLowerCase();
+    return l.indexOf('zh') === 0 ? 'zh' : l.indexOf('ko') === 0 ? 'ko' : 'en';
+  })();
+  sel.value = lang;
+  sel.addEventListener('change', function () { lang = sel.value; store('lokoi_lang', lang); load(); });
+
+  function t(k, vars) { var s = (T[lang] || T.en)[k]; if (s == null) s = T.en[k] || k; if (vars) Object.keys(vars).forEach(function (x) { s = s.replace('{' + x + '}', vars[x]); }); return s; }
+  function v(x) { x = String(x || '').trim(); return (V[lang] && V[lang][x]) || x; }
   function list(x) { return String(x || '').split(/\s*,\s*/).filter(Boolean); }
   function vl(x, sep) { return list(x).map(v).join(sep || ', '); }
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  function localize() { document.documentElement.lang = lang; document.querySelectorAll('[data-t]').forEach(function (n) { n.textContent = t(n.getAttribute('data-t')); }); document.title = t('title') + ' — LoKo.i'; }
-
-  function todayStr(offset) { var d = new Date(Date.now() + 9 * 3600e3 + (offset || 0) * 864e5); return d.toISOString().slice(0, 10); }
+  function localize() {
+    document.documentElement.lang = lang === 'zh' ? 'zh-Hant' : lang;
+    document.querySelectorAll('[data-t]').forEach(function (n) { n.textContent = t(n.getAttribute('data-t')); });
+    document.title = t('title');
+  }
+  function todayStr(offset) { return new Date(Date.now() + 9 * 3600e3 + (offset || 0) * 864e5).toISOString().slice(0, 10); }
   function fmtDate(s) {
     var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ''); if (!m) return '';
     if (s === todayStr()) return t('today');
     if (s === todayStr(1)) return t('tomorrow');
     var day = DAYS[lang][new Date(Date.UTC(+m[1], m[2] - 1, +m[3])).getUTCDay()];
-    return lang === 'ko' ? (+m[2]) + '월 ' + (+m[3]) + '일(' + day + ')' : day + ' ' + (+m[2]) + '/' + (+m[3]);
+    if (lang === 'ko') return (+m[2]) + '월 ' + (+m[3]) + '일(' + day + ')';
+    if (lang === 'zh') return (+m[2]) + '/' + (+m[3]) + '（' + day + '）';
+    return day + ' ' + (+m[2]) + '/' + (+m[3]);
   }
-  function size(p) { var n = p.group_size || '1'; return lang === 'ko' ? n + '명' : n + (n === '1' ? ' person' : ' people'); }
-  function title(p) { return p.details || t('want', { a: vl(p.activities, lang === 'ko' ? '·' : ' & ') }); }
-  function dateOf(p) { return p.preferred_date || p.arrive || ''; }
+  // 여행인 · 대만 / 현지인 · 부산 (대만 출신)
+  function whoLabel(p) {
+    if (p.type === 'traveler') return t('traveler') + ' · ' + v(p.country || '?');
+    var s = t('local') + ' · ' + t('busan');
+    if (/foreign/i.test(p.resident_type || '') && p.nationality) s += ' (' + t('from_x', { c: v(p.nationality) }) + ')';
+    return s;
+  }
+  function title(p) {
+    if (p.note) return p.note;
+    var a = vl(p.activities, lang === 'en' ? ' & ' : '·');
+    return t(p.type === 'traveler' ? 'wantT' : 'wantL', { a: a });
+  }
+  function meta(p) {
+    if (p.type === 'traveler') return [t('people', { n: p.group_size || '1' }), fmtDate(p.preferred_date || p.arrive), vl(p.time_slots, '·'), vl(p.areas || p.stay_area, '·')];
+    return [vl(p.availability, '·'), vl(p.areas, '·'), vl(p.languages, '·')];
+  }
+  function fitOf(p) { return data && data.me && data.me.fit ? data.me.fit[p.id] : undefined; }
+  function isMine(p) { return data && data.me && data.me.id === p.id; }
+  function sent(p) { return data && data.me && (data.me.applied || []).indexOf(p.id) !== -1; }
 
-  function filtered() {
-    var q = state.q.toLowerCase(), wk = todayStr(7);
-    return state.posts.filter(function (p) {
-      if (state.tab === 'mine' && state.applied.indexOf(p.id) === -1) return false;
-      if (state.tab === 'week') { var d = dateOf(p); if (!d || d > wk) return false; }
-      if (!q) return true;
-      var hay = [p.details, p.details_src, p.country, v(p.country), p.activities, vl(p.activities), p.areas, vl(p.areas), p.stay_area, vl(p.stay_area)].join(' ').toLowerCase();
-      return hay.indexOf(q) !== -1;
-    });
+  function load() {
+    localize();
+    if (demo) { data = DEMO(); render(); return; }
+    if (!cfg.ENDPOINT) { fail('fail'); return; }
+    app.textContent = ''; app.appendChild(el('p', 'state', t('loading')));
+    fetch(cfg.ENDPOINT + '?board=1&lang=' + lang + (token ? '&t=' + encodeURIComponent(token) : ''))
+      .then(function (r) { return r.json(); })
+      .then(function (d) { if (!d.ok) return fail('fail'); data = d; render(); })
+      .catch(function () { fail('fail'); });
+  }
+  function fail(k) { top.textContent = ''; app.textContent = ''; app.appendChild(el('p', 'state', t(k))); }
+
+  function writeButtons(box) {
+    var c = el('div', 'cta');
+    var a = el('a', 'btn btn-primary', t('writeT')); a.href = 'apply.html?lang=' + lang;
+    var b = el('a', 'btn btn-line', t('writeL')); b.href = 'local.html?lang=' + lang;
+    c.appendChild(a); c.appendChild(b); box.appendChild(c);
+  }
+
+  function renderTop() {
+    top.textContent = '';
+    if (demo) top.appendChild(el('p', 'msg-info', t('demo'))), top.lastChild.style.marginBottom = '12px';
+    if (data.bad_token) top.appendChild(el('p', 'msg-err', t('badToken')));
+    var me = data.me;
+    if (!me) { writeButtons(top); return; }
+    var bar = el('div', 'mebar');
+    bar.appendChild(el('b', null, t('meHello', { n: me.name, w: t(me.type) })));
+    var info = !me.verified ? t('meUnverified') : me.public ? t('mePublic') : t('mePrivate');
+    bar.appendChild(el('span', 'grow', info));
+    if (me.verified) {
+      var tg = el('button', 'btn btn-line btn-sm', me.public ? t('hide') : t('show')); tg.type = 'button';
+      tg.addEventListener('click', function () {
+        var show = !me.public;
+        if (!show && !window.confirm(t('hideAsk'))) return;
+        tg.disabled = true;
+        post({ action: 'board_visibility', token: token, show: show }).then(function (r) { tg.disabled = false; if (r.ok) { me.public = show; load(); } });
+      });
+      bar.appendChild(tg);
+    }
+    top.appendChild(bar);
   }
 
   function render() {
+    renderTop();
     app.textContent = '';
-    if (demo) app.appendChild(el('p', 'msg-ok', t('demo')));
-    var bar = el('div', 'bar'), tabs = el('div', 'tabs'); tabs.setAttribute('role', 'group');
-    var wk = todayStr(7);
-    [['all', state.posts.length], ['week', state.posts.filter(function (p) { var d = dateOf(p); return d && d <= wk; }).length], ['mine', state.applied.filter(function (id) { return state.posts.some(function (p) { return p.id === id; }); }).length]]
-      .forEach(function (x) {
-        var b = el('button', null, t(x[0])); b.type = 'button'; b.setAttribute('aria-pressed', String(state.tab === x[0]));
-        b.appendChild(el('span', 'n', String(x[1])));
-        b.addEventListener('click', function () { state.tab = x[0]; render(); });
-        tabs.appendChild(b);
-      });
+    var posts = data.posts || [];
+    var bar = el('div', 'bar'), tabs = el('div', 'tabs');
+    var defs = [['all', posts.length], ['traveler', posts.filter(function (p) { return p.type === 'traveler'; }).length], ['local', posts.filter(function (p) { return p.type === 'local'; }).length]];
+    if (data.me) defs.push(['mine', posts.filter(sent).length]);
+    defs.forEach(function (x) {
+      var b = el('button', null, t(x[0])); b.type = 'button'; b.setAttribute('aria-pressed', String(state.tab === x[0]));
+      b.appendChild(el('span', 'n', String(x[1])));
+      b.addEventListener('click', function () { state.tab = x[0]; render(); });
+      tabs.appendChild(b);
+    });
     var sw = el('div', 'search'), si = el('input'); si.type = 'search'; si.placeholder = t('search'); si.setAttribute('aria-label', t('search')); si.value = state.q;
     si.addEventListener('input', function () { state.q = si.value.trim(); drawList(ul); });
     sw.appendChild(si); bar.appendChild(tabs); bar.appendChild(sw); app.appendChild(bar);
@@ -202,16 +340,28 @@
 
   function drawList(ul) {
     ul.textContent = '';
-    var rows = filtered();
+    var q = state.q.toLowerCase();
+    var rows = (data.posts || []).filter(function (p) {
+      if (state.tab === 'traveler' || state.tab === 'local') { if (p.type !== state.tab) return false; }
+      if (state.tab === 'mine' && !sent(p)) return false;
+      if (!q) return true;
+      return [p.note, p.note_src, p.country, v(p.country), p.nationality, v(p.nationality), p.activities, vl(p.activities), p.areas, vl(p.areas), p.stay_area, vl(p.stay_area)].join(' ').toLowerCase().indexOf(q) !== -1;
+    });
+    // 내 링크가 있으면 상대편 글 중 잘 맞는 글을 위로
+    if (data.me) rows = rows.slice().sort(function (a, b) { var fa = fitOf(a), fb = fitOf(b); return (typeof fb === 'number' ? fb : -1) - (typeof fa === 'number' ? fa : -1); });
     if (!rows.length) { ul.appendChild(el('li', 'empty', state.q ? t('noHit') : state.tab === 'mine' ? t('noneMine') : t('none'))); return; }
     rows.forEach(function (p) {
       var li = el('li', 'post'), b = el('button'); b.type = 'button';
-      b.appendChild(el('span', 'p-cat', vl(p.activities, ' · ')));
+      var tp = el('span', 'p-top'); tp.appendChild(el('span', 'who ' + p.type, whoLabel(p)));
+      if (p.age_range) tp.appendChild(el('span', 'p-cat', p.age_range));
+      tp.appendChild(el('span', 'p-cat', vl(p.activities, ' · ')));
+      b.appendChild(tp);
       b.appendChild(el('span', 'p-title', title(p)));
-      b.appendChild(el('span', 'p-meta', [v(p.country), size(p), fmtDate(dateOf(p)), vl(p.time_slots, '·'), vl(p.areas || p.stay_area, '·')].filter(Boolean).join(' · ')));
-      var side = el('span', 'p-side');
-      if (state.applied.indexOf(p.id) !== -1) side.appendChild(el('span', 'done-tag', t('applied')));
-      else { var f = el('span', 'fit', String(p.score)); f.appendChild(el('small', null, t('fit'))); side.appendChild(f); }
+      b.appendChild(el('span', 'p-meta', meta(p).filter(Boolean).join(' · ')));
+      var side = el('span', 'p-side'), f = fitOf(p);
+      if (isMine(p)) side.appendChild(el('span', 'mine-tag', t('myPost')));
+      else if (sent(p)) side.appendChild(el('span', 'done-tag', t('applied')));
+      else if (typeof f === 'number') { var fs = el('span', 'fit', String(f)); fs.appendChild(el('small', null, t('fit'))); side.appendChild(fs); }
       b.appendChild(side);
       b.addEventListener('click', function () { open(p); });
       li.appendChild(b); ul.appendChild(li);
@@ -219,28 +369,32 @@
   }
 
   function open(p) {
-    document.getElementById('dtCat').textContent = vl(p.activities, ' · ');
+    var who = document.getElementById('dtWho'); who.textContent = ''; who.appendChild(el('span', 'who ' + p.type, whoLabel(p)));
     var body = document.getElementById('dtBody'); body.textContent = '';
     var h = el('h2', null, title(p)); h.id = 'dtTitle'; body.appendChild(h);
-    if (p.details && p.details_src && p.details !== p.details_src) {
-      var o = el('details', 'orig'); o.appendChild(el('summary', null, t('autoTr') + ' ' + t('orig'))); o.appendChild(el('p', null, p.details_src)); body.appendChild(o);
+    if (p.note && p.note_src && p.note !== p.note_src) {
+      var o = el('details', 'orig'); o.appendChild(el('summary', null, t('autoTr') + ' ' + t('orig'))); o.appendChild(el('p', null, p.note_src)); body.appendChild(o);
     }
-    // 맞는 이유는 매칭 엔진이 한국어로 만들어서 한국어 게시판에서만 보여 줌 (영어 값은 한국어로 바꿈)
-    if (lang === 'ko' && p.reasons && p.reasons.length) {
-      var w = el('div', 'why'); w.setAttribute('aria-label', t('why'));
-      p.reasons.forEach(function (r) { Object.keys(V).forEach(function (k) { r = r.split(k).join(V[k]); }); w.appendChild(el('span', null, r)); });
-      body.appendChild(w);
-    }
-    var dl = el('dl');
-    [[t('from'), v(p.country)], [t('age'), p.age_range], [t('with'), [v(p.travelling_with), size(p)].filter(Boolean).join(' · ')], [t('kids'), p.kids_ages],
-     [t('when'), fmtDate(p.preferred_date)], [t('stay'), p.arrive && p.leave ? fmtDate(p.arrive) + ' – ' + fmtDate(p.leave) : ''],
-     [t('time'), vl(p.time_slots)], [t('area'), vl(p.areas || p.stay_area)], [t('acts'), vl(p.activities)],
-     [t('lang'), vl(p.languages)], [t('kor'), v(p.korean_level)], [t('visit'), v(p.first_visit)]]
-      .forEach(function (r) { if (!r[1]) return; dl.appendChild(el('dt', null, r[0])); dl.appendChild(el('dd', null, r[1])); });
+    var dl = el('dl'), rows = p.type === 'traveler'
+      ? [[t('from'), v(p.country)], [t('age'), p.age_range], [t('with'), [v(p.travelling_with), t('people', { n: p.group_size || '1' })].filter(Boolean).join(' · ')], [t('kids'), p.kids_ages],
+         [t('when'), fmtDate(p.preferred_date)], [t('stay'), p.arrive && p.leave ? fmtDate(p.arrive) + ' – ' + fmtDate(p.leave) : ''],
+         [t('time'), vl(p.time_slots)], [t('area'), vl(p.areas || p.stay_area)], [t('acts'), vl(p.activities)],
+         [t('lang'), vl(p.languages)], [t('kor'), v(p.korean_level)], [t('visit'), v(p.first_visit)]]
+      : [[t('age'), p.age_range], [t('years'), v(p.busan_years)], [t('avail'), vl(p.availability)], [t('freq'), v(p.frequency)],
+         [t('area'), vl(p.areas)], [t('acts'), vl(p.activities)], [t('lang'), vl(p.languages)], [t('level'), v(p.language_level)],
+         [t('maxg'), p.max_group ? t('people', { n: p.max_group }) : '']];
+    rows.forEach(function (r) { if (!r[1]) return; dl.appendChild(el('dt', null, r[0])); dl.appendChild(el('dd', null, r[1])); });
     body.appendChild(dl);
+    body.appendChild(joinBox(p));
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  }
 
-    var box = el('div', 'apply');
-    if (state.applied.indexOf(p.id) !== -1) box.appendChild(el('p', 'msg-ok', t('dup')));
+  function joinBox(p) {
+    var box = el('div', 'join'), f = fitOf(p);
+    if (isMine(p)) return box;
+    if (!data.me) { box.appendChild(el('p', 'msg-info', t('needPost'))); writeButtons(box); }
+    else if (sent(p)) box.appendChild(el('p', 'msg-ok', t('dup')));
+    else if (typeof f !== 'number') box.appendChild(el('p', 'msg-info', t(f === 'fit' ? 'no_fit' : f || 'closed')));
     else {
       var lab = el('label', null, t('msgL')); lab.htmlFor = 'msg';
       var ta = el('textarea'); ta.id = 'msg'; ta.maxLength = 500; ta.placeholder = t('msgPh');
@@ -248,53 +402,48 @@
       var err = el('p', 'msg-err'); err.hidden = true;
       btn.addEventListener('click', function () {
         btn.disabled = true; btn.textContent = t('sending'); err.hidden = true;
-        send(p.id, ta.value.trim()).then(function (r) {
+        post({ action: 'board_apply', token: token, post_id: p.id, message: ta.value.trim() }).then(function (r) {
           if (r.ok) {
-            if (state.applied.indexOf(p.id) === -1) state.applied.push(p.id);
-            box.textContent = ''; box.appendChild(el('p', 'msg-ok', r.dup ? t('dup') : t('sent'))); render();
-          } else { err.textContent = r.error === 'closed' ? t('closed') : r.error === 'invalid' ? t('bad') : t('sendFail'); err.hidden = false; btn.disabled = false; btn.textContent = t('send'); }
+            if (!sent(p)) data.me.applied.push(p.id);
+            box.textContent = ''; box.appendChild(el('p', 'msg-ok', r.dup ? t('dup') : t('sent'))); box.appendChild(el('p', 'rules-mini', t('rules')));
+            render();
+          } else {
+            err.textContent = t(r.error === 'fit' ? 'no_fit' : r.error || 'sendFail'); err.hidden = false; btn.disabled = false; btn.textContent = t('send');
+          }
         });
       });
       box.appendChild(lab); box.appendChild(ta); box.appendChild(el('p', 'hint', t('msgHint'))); box.appendChild(btn); box.appendChild(err);
     }
     box.appendChild(el('p', 'rules-mini', t('rules')));
-    body.appendChild(box);
-    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    return box;
   }
   document.getElementById('dtClose').addEventListener('click', function () { dlg.close(); });
   dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
 
-  function send(id, message) {
+  function post(body) {
     if (demo) return Promise.resolve({ ok: true });
-    return fetch(cfg.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'board_apply', token: token, post_id: id, message: message }) })
+    return fetch(cfg.ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
       .then(function (r) { return r.json(); }).catch(function () { return { ok: false }; });
   }
 
-  function start(d) {
-    lang = d.lang === 'en' ? 'en' : 'ko'; localize();
-    if (d.me && d.me.name) document.getElementById('hello').textContent = t('hello', { n: d.me.name });
-    state.posts = d.posts || []; state.applied = d.applied || [];
-    render();
-  }
-  function fail(key) { localize(); app.textContent = ''; app.appendChild(el('p', 'state', t(key))); }
-
-  if (demo) { start(DEMO()); return; }
-  if (!token || !cfg.ENDPOINT) { fail('bad'); return; }
-  fetch(cfg.ENDPOINT + '?board=' + encodeURIComponent(token))
-    .then(function (r) { return r.json(); })
-    .then(function (d) { if (d.ok) start(d); else fail(d.error === 'invalid' ? 'bad' : 'fail'); })
-    .catch(function () { fail('fail'); });
-
-  // 예시 데이터 (?demo=1): 가상의 여행자 글
+  // 예시 데이터 (?demo=1, ?demo=1&as=traveler 는 여행인 시점, &as=none 은 링크 없는 방문자)
   function DEMO() {
-    var d = function (n) { return todayStr(n); };
-    return { ok: true, lang: qs.get('lang') === 'en' ? 'en' : 'ko', me: { name: '지은' }, applied: ['T4'], posts: [
-      { id: 'T1', score: 86, reasons: ['활동 2/2개 일치 (Food & markets, Views & old town)', '지역 일치 (Nampo / Jung-gu)', '시간대 일치'], country: 'Taiwan', age_range: '25-34', travelling_with: 'Friends', group_size: '2', first_visit: 'First time in Busan', arrive: d(2), leave: d(6), preferred_date: d(3), time_slots: 'Afternoon', areas: 'Nampo / Jung-gu', activities: 'Food & markets, Views & old town', languages: 'Chinese, English', korean_level: 'A little', details: '현지인이 가는 돼지국밥집에 가 보고 싶어요. 국제시장도 구경하고 싶어요!', details_src: '想去在地人常去的豬肉湯飯店，也想逛國際市場！' },
-      { id: 'T2', score: 74, reasons: ['활동 1/2개 일치 (Sports)', '시간대 일치'], country: 'USA', age_range: '25-34', travelling_with: 'Solo', group_size: '1', arrive: d(1), leave: d(5), preferred_date: d(4), time_slots: 'Evening', areas: 'Anywhere', stay_area: 'Seomyeon / Jeonpo', activities: 'Sports, Learn & daily life', languages: 'English', korean_level: 'Conversational', details: '롯데 자이언츠 응원가를 배우고 싶어요. 지하철 타는 법도 알려 주세요.', details_src: 'I want to learn the Lotte Giants cheer songs. Also how to ride the subway like a local.' },
-      { id: 'T3', score: 61, reasons: ['활동 1/2개 일치 (By the sea)'], country: 'Hong Kong', age_range: '35-44', travelling_with: 'Family with kids', group_size: '4', kids_ages: '6, 9', arrive: d(8), leave: d(12), preferred_date: d(9), time_slots: 'Morning', areas: 'Haeundae / Centum', activities: 'Kids & family, By the sea', languages: 'Chinese, English', korean_level: 'None', details: '', details_src: '' },
-      { id: 'T4', score: 58, reasons: ['활동 1/1개 일치 (Walks & nature)'], country: 'Japan', age_range: '18-24', travelling_with: 'Solo', group_size: '1', arrive: d(0), leave: d(3), preferred_date: d(1), time_slots: 'Morning', areas: 'Yeongdo', activities: 'Walks & nature', languages: 'Japanese, English', korean_level: 'A little', details: '흰여울문화마을을 아침 일찍 걷고 싶어요.', details_src: '朝早く白瀬文化村を歩きたいです。' }
-    ] };
+    var d = function (n) { return todayStr(n); }, as = qs.get('as');
+    var ko = lang === 'ko';
+    var posts = [
+      { id: 'T1', type: 'traveler', posted: d(0), country: 'Taiwan', age_range: '25-34', travelling_with: 'Friends', group_size: '2', first_visit: 'First time in Busan', arrive: d(2), leave: d(6), preferred_date: d(3), time_slots: 'Afternoon', areas: 'Nampo / Jung-gu', activities: 'Food & markets, Views & old town', languages: 'Chinese, English', korean_level: 'A little', note: ko ? '현지인이 가는 돼지국밥집에 가 보고 싶어요. 국제시장도 구경하고 싶어요!' : 'I want to try a pork soup place locals go to, and walk around Gukje Market!', note_src: '想去在地人常去的豬肉湯飯店，也想逛國際市場！' },
+      { id: 'L1', type: 'local', posted: d(-1), resident_type: 'Korean', age_range: '25-29', busan_years: 'Born here', areas: 'Nampo / Jung-gu, Yeongdo', activities: 'Food & markets, Views & old town', availability: 'Weekend, Weekday evening', frequency: '1-2 a month', languages: 'Chinese, English', language_level: 'Conversational', max_group: '4', note: ko ? '남포동 토박이예요. 시장 골목 맛집과 영도 바다 산책 같이 해요.' : 'Born in Nampo. Let’s eat in the market alleys and walk by the sea in Yeongdo.', note_src: '남포동 토박이예요. 시장 골목 맛집과 영도 바다 산책 같이 해요.' },
+      { id: 'T2', type: 'traveler', posted: d(-1), country: 'Korea', age_range: '25-34', travelling_with: 'Solo', group_size: '1', arrive: d(1), leave: d(3), preferred_date: d(2), time_slots: 'Evening', areas: 'Seomyeon / Jeonpo', activities: 'Sports, Games', languages: 'Korean, English', korean_level: '', note: ko ? '서울에서 혼자 왔어요. 사직구장 직관 같이 하실 분!' : 'Came alone from Seoul. Anyone for a game at Sajik stadium?', note_src: '서울에서 혼자 왔어요. 사직구장 직관 같이 하실 분!' },
+      { id: 'L4', type: 'local', posted: d(-2), resident_type: 'Foreign resident', nationality: 'Taiwan', age_range: '25-29', busan_years: '3-10 years', areas: 'Gwangalli / Suyeong', activities: 'Walks & nature, By the sea', availability: 'Weekend', frequency: 'Most weeks', languages: 'Chinese, English, Korean', language_level: 'Fluent', max_group: '4', note: '', note_src: '' },
+      { id: 'T3', type: 'traveler', posted: d(-3), country: 'Hong Kong', age_range: '35-44', travelling_with: 'Family with kids', group_size: '4', kids_ages: '6, 9', arrive: d(8), leave: d(12), preferred_date: d(9), time_slots: 'Morning', areas: 'Haeundae / Centum', activities: 'Kids & family, By the sea', languages: 'Chinese, English', korean_level: 'None', note: '', note_src: '' }
+    ];
+    var me = as === 'none' ? null : as === 'traveler'
+      ? { id: 'T1', type: 'traveler', name: 'Mei', public: true, verified: true, applied: [], fit: { L1: 88, L4: 64, T2: 'same', T3: 'same' } }
+      : { id: 'L1', type: 'local', name: '지은', public: true, verified: true, applied: ['T3'], fit: { T1: 86, T2: 71, T3: 52, L4: 'same' } };
+    return { ok: true, lang: lang, posts: posts, me: me };
   }
+
+  load();
 })();
 </script>
 </body>

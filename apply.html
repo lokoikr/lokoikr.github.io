@@ -281,7 +281,7 @@
           <label class="check"><input type="checkbox" name="agree_share" value="Yes" required><span data-i18n="c_agree_third">I agree to share my profile with my matched local (contact only after we both say yes).</span></label>
         </div>
         <div class="consent">
-          <label class="check"><input type="checkbox" name="board_ok" value="Yes"><span data-i18n="c_board">(Optional) Post my trip on the LoKo.i board so ID-checked locals can offer to join. Only your country, age range, dates, area, activities, languages and your "anything specific" note are shown, auto-translated. Never your name, photo or contact.</span></label>
+          <label class="check"><input type="checkbox" name="board_public" value="Yes"><span data-i18n="c_board_pub">(Optional, recommended) Post my trip on the public LoKo.i board so locals can find me and say "Let's go". Shown: country, age range, dates, area, activities, languages and your "anything specific" note, auto-translated. Never your name, photo or contact. You can hide it anytime.</span></label>
         </div>
         <div class="consent">
           <details><summary data-i18n="c_safe_t">Safety rules (required)</summary>
@@ -323,6 +323,10 @@
         <li data-ic="user"><span data-i18n="done_s2">We send you their first name, photo and intro on the contact you gave us.</span></li>
         <li data-ic="chat"><span data-i18n="done_s3">Need to change or cancel? Reply to our message or DM @lokoi.kr anytime.</span></li>
       </ol>
+      <div data-board-link hidden style="background:#fff;border-radius:14px;padding:16px;margin:0 0 16px">
+        <p data-i18n="done_board">Your personal board link is saved on this phone. Find locals on the board and tap "Let's go". Bookmark it to come back.</p>
+        <a class="btn btn-primary" href="board.html" data-i18n="done_board_btn">Open the board</a>
+      </div>
       <a class="btn btn-dark" href="https://www.instagram.com/lokoi.kr/" target="_blank" rel="noopener" data-i18n="tips_follow">Follow @lokoi.kr</a>
     </div>
   </div>

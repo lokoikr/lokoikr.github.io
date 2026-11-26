@@ -25,14 +25,14 @@ var COLUMNS = {
   traveler: ['submitted_at', 'status', 'name', 'country', 'age_range', 'email', 'contact_method', 'contact_id',
     'in_busan', 'first_visit', 'arrive', 'leave', 'travelling_with', 'group_size', 'kids_ages',
     'activities', 'details', 'areas', 'stay_area', 'preferred_date', 'time_slots', 'languages', 'korean_level', 'buddy_pref', 'gender',
-    'about_me', 'budget', 'notes', 'photo_id', 'source', 'photo_ok', 'agree_privacy', 'agree_share', 'board_ok', 'agree_safety', 'agree_adult',
+    'about_me', 'budget', 'notes', 'photo_id', 'source', 'photo_ok', 'agree_privacy', 'agree_share', 'board_public', 'agree_safety', 'agree_adult',
     'site_lang', 'fill_seconds'],
   local: ['submitted_at', 'status', 'name', 'name_en', 'age_range', 'resident_type', 'nationality', 'busan_years', 'occupation', 'gender', 'home_district', 'max_group', 'email', 'contact_id', 'instagram',
     'areas', 'activities', 'languages', 'language_level', 'availability', 'frequency', 'buddy_pref', 'fav_spot', 'intro', 'photo_id',
-    'source', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang', 'fill_seconds']
+    'board_public', 'board_note', 'source', 'agree_privacy', 'agree_share', 'agree_safety', 'agree_id', 'agree_adult', 'site_lang', 'fill_seconds']
 };
-COLUMNS.apply = ['applied_at', 'status', 'post_id', 'traveler_name', 'local_id', 'local_name', 'message', 'message_tr', 'traveler_lang'];
-var SHEET_NAMES = { traveler: '여행자 신청', local: '현지인 등록', apply: '현지인 지원' };
+COLUMNS.apply = ['applied_at', 'status', 'from_id', 'from_type', 'from_name', 'to_id', 'to_type', 'to_name', 'message', 'message_tr', 'to_lang'];
+var SHEET_NAMES = { traveler: '여행자 신청', local: '현지인 등록', apply: '게시판 지원' };
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -41,10 +41,14 @@ function doPost(e) {
     var data = JSON.parse(e.postData.contents || '{}');
     if (data.action === 'board_apply') return json_(boardApply_(data));
     if (data.action === 'board_link') return json_(boardLink_(data));
+    if (data.action === 'board_visibility') return json_(boardVisibility_(data));
     var type = data.form_type === 'local' ? 'local' : 'traveler';
     if (data.website) return json_({ ok: true }); // 봇 차단용 숨은 칸
 
     data.status = '신규';
+    // 서버가 정하는 칸은 보낸 값을 버림 (번역 캐시·개인 링크 조작 방지)
+    Object.keys(data).forEach(function (k) { if (/^(board_token|note_(ko|en|zh)|details_(ko|en))$/.test(k)) delete data[k]; });
+    data.board_token = newToken_();
 
     // 사진: 브라우저에서 줄인 JPEG(data URL) → 드라이브 'LoKo.i 신청 사진' 폴더에 저장, 시트엔 파일 ID만
     if (data.photo) {
@@ -81,7 +85,7 @@ function doPost(e) {
         '[LoKo.i] 새 ' + SHEET_NAMES[type] + ': ' + who,
         '시트에서 확인하세요: ' + book_().getUrl());
     }
-    return json_({ ok: true });
+    return json_({ ok: true, token: data.board_token });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
@@ -91,7 +95,7 @@ function doPost(e) {
 
 // 매칭 관리 화면용: 관리자 키가 맞을 때만 신청 목록(또는 사진 1장)을 돌려줌
 function doGet(e) {
-  if (e && e.parameter && e.parameter.board) return json_(board_(e.parameter.board));
+  if (e && e.parameter && e.parameter.board) return json_(board_(e.parameter));
   var key = e && e.parameter && e.parameter.key;
   var adminKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!key || !adminKey || key !== adminKey) return json_({ ok: true, service: 'LoKo.i forms' });
@@ -172,26 +176,29 @@ function setup() {
   Logger.log('사진 폴더: ' + photoFolder_().getUrl());
 }
 
-/* ───────── 여행자 게시판 (확인 완료된 현지인 전용) ─────────
- * - 현지인마다 개인 링크(board.html?t=토큰)를 관리 화면에서 만들어 DM으로 보냅니다.
- * - 시트 status가 '확인 완료'인 동안만 링크가 열립니다. 상태를 바꾸면 바로 막혀요.
- * - 게시판에 뜨는 건 board_ok = Yes(게시판 공개에 동의)한 여행자 글뿐이고,
- *   이름·사진·이메일·연락처·자기소개는 보내지 않습니다.
- * - '하고 싶은 것'은 연락처를 지운 뒤 구글 번역으로 현지인 언어로 바꿔 시트에 저장해 둡니다.
- * - 이 기능은 같은 프로젝트의 Lib.gs(매칭 엔진·신청자 점검)를 씁니다.
+/* ───────── LoKo.i 게시판: 여행인 ↔ 현지인 (공개) ─────────
+ * - 신청서를 낸 사람이 '게시판 공개'(board_public = Yes)를 고르면 글이 공개 게시판에 올라갑니다.
+ *   이름·사진·연락처·자기소개는 절대 보내지 않습니다. 현지인 글은 신원 확인(확인 완료) 뒤에만 보여요.
+ * - 신청서를 내면 개인 링크(board.html?t=토큰)가 생겨요. 이 링크로 상대편 글에 "같이 해요"를 누릅니다.
+ *   여행인 → 현지인 글, 현지인 → 여행인 글만 가능하고, 매칭 엔진의 필수 조건(언어·성별·인원·날짜)이 맞아야 해요.
+ * - 글의 한마디(여행인: details, 현지인: board_note)는 연락처를 지우고 구글 번역(ko/en/zh-TW)으로 바꿔 시트에 저장해 둡니다.
+ * - 같은 프로젝트의 Lib.gs(매칭 엔진·신청자 점검)를 씁니다.
  */
 var BOARD_URL = 'https://lokoikr.github.io/board.html';
 var VERIFIED_STATUS = ['확인 완료', 'verified', 'Verified'];
-var BOARD_FIELDS = ['country', 'age_range', 'travelling_with', 'group_size', 'kids_ages', 'first_visit', 'arrive', 'leave', 'preferred_date',
-  'time_slots', 'areas', 'stay_area', 'activities', 'languages', 'korean_level'];
+var BOARD_LANGS = { ko: 'ko', en: 'en', zh: 'zh-TW' };
+var POST_FIELDS = {
+  traveler: ['country', 'age_range', 'travelling_with', 'group_size', 'kids_ages', 'first_visit', 'arrive', 'leave', 'preferred_date',
+    'time_slots', 'areas', 'stay_area', 'activities', 'languages', 'korean_level'],
+  local: ['resident_type', 'nationality', 'age_range', 'busan_years', 'areas', 'activities', 'availability', 'frequency',
+    'languages', 'language_level', 'max_group']
+};
 
+function newToken_() { return Utilities.getUuid().replace(/-/g, ''); }
 function isVerified_(row) { return VERIFIED_STATUS.indexOf(String(row.status || '').trim()) !== -1; }
-
-function localByToken_(token) {
-  if (!token || String(token).length < 20) return null;
-  var hit = rows_('local').filter(function (l) { return l.board_token && l.board_token === token; })[0];
-  return hit && isVerified_(hit) ? hit : null;
-}
+function isPublic_(row) { return /^yes$/i.test(String(row.board_public || '').trim()); }
+function typeOf_(id) { return String(id).charAt(0) === 'L' ? 'local' : 'traveler'; }
+function firstName_(name) { return String(name || '').trim().split(/\s+/)[0]; }
 
 // 연락처로 보이는 것(이메일·전화·@아이디·링크·메신저 ID)을 지움
 function scrubContacts_(text) {
@@ -205,91 +212,129 @@ function scrubContacts_(text) {
     .trim();
 }
 
-function boardLang_(local) {
-  var lang = String(local.site_lang || '').toLowerCase();
-  if (lang === 'ko' || !/foreign/i.test(local.resident_type || '')) return 'ko';
-  return 'en';
-}
-
-// 순수 함수: 이 현지인에게 보여 줄 여행자 글 (테스트: tests/board.test.js)
-function boardPosts_(travelers, local, today) {
+// 순수 함수: 공개 게시판 글 (테스트: tests/board.test.js)
+function boardPosts_(travelers, locals, today) {
   var M = LokoMatch, T = LokoTrust;
-  var open = M.active(travelers, today, true).filter(function (t) {
-    return /^yes$/i.test(String(t.board_ok || '').trim()) && T.check(t, 'traveler', travelers).level !== 'risk';
-  });
-  open = T.dedupe(open).keep;
-  return open.map(function (t) {
-    var r = M.scorePair(t, local, {});
-    if (!r.eligible) return null;
-    var post = { id: t.id, score: r.score, reasons: r.reasons, posted: String(t.submitted_at || '').slice(0, 10) };
-    BOARD_FIELDS.forEach(function (f) { if (t[f]) post[f] = t[f]; });
-    post.details_src = scrubContacts_(t.details);
-    return post;
-  }).filter(Boolean).sort(function (a, b) { return b.score - a.score; });
+  var tr = T.dedupe(M.active(travelers, today, true).filter(function (t) {
+    return isPublic_(t) && T.check(t, 'traveler', travelers).level !== 'risk';
+  })).keep;
+  var lo = T.dedupe(M.active(locals, '', false).filter(function (l) {
+    return isPublic_(l) && isVerified_(l) && T.check(l, 'local', locals).level !== 'risk';
+  })).keep;
+  function post(row, type) {
+    var p = { id: row.id, type: type, posted: String(row.submitted_at || '').slice(0, 10) };
+    POST_FIELDS[type].forEach(function (f) { if (row[f]) p[f] = row[f]; });
+    p.note_src = scrubContacts_(type === 'traveler' ? row.details : row.board_note);
+    return p;
+  }
+  return tr.map(function (t) { return post(t, 'traveler'); }).concat(lo.map(function (l) { return post(l, 'local'); }))
+    .sort(function (a, b) { return a.posted < b.posted ? 1 : a.posted > b.posted ? -1 : 0; });
 }
 
-function board_(token) {
-  var local = localByToken_(token);
-  if (!local) return { ok: false, error: 'invalid' };
-  var today = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
-  var lang = boardLang_(local);
-  var travelers = rows_('traveler');
-  var posts = boardPosts_(travelers, local, today);
-  var byId = {}; travelers.forEach(function (t) { byId[t.id] = t; });
-  var col = 'details_' + lang;
+// 개인 링크 → 내 신청 줄
+function me_(token, travelers, locals) {
+  if (!token || String(token).length < 20) return null;
+  var t = travelers.filter(function (r) { return r.board_token === token; })[0];
+  if (t) return { row: t, type: 'traveler' };
+  var l = locals.filter(function (r) { return r.board_token === token; })[0];
+  return l ? { row: l, type: 'local' } : null;
+}
+
+// 내가 이 글에 "같이 해요"를 누를 수 있는지 (여행인↔현지인, 필수 조건)
+function canJoin_(me, post, travelers, locals, today) {
+  if (post.type === me.type) return { ok: false, why: 'same' };
+  if (me.type === 'local' && !isVerified_(me.row)) return { ok: false, why: 'unverified' };
+  if (me.type === 'traveler') {
+    if (!LokoMatch.active([me.row], today, true).length || LokoTrust.check(me.row, 'traveler', travelers).level === 'risk') return { ok: false, why: 'inactive' };
+  } else if (!LokoMatch.active([me.row], '', false).length) return { ok: false, why: 'inactive' };
+  var other = (post.type === 'traveler' ? travelers : locals).filter(function (r) { return r.id === post.id; })[0];
+  if (!other) return { ok: false, why: 'closed' };
+  var t = me.type === 'traveler' ? me.row : other, l = me.type === 'local' ? me.row : other;
+  var r = LokoMatch.scorePair(t, l, {});
+  return r.eligible ? { ok: true, score: r.score } : { ok: false, why: 'fit' };
+}
+
+function langOf_(row) { var l = String(row.site_lang || '').toLowerCase(); return BOARD_LANGS[l] ? l : 'en'; }
+
+function translateNotes_(posts, lang, rowsById) {
+  var col = 'note_' + lang;
   posts.forEach(function (p) {
-    if (!p.details_src) return;
-    var cached = byId[p.id][col];
+    if (!p.note_src) return;
+    var cached = rowsById[p.id] && rowsById[p.id][col];
     if (!cached) {
-      try {
-        cached = LanguageApp.translate(p.details_src, '', lang === 'ko' ? 'ko' : 'en');
-        setCell_('traveler', p.id, col, cached);
-      } catch (err) { cached = ''; }
+      try { cached = LanguageApp.translate(p.note_src, '', BOARD_LANGS[lang]); setCell_(p.type, p.id, col, cached); }
+      catch (err) { cached = ''; }
     }
-    p.details = cached || p.details_src;
+    p.note = cached || p.note_src;
   });
-  var applied = rows_('apply').filter(function (a) { return a.local_id === local.id; }).map(function (a) { return a.post_id; });
-  return { ok: true, lang: lang, me: { name: firstName_(local.name), languages: local.languages }, posts: posts, applied: applied };
+}
+
+function board_(params) {
+  var lang = BOARD_LANGS[params.lang] ? params.lang : 'en';
+  var today = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
+  var travelers = rows_('traveler'), locals = rows_('local');
+  var posts = boardPosts_(travelers, locals, today);
+  var byId = {}; travelers.concat(locals).forEach(function (r) { byId[r.id] = r; });
+  translateNotes_(posts, lang, byId);
+  var out = { ok: true, lang: lang, posts: posts };
+  if (params.t) {
+    var me = me_(params.t, travelers, locals);
+    if (!me) out.bad_token = true;
+    else {
+      var fit = {};
+      posts.forEach(function (p) { var c = canJoin_(me, p, travelers, locals, today); fit[p.id] = c.ok ? c.score : c.why; });
+      out.me = { id: me.row.id, type: me.type, name: firstName_(me.row.name), public: isPublic_(me.row), verified: me.type === 'traveler' || isVerified_(me.row), fit: fit,
+        applied: rows_('apply').filter(function (a) { return a.from_id === me.row.id; }).map(function (a) { return a.to_id; }) };
+    }
+  }
+  return out;
 }
 
 function boardApply_(data) {
-  var local = localByToken_(data.token);
-  if (!local) return { ok: false, error: 'invalid' };
+  var travelers = rows_('traveler'), locals = rows_('local');
+  var me = me_(data.token, travelers, locals);
+  if (!me) return { ok: false, error: 'invalid' };
   var today = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd');
-  var travelers = rows_('traveler');
-  var post = boardPosts_(travelers, local, today).filter(function (p) { return p.id === data.post_id; })[0];
+  var post = boardPosts_(travelers, locals, today).filter(function (p) { return p.id === data.post_id; })[0];
   if (!post) return { ok: false, error: 'closed' };
-  var mine = rows_('apply').filter(function (a) { return a.local_id === local.id; });
-  if (mine.some(function (a) { return a.post_id === post.id; })) return { ok: true, dup: true };
-  var t = travelers.filter(function (x) { return x.id === post.id; })[0];
+  var c = canJoin_(me, post, travelers, locals, today);
+  if (!c.ok) return { ok: false, error: c.why };
+  if (rows_('apply').some(function (a) { return a.from_id === me.row.id && a.to_id === post.id; })) return { ok: true, dup: true };
+  var other = (post.type === 'traveler' ? travelers : locals).filter(function (r) { return r.id === post.id; })[0];
   var msg = scrubContacts_(data.message).slice(0, 500);
-  var tlang = String(t.site_lang || 'en') === 'zh' ? 'zh-TW' : 'en';
-  var tr = '';
-  if (msg) { try { tr = LanguageApp.translate(msg, '', tlang); } catch (err) {} }
-  var row = { applied_at: Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm'), status: '신규', post_id: post.id,
-    traveler_name: t.name, local_id: local.id, local_name: local.name, message: msg, message_tr: tr, traveler_lang: tlang };
+  var toLang = BOARD_LANGS[langOf_(other)], tr = '';
+  if (msg) { try { tr = LanguageApp.translate(msg, '', toLang); } catch (err) {} }
+  var row = { applied_at: Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm'), status: '신규',
+    from_id: me.row.id, from_type: me.type, from_name: me.row.name, to_id: other.id, to_type: post.type, to_name: other.name,
+    message: msg, message_tr: tr, to_lang: toLang };
   var sheet = getSheet_('apply');
   var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
   var range = sheet.getRange(sheet.getLastRow() + 1, 1, 1, headers.length);
   range.setNumberFormat('@');
   range.setValues([headers.map(function (h) { var v = row[h] == null ? '' : String(row[h]); return /^[=+\-@]/.test(v) ? "'" + v : v; })]);
-  if (NOTIFY_EMAIL) MailApp.sendEmail(NOTIFY_EMAIL, '[LoKo.i] 게시판 지원: ' + local.name + ' → ' + t.name, '관리 화면에서 소개 카드를 보내 주세요: ' + book_().getUrl());
+  if (NOTIFY_EMAIL) MailApp.sendEmail(NOTIFY_EMAIL, '[LoKo.i] 게시판 같이 해요: ' + me.row.name + ' → ' + other.name, '관리 화면에서 소개 카드를 보내 주세요: ' + book_().getUrl());
   return { ok: true };
 }
 
-// 관리 화면: 확인 완료된 현지인의 게시판 링크 만들기 (reset이면 새 링크로 바꿔 이전 링크를 막음)
+// 내 글 내리기 / 다시 올리기
+function boardVisibility_(data) {
+  var me = me_(data.token, rows_('traveler'), rows_('local'));
+  if (!me) return { ok: false, error: 'invalid' };
+  setCell_(me.type, me.row.id, 'board_public', data.show ? 'Yes' : 'No (내림)');
+  return { ok: true, public: !!data.show };
+}
+
+// 관리 화면: 개인 링크 다시 보내기 (토큰이 없으면 만들고, reset이면 새 링크로 바꿔 이전 링크를 막음)
 function boardLink_(data) {
   var adminKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
   if (!data.key || !adminKey || data.key !== adminKey) return { ok: false, error: 'key' };
-  var local = rows_('local').filter(function (l) { return l.id === data.local_id; })[0];
-  if (!local) return { ok: false, error: 'not found' };
-  if (!isVerified_(local)) return { ok: false, error: 'not verified' };
-  var token = local.board_token;
-  if (!token || data.reset) { token = Utilities.getUuid().replace(/-/g, ''); setCell_('local', local.id, 'board_token', token); }
+  var type = typeOf_(data.row_id);
+  var row = rows_(type).filter(function (r) { return r.id === data.row_id; })[0];
+  if (!row) return { ok: false, error: 'not found' };
+  var token = row.board_token;
+  if (!token || data.reset) { token = newToken_(); setCell_(type, row.id, 'board_token', token); }
   return { ok: true, link: BOARD_URL + '?t=' + token };
 }
-
-function firstName_(name) { return String(name || '').trim().split(/\s+/)[0]; }
 
 // id(T5 = 5번째 줄)의 칸 하나를 씀. 열이 없으면 맨 뒤에 추가
 function setCell_(type, id, header, value) {
